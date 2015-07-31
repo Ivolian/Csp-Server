@@ -1,0 +1,35 @@
+$brand-primary: #0072C7;
+$brand-success: #5bc665;
+
+//$brand-primary: #428bca;
+//$brand-success: #5cb85c;
+
+$brand-info: #66CCFF;
+$brand-warning: #FF9933;
+$brand-danger: #FF0033;
+
+$link-color: $brand-primary;
+
+$text-color: #334444;
+
+$border-radius-base: 3px;
+$border-radius-large: 3px;
+$border-radius-small: 3px;
+
+$font-size-base: 14px;
+$font-size-large: ceil(($font-size-base * 1.25));
+$font-size-small: ceil(($font-size-base * 0.85));
+
+$input-border-focus: lighten($brand-primary, 10%);
+
+$font-family-sans-serif: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+$icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+
+$screen-lg: 1400px !default;
+
+$header-bg-color: #F1F2F6;
+
+$dropdown-border: #CCCCCC;
+
+$side-menu-width: 260px;

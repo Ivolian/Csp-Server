@@ -1,0 +1,12 @@
+<div class="dropdown tree-picker">
+    <a class="dropdown-toggle" role="button" data-toggle="dropdown">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="ngModel.name" readonly>
+            <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+        </div>
+    </a>
+    <div class="dropdown-menu dropdown-menu-custom" role="menu" aria-labelledby="dLabel" ng-style="{width: dropdownWidth}"
+          stop-propagation>
+        <div simple-tree="tree" selected-node="selectedNode" ></div>
+    </div>
+</div>

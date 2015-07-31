@@ -1,0 +1,61 @@
+@import '../../../variables';
+
+.angular-ui-tree {
+  padding-left: 20px;
+
+  li {
+    padding: 2px 0;
+    margin: 1px 0;
+    .angular-ui-tree-handle {
+      cursor: pointer;
+      position: relative;
+      min-height: 28px;
+      line-height: 28px;
+      color: #333333;
+      border-radius: 5px;
+      font-weight: normal;
+      .tree-handle-square {
+        position: absolute;
+        top: 0;
+        left: -20px;
+        padding: 0 5px;
+        cursor: default;
+      }
+      .tree-handle-content {
+        margin-left: 6px;
+        font-size: $font-size-base;
+        height: 28px;
+        white-space: nowrap;
+        overflow: hidden;
+        .btn {
+          padding: 0 6px;
+          margin: 4px 8px 0 0;
+          float: right;
+        }
+        .label {
+          padding: 5px 9px;
+          margin: 4px 8px 0 0;
+          float: right;
+        }
+      }
+    }
+    .angular-ui-tree-handle.active {
+      background: $brand-primary !important;
+      color: #FFFFFF;
+      .btn {
+        visibility: visible !important;
+      }
+    }
+    .angular-ui-tree-handle.disabled {
+      background: none !important;
+      color: #888888;
+      cursor: not-allowed;
+    }
+    .angular-ui-tree-handle:hover {
+      background: #EEEEEE;
+      .btn {
+        visibility: visible !important;
+      }
+    }
+  }
+}

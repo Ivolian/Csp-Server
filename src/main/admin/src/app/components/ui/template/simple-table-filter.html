@@ -1,0 +1,17 @@
+<div  class="btn-group">
+    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-filter"></i></button>
+    <ul class="dropdown-menu dropdown-menu-custom dropdown-menu-right dropdown-menu-lg" role="menu" stop-propagation>
+        <li class="col-sm-12 dropdown-header" ng-repeat-start="x in filterList">{{x.title}}</li>
+        <li ng-repeat="y in x.items" class="col-sm-{{12/x.columns}}">
+            <ul>
+                <li>
+                    <label class="checkbox-inline c-checkbox">
+                        <input type="checkbox" ng-model="grid.queryInfo[x.parameter][$index]"
+                               ng-true-value="{{y.objectId}}" ng-false-value="">
+                        <span class="fa fa-check"></span>{{y.name}}</label>
+                </li>
+            </ul>
+        </li>
+        <li ng-repeat-end></li>
+    </ul>
+</div>

@@ -1,0 +1,62 @@
+@import '../../../../variables';
+
+.ngdialog {
+  .ngdialog-content {
+    border-radius: 0 !important;
+    padding: 0 !important;
+    font-family: $font-family-sans-serif !important;
+  }
+}
+
+.ui-modal-dialog {
+  border-radius: 0;
+  background: #f8f8f8;
+  .ui-modal-hd {
+    padding: 15px 10px 5px;
+    font-size: 1.8rem;
+    cursor: default;
+    text-align: center;
+  }
+  .ui-modal-bd {
+    padding: 15px 10px;
+    text-align: center;
+    border-bottom: 1px solid #dedede;
+    border-radius: 2px 2px 0 0;
+    cursor: default;
+  }
+  .ui-modal-hd + .ui-modal-bd {
+    padding-top: 0;
+  }
+
+  .ui-modal-footer {
+    height: 44px;
+    overflow: hidden;
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .ui-modal-bd {
+    cursor: default;
+  }
+  .ui-modal-btn {
+    display: table-cell !important;
+    padding: 0 5px;
+    height: 44px;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    font-size: 1.6rem;
+    line-height: 44px;
+    text-align: center;
+    color: $brand-primary;
+    word-wrap: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    border-right: 1px solid #dedede;
+    &:hover {
+      background: #EEEEEE;
+    }
+  }
+}

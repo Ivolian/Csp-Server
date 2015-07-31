@@ -1,0 +1,75 @@
+<div class="row" style="min-width: 1000px;">
+    <div class="col-xs-4 col-lg-3" style="padding-right: 0">
+        <div class="panel panel-primary" panel-fit-height>
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    地区
+                </h3>
+                <button ng-disabled="!checkCreateRegion()" class="btn btn-primary pull-right" ng-click="createRegion()">
+                    <i class="fa fa-fw fa-plus"></i> 新增
+                </button>
+            </div>
+            <div class="panel-body" style="padding: 5px;">
+                <div simple-tree="tree" selected-node="region"></div>
+                <div cg-busy="tree.promise"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-8 col-lg-9" ng-show="region!=null">
+        <div class="panel panel-primary" panel-fit-height>
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{getRegionTitle()}}
+                </h3>
+
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-danger" ng-disabled="!region.parent" ng-click="deleteRegion()">删除</button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" name="regionForm">
+                    <div class="modal-body">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">名称</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="name" ng-model="region.name" validator="required" focus-on="name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">类型</label>
+
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="code" ng-model="region.code" validator="required">
+                                        <option value="father">父节点</option>
+                                        <option value="news">新闻</option>
+                                        <option value="book">书籍</option>
+                                        <option value="onlineStore">网上书城</option>
+                                        <option value="question">有问有答</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">排序号</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="orderNo" ng-model="region.orderNo" validator="required,number">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-bw" validation-submit="regionForm" ng-click="saveRegion()">保存</button>
+                    </div>
+                    <div cg-busy="promise"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

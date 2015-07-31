@@ -1,0 +1,13 @@
+<div class="dropdown">
+    <a class="dropdown-toggle" role="button" data-toggle="dropdown">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="ngModel" date-time-input>
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+    </a>
+    <div class="dropdown-menu dropdown-menu-custom" ng-class="{'dropdown-menu-right': dropdownMenuRight}"
+         stop-propagation
+         style="width: 322px; padding: 0;" role="menu" aria-labelledby="dLabel">
+        <datetimepicker  ng-model="ngModel" datetimepicker-config/>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="row culture">
+    <div class="col-xs-12">
+        <section>
+            <img src="assets/images/culture.jpg" style="height: 400px;">
+            <div id="im_wrapper" class="im_wrapper" ng-show="showThumbs">
+                <div ng-repeat="x in cultureList">
+                    <a target="_blank" ui-sref="culture.detail({id: x.id})"><img ng-src="{{PageContext.path + (x.picture||'/assets/images/empty.jpg')}}"></a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

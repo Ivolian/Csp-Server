@@ -1,0 +1,378 @@
+@import '../variables';
+@import 'ui/form';
+@import 'ui/simple-tree/simple-tree';
+@import 'ui/user-picker/user-picker';
+@import 'validation/validation';
+
+.panel {
+  margin: 0;
+  .panel-heading {
+    padding: 4px 8px 4px 8px;
+    height: 42px;
+    .panel-title {
+      line-height: 32px;
+      display: inline-block;
+      white-space: nowrap;
+      max-width: 120px;
+    }
+    .form-inline {
+      .input-group {
+        display: inline-table;
+        .form-control {
+          border: 0;
+          height: 31px;
+          margin-top: 1px;
+        }
+        .input-group-btn {
+          width: auto;
+          .btn {
+            margin-left: 0;
+          }
+        }
+        .input-group-addon {
+          height: 33px;
+          border-color: $brand-primary;
+        }
+        .datetimepicker {
+          color: #000000;
+        }
+      }
+
+      .dropdown {
+        .input-group {
+          width: 100%;
+        }
+      }
+
+      .btn-group {
+        display: inline-table;
+        vertical-align: top;
+      }
+    }
+  }
+
+  .table {
+    border: 1px solid #DDDDDD;
+    thead {
+      tr:first-child {
+        background-color: $header-bg-color;
+        td, th {
+          white-space: nowrap;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          white-space: nowrap;
+          &:last-child {
+            padding: 4px;
+          }
+        }
+      }
+    }
+    .btn-xs {
+      padding: 3px 6px;
+    }
+  }
+  .table-condensed {
+    .btn-xs {
+      padding: 1px 6px;
+    }
+  }
+}
+
+.panel-table {
+  border: 0;
+  box-shadow: none;
+  .panel-body {
+    padding: 0;
+    overflow-x: auto;
+  }
+  table {
+    border-collapse: separate;
+  }
+}
+
+tr.empty-text, tr.loading-text {
+  height: 64px;
+  td {
+    color: #AAAAAA;
+    font-weight: 100;
+    font-size: $font-size-large;
+    text-align: center;
+    cursor: default;
+    padding: 24px 0 !important;
+  }
+}
+
+.loading-text, .empty-text {
+  text-align: center;
+  font-size: 16px;
+  color: #AAAAAA;
+  padding-top: 12px;
+}
+
+.pagination-wrapper {
+  position: relative;
+  height: 84px;
+  .pagination {
+    position: absolute;
+    right: 0;
+    margin: 20px 0 32px 0;
+  }
+  .pagination-addition {
+    position: absolute;
+    right: 0;
+    top: 60px;
+    font-size: 14px;
+    color: #999999;
+    padding: 0 5px;
+  }
+}
+
+.modal-content {
+
+  border-radius: 0;
+
+  .modal-header {
+    background-color: $brand-primary;
+    color: #FFFFFF;
+    cursor: default;
+  }
+}
+
+.modal-header {
+  padding: 13px;
+}
+
+.modal-dialog {
+  .form-group {
+    margin-bottom: 10px;
+  }
+}
+
+.daterange-split {
+  position: absolute !important;
+  left: -6px;
+  top: 8px;
+}
+
+#toast-container > div {
+  opacity: 0.9;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+  filter: alpha(opacity=90);
+}
+
+.ngdialog.ngdialog-theme-default {
+  .ngdialog-button.ngdialog-button-primary {
+    background: $brand-primary;
+    color: #fff;
+  }
+}
+
+#loading-bar {
+  .bar {
+    background: #dd2e31;
+  }
+  .peg {
+    -moz-box-shadow: #dd2e31 1px 0 6px 1px;
+    -ms-box-shadow: #dd2e31 1px 0 6px 1px;
+    -webkit-box-shadow: #dd2e31 1px 0 6px 1px;
+    box-shadow: #dd2e31 1px 0 6px 1px;
+  }
+}
+
+.cg-busy {
+  top: 56px;
+}
+
+.cg-busy-default-sign {
+  background-color: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  border-top-width: 1;
+  border-radius: 0;
+}
+
+.cg-busy-default-wrapper {
+  top: 32% !important;
+}
+
+.progress-lg {
+  height: 32px;
+
+  .progress-bar {
+    font-size: 16px;
+    line-height: 32px
+  }
+}
+
+.input-group-addon {
+  cursor: pointer;
+}
+
+.well-sm {
+  margin-bottom: 5px;
+}
+
+.dropdown-menu {
+  animation: both flipInX .6s;
+  > li {
+    a {
+      color: #333333;
+    }
+    > a:hover {
+      background: $brand-primary;
+      color: #ffffff;
+    }
+  }
+
+  a.cancel-select {
+    padding: 6px;
+    background-color: #EEEEEE;
+    color: #666666;
+  }
+}
+
+.dropdown-menu-custom.no-padding {
+  > li {
+    padding: 0;
+  }
+}
+
+.dropdown-menu-custom {
+  width: 100%;
+  padding: 6px;
+  max-height: 420px;
+  min-height: 120px;
+  overflow-y: auto;
+  animation: dropDown .15s;
+  > li {
+    label {
+      color: #333333;
+    }
+    > ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      > li {
+        a {
+          display: block;
+          padding: 3px 20px;
+          color: #333333;
+          cursor: pointer;
+          white-space: normal;
+          text-decoration: none;
+          -webkit-transition: all 0.12s;
+          -moz-transition: all 0.12s;
+          -o-transition: all 0.12s;
+          transition: all 0.12s;
+        }
+        a:hover {
+          background: $brand-primary;
+          color: #ffffff;
+        }
+        > label {
+          margin: 5px 0;
+        }
+      }
+    }
+  }
+
+  .dropdown-header {
+    color: #428bca;
+    font-size: $font-size-large;
+    cursor: default;
+  }
+}
+
+.dropdown-menu-xs {
+  width: 240px;
+  min-height: 60px;
+}
+
+.dropdown-menu-sm {
+  width: 320px;
+  min-height: 60px;
+}
+
+.dropdown-menu-md {
+  width: 480px;
+}
+
+.dropdown-menu-lg {
+  width: 640px;
+}
+
+.simple-select, .group-select, .tree-picker {
+  .form-control {
+    background: #FFFFFF;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    top: 33px;
+  }
+}
+
+.simple-select {
+  .dropdown-menu {
+    > li {
+      > a {
+        padding: 3px 10px;
+      }
+
+      > a:hover {
+        background-color: #EEEEEE;
+        color: #333333;
+      }
+    }
+    > li.active {
+      > a:hover {
+        background-color: $brand-primary;
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+
+.group-select {
+  h4 {
+    font-weight: bold;
+    font-size: 16px;
+    cursor: default;
+  }
+  .nav-pills {
+    a {
+      cursor: pointer;
+      padding: 6px 12px;
+    }
+  }
+  .dropdown-menu {
+    > div {
+      padding-left: 10px;
+    }
+  }
+}
+
+.btn-bw {
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
+.table {
+  margin-bottom: 10px;
+}
+
+.no-animated {
+  animation: none !important;
+}
+
+.ui-select-choices-content {
+  max-height: 420px;
+  left: -1px;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}

@@ -1,0 +1,13 @@
+@import '../../variables';
+.new-form {
+  .uploader {
+    a {
+      text-decoration: none;
+      color: $text-color;
+      cursor: default;
+    }
+    input {
+      display: none;
+    }
+  }
+}

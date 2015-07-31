@@ -1,0 +1,12 @@
+<div ui-tree-handle ng-class="{active: selectedNode.$$hashKey==item.$$hashKey, hide: item.hide, disabled: checkDisabled(item)}" >
+    <a class="tree-handle-square" ng-show="item.items&&item.items.length>0" data-nodrag ng-click="toggle(this)">
+        <span class="fa" ng-class="{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}"></span>
+    </a>
+
+    <div class="tree-handle-content" ng-click="selectNode(item)"
+         ng-include="treeHandleTemplate"></div>
+</div>
+<ol ui-tree-nodes="options" ng-model="item.items" ng-class="{hidden: collapsed}">
+    <li ng-repeat="item in item.items" ui-tree-node ng-include="'app/components/ui/simple-tree/static/simple-tree-repeat-tpl.html'">
+    </li>
+</ol>

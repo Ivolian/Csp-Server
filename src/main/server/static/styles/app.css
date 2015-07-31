@@ -1,0 +1,522 @@
+body {
+    color: #666666;
+    min-width: 920px;
+}
+
+label {
+    font-weight: 100;
+}
+
+h1, h2, h3, h4 {
+    color: #111111;
+}
+
+small {
+    color: #999999;
+}
+
+a {
+    color: #666666;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00A0E8;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#header {
+    height: 124px;
+    background-color: #ffffff;
+}
+
+#header > div {
+    background: url("../images/header.jpg") no-repeat;
+    padding-top: 72px;
+    height: inherit;
+}
+
+#header > div > a {
+    display: inline-block;
+    float: right;
+    width: 92px;
+    margin-left: 5px;
+}
+
+#footer {
+    background-color: #1d207b;
+    padding: 16px 0px;
+    color: #a1a1a1;
+}
+
+#footer label {
+    color: #f0f0f0;
+}
+
+#footer a {
+    color: #f0f0f0;
+}
+
+#main {
+    padding: 0 15px 25px 15px;
+}
+
+.navbar-index {
+    background-color: #1d207b;
+    border-top: 3px solid #00A0E8;
+    border-bottom: 0;
+    margin: 0;
+    min-width: inherit;
+    border-radius: 0;
+}
+
+.navbar-index .navbar-nav {
+    margin: 0 !important;
+}
+
+.navbar-index .navbar-nav > li {
+    float: left;
+}
+
+.navbar-index .navbar-nav > li > a:hover, .navbar-index .navbar-nav > li > a:focus, .navbar-index .navbar-nav > li.active > a {
+    color: #ffffff !important;
+    background-color: #00A0E8 !important;
+}
+
+.navbar-index .navbar-nav > li > a {
+    font-size: 18px;
+    color: #f0f0f0;
+    padding: 15px 18px;
+}
+
+.banner1-home {
+    background: url("../images/banner_1_home.jpg");
+    width: 100%;
+    height: 390px;
+}
+
+.banner1-home > div {
+    padding-top: 280px;
+}
+
+.banner1-home .code {
+    width: 80px;
+    height: 80px;
+    float: right;
+    background: url("../images/code.jpg");
+}
+
+.banner1 {
+    background: url("../images/banner_1.jpg");
+    width: 100%;
+    height: 200px;
+}
+
+.banner2 {
+    background: #B12128;
+    width: 100%;
+    height: 50px;
+}
+
+.banner2 > div {
+    background: url("../images/banner_2.jpg") no-repeat;
+    height: inherit;
+}
+
+.banner3 {
+    background: #00A0E9;
+    width: 100%;
+    height: 208px;
+}
+
+.banner3 > div {
+    background: url("../images/banner_3.jpg") no-repeat;
+    height: inherit;
+}
+
+.txt-green {
+    color: #B7DF99;
+}
+
+.txt-blue {
+    color: #47acc9;
+}
+
+.txt-red {
+    color: #FC8281;
+}
+
+.txt-yellow {
+    color: #FDB664;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.btn-red {
+    color: #fff;
+    background-color: #FF5842;
+    border-color: #FF5842;
+}
+
+.btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red.active, .open > .dropdown-toggle.btn-red {
+    color: #fff;
+    background-color: #f3533f;
+    border-color: #f3533f;
+}
+
+.btn-blue {
+    color: #fff;
+    background-color: #00A0E9;
+    border-color: #00A0E9;
+}
+
+.btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open > .dropdown-toggle.btn-blue {
+    color: #fff;
+    background-color: #0092d5;
+    border-color: #0092d5;
+}
+
+.btn-grey {
+    color: #fff;
+    background-color: #A1A1A1;
+    border-color: #A1A1A1;
+}
+
+.btn-grey:hover, .btn-grey:focus, .btn-grey:active, .btn-grey.active, .open > .dropdown-toggle.btn-grey {
+    color: #fff;
+    background-color: #9a9a9a;
+    border-color: #9a9a9a;
+}
+
+.btn-more {
+    color: #797979;
+    background-color: #eaeaea;
+    border-color: #eaeaea;
+}
+
+.btn-more:hover, .btn-more:focus, .btn-more:active, .btn-more.active, .open > .dropdown-toggle.btn-more {
+    color: #797979;
+    background-color: #eaeaea;
+    border-color: #eaeaea;
+}
+
+.btn{
+    outline: none !important;
+}
+
+.box-0 > div {
+    float: left;
+    margin-right: 12px;
+}
+
+.box-0 > div > img {
+    border: 1px solid #cccccc;
+}
+
+.box-0 > p {
+    /*text-indent: 2em;*/
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.box-0 .detail {
+    position: absolute;
+    bottom: 0px;
+    right: 30px;
+    color: #00A0E8;
+    font-size: 16px;
+}
+
+.box-1 {
+    background-color: #f2f2f2;
+    padding: 12px;
+    border-radius: 3px;
+}
+
+.box-1 a {
+    line-height: 24px;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.box-2 {
+    padding: 12px;
+}
+
+.box-2 i {
+    position: absolute;
+    top: 12px;
+}
+
+.box-2 a {
+    display: inline-block;
+    margin-left: 36px;
+    font-size: 18px;
+}
+
+.box-3 {
+    height: 240px;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.box-3 section {
+    height: inherit;
+    width: inherit;
+    /*margin-top: 5px;*/
+}
+
+.box-3 section div {
+    position: relative;
+    top: 160px;
+    padding: 16px 20px;
+    height: 80px;
+    width: inherit;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    cursor: pointer;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.box-3 section div:hover {
+    top: 0;
+    height: 240px;
+}
+
+.box-3 section div > span {
+    display: block;
+    color: #f1f1f1;
+    cursor: pointer;
+}
+
+.box-3 section div > span.title {
+    font-size: 20px;
+}
+
+.box-3 section div > span.sub-title {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.box-3 section div > span.content {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 16px;
+}
+
+.box-4 {
+    height: 280px;
+    margin-bottom: 12px;
+    background-color: #f2f2f2;
+}
+
+.box-4 section {
+    height: 180px;
+    width: inherit;
+}
+
+.box-4 label {
+    display: block;
+    width: inherit;
+    font-size: 22px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+.box-4 a {
+    display: block;
+    width: 60%;
+    margin: 8px auto;
+}
+
+.list-1 {
+    list-style: none;
+}
+
+.list-1 li {
+    margin-top: 12px;
+}
+
+.list-1 li i {
+    font-size: 40px;
+    display: block;
+    padding-top: 6px;
+    float: left;
+}
+
+.list-1 li span {
+    display: block;
+    margin-left: 48px;
+    color: #999999;
+    cursor: default;
+}
+
+.list-1 li a {
+    display: block;
+    margin-left: 48px;
+    line-height: 32px;
+    font-size: 18px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dl-1 dt {
+    height: 48px;
+    margin: 24px 0;
+    border-bottom: 1px solid #cccccc;
+}
+
+.dl-1 dt span {
+    display: inline-block;
+    width: 150px;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 12px;
+    white-space: nowrap;
+    background-color: #00CC66;
+    color: #ffffff;
+}
+
+.dl-1 dd {
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    padding-left: 12px;
+}
+
+#contact section {
+    padding-top: 20px;
+    text-align: center;
+}
+
+#contact section > h3 {
+    font-size: 24px;
+}
+
+#contact section > small {
+    font-size: 14px;
+    display: block;
+}
+
+#contact .map > img {
+    margin-top: 20px;
+}
+
+#contact .contact {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+#contact .contact > div {
+    text-align: left;
+}
+
+#contact .contact small {
+    display: block;
+    margin-bottom: 12px;
+}
+
+#business .title {
+    margin: 32px 0;
+}
+
+#business .title h3 {
+    line-height: 36px;
+}
+
+#business section.tag {
+    text-align: center;
+}
+
+#business section.tag i {
+    font-size: 48px;
+    color: #999999;
+}
+
+#business section.tag small {
+    font-size: 14px
+
+}
+
+.news-column {
+    padding-top: 20px;
+}
+
+.news-column section {
+    margin-bottom: 20px;
+}
+
+.news-column section h4 {
+
+    margin: 4px 0;
+    line-height: 28px;
+}
+
+.news-column section span {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+}
+
+.news-column section a {
+
+    width: 160px;
+}
+
+.news-column section b {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: #cccccc;
+}
+
+.news-column section p {
+    padding: 10px 6px;
+    font-size: 16px;
+    color: #999999;
+}
+
+.news-column .roll {
+    border-radius: 5px;
+    padding: 16px 24px;
+    background-color: #f2f2f2;
+}
+
+.news-column .roll section h4 {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.news-column .roll section p {
+    padding: 10px 0;
+    font-size: 16px;
+    color: #1a1a1a;
+}
+
+.news-detail section {
+    padding-top: 24px;
+}
+
+.news-detail section h4 {
+    font-size: 24px;
+}
+
+.news-detail .content {
+    font-size: 16px;
+}
+
+.empty{
+    font-size: 20px;
+    color: #999999;
+}
+

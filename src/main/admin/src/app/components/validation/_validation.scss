@@ -1,0 +1,25 @@
+@import '../../variables';
+
+.validation {
+  display: inline-block;
+  margin: 0 0 0 4px;
+}
+
+.validation.validation-valid {
+  color: $brand-success;
+  font-size: 80%
+}
+
+.validation.validation-invalid {
+  color: $brand-danger;
+  font-size: 80%
+}
+
+.has-error {
+  select {
+    color: #843534;
+  }
+  input {
+    color: #843534;
+  }
+}

@@ -1,0 +1,17 @@
+<div class="dropdown simple-select">
+    <a class="dropdown-toggle" role="button" data-toggle="dropdown">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="selectedItem.name" readonly>
+            <span class="input-group-addon"><i class="fa fa-chevron-down"></i></span>
+        </div>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-custom" role="menu" aria-labelledby="dLabel" style="min-height: 0"
+        stop-propagation>
+        <li ng-repeat="x in items" ng-class="{active: checkActive(x)}">
+            <a href="javascript:;" ng-click="select(x)">{{x.name}}</a>
+        </li>
+        <li ng-show="checkShowClear(x)" style="margin-top: 5px;">
+            <a href="javascript:;" ng-click="deselect()" class="text-center cancel-select">取消选择</a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,40 @@
+<div class="side-header">
+    <a class="logo" href=""><img src="assets/images/withub_logo.png"></a>
+
+    <div class="line"></div>
+    <div class="username">
+        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">admin<i
+                class="fa fa-lg fa-fw fa-caret-down"></i></a>
+
+        <ul class="dropdown-menu" aria-labelledby="dLabel">
+            <!--<li>-->
+                <!--<a href="javascript:;" ng-click="modifyPassword()"><i class="fa fa-lg fa-key"></i>&nbsp;修改密码-->
+                <!--</a>-->
+            <!--</li>-->
+            <li>
+                <a href="javascript:;" ng-click="exitSystem()"><i class="fa fa-lg fa-sign-out"></i>&nbsp;退出系统</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="side-menu">
+    <ul class="menu" ng-style="{height: PageContext.menuHeight}">
+        <li ng-repeat="menu in menuList" ng-class="{active: $state.includes(menu.state)}">
+            <a ui-sref="{{menu.state}}">
+                <i style="font-size: 2em;" class="{{menu.iconCls}}"></i>
+                <span ng-bind="menu.title"></span>
+            </a>
+            <ul class="sub-menu">
+                <li ng-repeat="subMenu in menu.children" ng-class="{active: $state.includes(subMenu.state)}">
+                    <a ui-sref="{{subMenu.state}}" ng-bind="subMenu.title"></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div id="splitter-left-out" ng-click="toggleSide()">
+    <i class="fa fa-angle-double-left"></i>
+</div>
+<div id="splitter-left-in" ng-click="toggleSide()">
+    <i class="fa fa-angle-double-right"></i>
+</div>

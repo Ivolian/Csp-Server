@@ -1,0 +1,33 @@
+<div class="container main-container">
+    <div class="header">
+        <div class="row hd1">
+            <div class="col-sm-6">
+                <a ui-sref="home"><img class="logo-image" src="assets/images/withub_logo_all.png"></a>
+                <div class="logo-text"></div>
+            </div>
+            <div class="col-sm-6">
+                <div class="search">
+                    <input type="text"><a class="btn btn-default"><i class="fa fa-search"></i></a>
+                </div>
+                <!--<ul class="pull-right">-->
+                    <!--<li><a href="javascript:;">登录</a></li>-->
+                    <!--<li><a href="javascript:;">服务网点</a></li>-->
+                    <!--<li class="weixin"><a href="javascript:;">关注我们</a></li>-->
+                <!--</ul>-->
+            </div>
+
+        </div>
+
+        <div ui-view="navbar"></div>
+    </div>
+
+    <div ui-view></div>
+
+    <div ui-view="contact"></div>
+
+    <div class="footer">
+        Copyright 2015 by 上海交大慧谷通用技术有限公司. All Rights Reserved. &nbsp;<a target="_blank" href="http://www.miitbeian.gov.cn/">沪ICP备12002083号-1</a>
+        <div class="go-up"><a href="javascript:;" ng-click="goUp()">TOP</a></div>
+    </div>
+
+</div>

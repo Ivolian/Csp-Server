@@ -1,0 +1,39 @@
+<form class="form-horizontal user-picker-select" role="form" name="userPickerSelectForm">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">选择用户</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>组织机构</h3>
+                <div ui-tree data-drag-enabled="false" class="nav-tree" style="max-height: 500px; min-height: 240px; overflow-y: auto;">
+                    <ol ui-tree-nodes ng-model="organizations">
+                        <li ng-repeat="item in organizations" ui-tree-node ng-include="'components/ui/template/user-picker-tree.html'"></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3>用户列表</h3>
+
+                <div ng-show="!selectedOrganization" class="empty-text">请选择组织机构</div>
+                <div ng-show="selectedOrganization&&userList.length==0" class="empty-text">没有数据</div>
+                <div class="list-group" style="max-height: 500px; min-height: 240px; overflow-y: auto;">
+                    <a href="javascript:;" class="list-group-item"
+                       ng-repeat="x in userList" ng-class="{active: x.selected}" ng-click="toggleUser(x)">{{x.name}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="javascript:;" class="pull-right" ng-show="selectedUserList.length>0">已经选择 {{selectedUserList.length}} 个用户</a>
+            </div>
+        </div>
+        <div cg-busy="promise"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="submit()">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</form>
+

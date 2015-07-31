@@ -1,0 +1,17 @@
+<div class="content-header">
+    <div breadcrumbs></div>
+    <div class="tab-nav ng-scope">
+        <ul class="nav nav-tabs">
+            <li ng-repeat="tab in tabs" ng-class="{active: $state.includes(tab.state) && tab.active!==false}">
+                <a ui-sref="{{tab.state}}"><i class="{{tab.iconCls}}"></i>&nbsp;{{tab.tabTitle || tab.title}}</a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="splitter-top-out" ng-click="toggleHeader()">
+        <i class="fa fa-angle-double-up"></i>
+    </div>
+    <div id="splitter-top-in" ng-click="toggleHeader()">
+        <i class="fa fa-angle-double-down"></i>
+    </div>
+</div>

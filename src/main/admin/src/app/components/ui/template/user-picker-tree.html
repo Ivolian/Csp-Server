@@ -1,0 +1,12 @@
+<div class="node-element" ng-class="{'node-element-select': item.id == selectedOrganization.id}" ng-click="selectOrganization(item)">
+    <a class="node-caret" ng-click="this.toggle()" ng-show="item.items.length>0">
+        <i class="fa fa-lg fa-fw" ng-class="{'fa-caret-right': collapsed, 'fa-caret-down': !collapsed}"></i>
+    </a>
+    <a class="node-text" title="{{item.text}}">
+        <i class="{{item.icon}}"></i>{{item.text}} <span ng-show="getOrganizationUserSelectCount(item)>0" ng-bind="getOrganizationUserSelectCount(item)" class="badge pull-right" style="margin: 4px 8px 0 0;"></span>
+    </a>
+</div>
+<ol ui-tree-nodes ng-model="item.items" ng-class="{hidden: collapsed}">
+    <li ng-repeat="item in item.items" ui-tree-node ng-include="'components/ui/template/user-picker-tree.html'">
+    </li>
+</ol>

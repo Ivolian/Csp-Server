@@ -1,0 +1,10 @@
+<div class="input-group user-picker">
+    <ul class="form-control">
+        <li class="placeholder" ng-show="users.length==0" ng-click="selectUser()">{{placeholder}}</li>
+        <li class="user-item" ng-repeat="x in users">{{x.name}}<i class="fa fa-times fa-fw" ng-click="removeUser(x)"></i></li>
+    </ul>
+    <span class="input-group-addon" ng-click="selectUser()"><i class="fa fa-plus"></i></span>
+</div>
+
+
+

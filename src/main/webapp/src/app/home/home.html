@@ -1,0 +1,21 @@
+<div class="row home">
+    <div class="album">
+        <ul>
+            <li class="animated" ng-class="{slideInRight: currentImageIndex==$index, slideOutLeft: currentImageIndex!=$index}" ng-style="{visibility: checkVisible($index)?'visible':'hidden'}"
+                ng-repeat="x in imageList"><a target="_blank" ui-sref="{{x[1]}}(x[2])"><img ng-src="{{x[0]}}"></a></li>
+        </ul>
+        <div ng-click="prevImage(true)" class="arrow-left animated fadeInLeft">
+            <i class="fa fa-angle-left"></i>
+        </div>
+        <div ng-click="nextImage(true)" class="arrow-right animated fadeInRight">
+            <i class="fa fa-angle-right"></i>
+        </div>
+        <div class="marker-nav">
+            <!--<ol>
+                <li ng-mouseover="changeImage($index)" ng-class="{active: currentImageIndex==$index}" ng-repeat="x in imageList">
+                </li>
+            </ol>-->
+        </div>
+    </div>
+
+</div>

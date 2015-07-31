@@ -1,0 +1,6 @@
+<div ui-tree data-drag-enabled="false">
+    <ol ui-tree-nodes ng-model="items">
+        <li ng-repeat="item in items"
+            ui-tree-node ng-include="'app/components/ui/simple-tree/simple-tree-repeat-tpl.html'"></li>
+    </ol>
+</div>
