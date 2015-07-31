@@ -7,8 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +24,11 @@ public class CspUserService {
     @Autowired
     private CspUserDao cspUserDao;
 
-    public CspUser getEmail(String id) {
+    public CspUser getUser(String id) {
         return cspUserDao.findOne(id);
     }
 
-    public void saveEmail(CspUser entity) {
+    public void saveUser(CspUser entity) {
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setId(Identities.uuid());
             entity.setDeleteFlag(0);
@@ -38,14 +36,13 @@ public class CspUserService {
         cspUserDao.save(entity);
     }
 
-    public void deleteEmail(String id) {
-        CspUser cspUser = getEmail(id);
+    public void deleteUser(String id) {
+        CspUser cspUser = getUser(id);
         cspUser.setDeleteFlag(1);
         cspUserDao.save(cspUser);
     }
 
     public Page<CspUser> getEmail(Map<String, Object> searchParams, int pageNo, int pageSize) {
-        Sort sort = new Sort(Direction.DESC, "defaultValue");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
         Specification<CspUser> spec = buildSpecificationEmail(searchParams);
         return cspUserDao.findAll(spec, pageRequest);
@@ -58,10 +55,9 @@ public class CspUserService {
         return spec;
     }
 
-    public List<CspUser> getAllEmail() {
-        Sort sort = new Sort(Direction.DESC, "defaultValue");
+    public List<CspUser> getAllUser() {
         Map<String, Object> searchParams = new HashMap<>();
-        return cspUserDao.findAll(buildSpecificationEmail(searchParams), sort);
+        return cspUserDao.findAll(buildSpecificationEmail(searchParams));
     }
 
     public JSONObject loginCheck(String username, String password) {

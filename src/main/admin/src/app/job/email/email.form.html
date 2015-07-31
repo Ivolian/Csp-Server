@@ -6,39 +6,18 @@
     <div class="modal-body">
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">用户名称</label>
+            <label class="col-sm-2 control-label">用户名</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="hrName" ng-model="email.hrName" validator="required">
+                <input type="text" class="form-control" name="username" ng-model="email.username" validator="required">
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">用户电话</label>
+            <label class="col-sm-2 control-label">密码</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="telephone" ng-model="email.telephone" validator="required">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">电子邮件</label>
-
-            <div class="col-sm-10">
-                <textarea class="form-control" name="name" ng-model="email.name" validator="required" rows="3"></textarea>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">默认</label>
-
-            <div class="col-sm-10">
-                <label class="radio-inline c-radio">
-                    <input type="radio" value="1" name="defaultValue" ng-model="email.defaultValue">
-                    <span class="fa fa-circle"></span>是</label>
-                <label class="radio-inline c-radio">
-                    <input type="radio" value="0" name="defaultValue" ng-model="email.defaultValue">
-                    <span class="fa fa-circle"></span>否</label>
+                <input type="text" class="form-control" name="password" ng-model="email.password" validator="required">
             </div>
         </div>
     </div>

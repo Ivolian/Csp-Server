@@ -75,16 +75,16 @@ angular.module('app')
                 iconCls: 'fa fa-users',
                 children: [
                     {
+                        title: '用户管理',
+                        state: 'job.email'
+                    },
+                    {
                         title: '招聘列表',
                         state: 'job.list'
                     },
                     {
                         title: '职位管理',
                         state: 'job.position'
-                    },
-                    {
-                        title: '邮件管理',
-                        state: 'job.email'
                     },
                     {
                         title: '地区管理',

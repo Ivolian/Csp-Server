@@ -19,17 +19,15 @@
                 <tr>
                     <th style="width: 60px;">#</th>
                     <th>用户名</th>
-                    <th>电话</th>
-                    <th>电子邮件</th>
+                    <th>密码</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
-                    <td>{{x.hrName}}</td>
-                    <td>{{x.telephone}}</td>
-                    <td>{{x.name}}</td>
+                    <td>{{x.username}}</td>
+                    <td>{{x.password}}</td>
                     <td>
                         <button class="btn btn-xs btn-primary" ng-click="updateEmail(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removeEmail(x)">删除</button>

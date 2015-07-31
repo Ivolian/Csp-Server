@@ -5,7 +5,7 @@ angular.module('app')
 
         $stateProvider.state('job.email', {
             url: '/email',
-            displayName: '邮件管理',
+            displayName: '用户管理',
             templateUrl: 'app/job/email/email.list.html',
             controller: 'EmailListCtrl'
         });
@@ -23,8 +23,7 @@ angular.module('app')
         $scope.createEmail = function () {
             var modalInstance = $modal.open({
                 templateUrl: 'app/job/email/email.form.html',
-                controller: 'EmailCreateCtrl',
-                size: 'lg'
+                controller: 'EmailCreateCtrl'
             });
             modalInstance.result.then(function (result) {
                 $scope.grid.refresh();
@@ -35,7 +34,6 @@ angular.module('app')
             var modalInstance = $modal.open({
                 templateUrl: 'app/job/email/email.form.html',
                 controller: 'EmailUpdateCtrl',
-                size: 'lg',
                 resolve: {
                     id: function () {
                         return email.id;
@@ -58,11 +56,7 @@ angular.module('app')
 
     .controller('EmailCreateCtrl', function ($scope, $modalInstance, Email) {
 
-        $scope.email = {
-            defaultValue : 0
-        };
-
-        $scope.title = '新增邮件';
+        $scope.title = '新增用户';
 
         $scope.cancel = function () {
             $modalInstance.dismiss();
@@ -82,7 +76,7 @@ angular.module('app')
 
         $scope.email = $scope.promise.$object;
 
-        $scope.title = '修改邮件';
+        $scope.title = '修改用户';
 
         $scope.cancel = function () {
             $modalInstance.dismiss();
