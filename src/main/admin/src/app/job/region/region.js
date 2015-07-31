@@ -5,7 +5,7 @@ angular.module('app')
 
         $stateProvider.state('job.region', {
             url: '/region',
-            displayName: '地区管理',
+            displayName: '菜单管理',
             templateUrl: 'app/job/region/region.html',
             controller: 'RegionCtrl'
         });
@@ -16,11 +16,11 @@ angular.module('app')
         return _.extend({
             loadTree: function (params) {
                 return $http({
-                    url: PageContext.path + '/api/v1/region/tree/' + params.id,
+                    url: PageContext.path + '/api/v1/menu/tree/' + params.id,
                     method: 'GET'
                 });
             }
-        }, Restangular.service('region'));
+        }, Restangular.service('menu'));
     })
 
     .controller('RegionCtrl', function ($scope, $timeout, $q, $state, $modal, SimpleTree, Region, focus) {

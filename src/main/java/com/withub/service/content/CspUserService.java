@@ -24,6 +24,9 @@ public class CspUserService {
     @Autowired
     private CspUserDao cspUserDao;
 
+    @Autowired
+    private MenuService menuService;
+
     public CspUser getUser(String id) {
         return cspUserDao.findOne(id);
     }
@@ -56,17 +59,20 @@ public class CspUserService {
     }
 
     public List<CspUser> getAllUser() {
-        Map<String, Object> searchParams = new HashMap<>();
+        Map<String, Object> searchParams = new HashMap();
         return cspUserDao.findAll(buildSpecificationEmail(searchParams));
     }
 
     public JSONObject loginCheck(String username, String password) {
 
         CspUser cspUser = cspUserDao.findOneByUsernameAndPassword(username, password);
+        boolean result = cspUser != null;
+
         JSONObject item = new JSONObject();
-        item.put("result", cspUser != null);
-        if (cspUser != null) {
+        item.put("result", result);
+        if (result) {
             item.put("userId", cspUser.getId());
+            item.put("rootMenuItem",menuService.getRootMenuItem());
 //            item.put("favoriteCount", cspUser.getFavoriteCount());
         }
         return item;

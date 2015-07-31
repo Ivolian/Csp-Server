@@ -13,7 +13,7 @@ public class Job extends IdEntity {
     /*招聘人数*/
     private Integer recruitmentNumber;
     /*任职地区*/
-    private Region region;
+    private Menu menu;
     /*任职地点*//*
     private String place;*/
     /*发布
@@ -75,14 +75,14 @@ public class Job extends IdEntity {
 //        this.cspUser = cspUser;
 //    }
 
-    @ManyToOne(targetEntity = Region.class)
+    @ManyToOne(targetEntity = Menu.class)
     @JoinColumn(name = "region_id")
-    public Region getRegion() {
-        return region;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
     @Override

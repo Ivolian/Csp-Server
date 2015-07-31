@@ -1,19 +1,16 @@
 package com.withub.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
-import java.util.List;
+
 @Entity
-@Table(name = "ss_region")
-public class Region extends IdEntity {
+@Table(name = "csp_menu")
+public class Menu extends IdEntity {
 
     private String name;
 
-    private String code;
+    private String type;
 
-    private Region parent;
+    private Menu parent;
 
     private Integer orderNo;
 
@@ -30,11 +27,11 @@ public class Region extends IdEntity {
 //    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "parent_id")
-    public Region getParent() {
+    public Menu getParent() {
         return parent;
     }
 
-    public void setParent(Region parent) {
+    public void setParent(Menu parent) {
         this.parent = parent;
     }
 
@@ -54,14 +51,12 @@ public class Region extends IdEntity {
         this.orderNo = orderNo;
     }
 
-    public String getCode() {
-        return code;
+    public String getType() {
+        return type;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setType(String type) {
+        this.type = type;
     }
-
-
 
 }

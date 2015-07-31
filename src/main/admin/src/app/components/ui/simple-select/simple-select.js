@@ -32,8 +32,8 @@ angular.module('unicorn.ui')
                     if (config == 'Position') {
                         url = PageContext.path + '/api/v1/position/all';
                     }
-                    if (config == 'Region') {
-                        url = PageContext.path + '/api/v1/region/all';
+                    if (config == 'Menu') {
+                        url = PageContext.path + '/api/v1/menu/all';
                     }
 
 

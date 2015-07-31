@@ -75,7 +75,7 @@ public class CultureRestController extends BaseController {
         BeanValidators.validateWithException(validator, content);
 
         // 保存内容
-        content.setUser(getCurrentUser());
+//        content.setUser(getCurrentUser());
         content.setContentColumnId("102");
         contentService.saveContent(content);
 

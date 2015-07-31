@@ -55,7 +55,7 @@ public class CspUserRestController extends BaseController {
     public CspUser get(@PathVariable("id") String id) {
         CspUser cspUser = cspUserService.getUser(id);
         if (cspUser == null) {
-            String message = "内容不存在(id:" + id + ")";
+            String message = "用户不存在(id:" + id + ")";
             logger.warn(message);
             throw new RestException(HttpStatus.NOT_FOUND, message);
         }

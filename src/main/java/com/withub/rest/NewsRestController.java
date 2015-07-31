@@ -89,7 +89,7 @@ public class NewsRestController extends BaseController {
         BeanValidators.validateWithException(validator, content);
 
         // 保存内容
-        content.setUser(getCurrentUser());
+//        content.setUser(getCurrentUser());
         content.setContentColumnId("101");
         contentService.saveContent(content);
 

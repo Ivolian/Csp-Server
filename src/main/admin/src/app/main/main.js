@@ -79,17 +79,18 @@ angular.module('app')
                         state: 'job.email'
                     },
                     {
+                        title: '菜单管理',
+                        state: 'job.region'
+                    },
+                    {
                         title: '招聘列表',
                         state: 'job.list'
                     },
                     {
                         title: '职位管理',
                         state: 'job.position'
-                    },
-                    {
-                        title: '地区管理',
-                        state: 'job.region'
                     }
+
                 ]
             },
             {

@@ -24,7 +24,7 @@ public class Content extends IdEntity {
     private ContentColumn contentColumn;
     private String contentColumnId;
     private ContentData contentData;
-    private User user;
+//    private User user;
     private Integer publish;
     private Date eventTime;
     private String picture;
@@ -34,7 +34,7 @@ public class Content extends IdEntity {
 
 
     // 新加的,冒充新闻类型
-    private Region region;
+    private Menu menu;
 
     // 评论
     @Transient
@@ -111,15 +111,15 @@ public class Content extends IdEntity {
     }
 
     // JPA 基于USER_ID列的多对一关系定义
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @Override
     public String toString() {
@@ -175,14 +175,14 @@ public class Content extends IdEntity {
         this.attachment = attachment;
     }
 
-    @ManyToOne(targetEntity = Region.class)
+    @ManyToOne(targetEntity = Menu.class)
     @JoinColumn(name = "region_id")
-    public Region getRegion() {
-        return region;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
 }

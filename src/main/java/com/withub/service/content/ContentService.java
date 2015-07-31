@@ -117,7 +117,7 @@ public class ContentService {
                                  String sortType,String regionId,String title) {
 
         searchParams.put("EQ_contentColumnId", "101");
-        searchParams.put("EQ_region.id", regionId);
+        searchParams.put("EQ_menu.id", regionId);
         searchParams.put("_LIKE_title", title);
         return getContent(searchParams, pageNo, pageSize, sortType);
     }

@@ -3,7 +3,7 @@
         <div class="panel panel-primary" panel-fit-height>
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    地区
+                    菜单
                 </h3>
                 <button ng-disabled="!checkCreateRegion()" class="btn btn-primary pull-right" ng-click="createRegion()">
                     <i class="fa fa-fw fa-plus"></i> 新增
@@ -43,7 +43,7 @@
                                 <label class="col-sm-2 control-label">类型</label>
 
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="code" ng-model="region.code" validator="required">
+                                    <select class="form-control" name="type" ng-model="region.type" validator="required">
                                         <option value="father">父节点</option>
                                         <option value="news">新闻</option>
                                         <option value="book">书籍</option>

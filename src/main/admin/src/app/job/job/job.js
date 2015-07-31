@@ -4,7 +4,7 @@ angular.module('app')
 
     .config(function ($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.when('/job', '/job/job');
+        $urlRouterProvider.when('/job', '/job/email');
 
         $stateProvider.state('job', {
             parent: 'root',

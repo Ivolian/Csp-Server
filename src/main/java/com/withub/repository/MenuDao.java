@@ -1,10 +1,11 @@
 package com.withub.repository;
 
-import com.withub.entity.Region;
+import com.withub.entity.Menu;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface RegionDao extends PagingAndSortingRepository<Region, String>, JpaSpecificationExecutor<Region>{
+public interface MenuDao extends PagingAndSortingRepository<Menu, String>, JpaSpecificationExecutor<Menu>{
 
-    public Region parentIsNull();
+    public Menu parentIsNull();
+
 }
