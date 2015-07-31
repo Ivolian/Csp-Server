@@ -41,10 +41,13 @@ import java.util.Map;
 @Transactional
 public class ContentService {
 
+    @Autowired
     private ContentDao contentDao;
 
+    @Autowired
     private ContentDataDao contentDataDao;
 
+    @Autowired
     private ContentColumnDao contentColumnDao;
 
     @Value("${exploded.path}")
@@ -158,18 +161,5 @@ public class ContentService {
         return spec;
     }
 
-    @Autowired
-    public void setContentDao(ContentDao contentDao) {
-        this.contentDao = contentDao;
-    }
 
-    @Autowired
-    public void setContentColumnDao(ContentColumnDao contentColumnDao) {
-        this.contentColumnDao = contentColumnDao;
-    }
-
-    @Autowired
-    public void setContentDataDao(ContentDataDao contentDataDao) {
-        this.contentDataDao = contentDataDao;
-    }
 }

@@ -62,11 +62,12 @@ angular.module('app')
                     {
                         title: '行业新闻',
                         state: 'content.news'
-                    },
-                    {
-                        title: '企业文化',
-                        state: 'content.culture'
                     }
+//                    ,
+//                    {
+//                        title: '企业文化',
+//                        state: 'content.culture'
+//                    }
                 ]
             },
             {

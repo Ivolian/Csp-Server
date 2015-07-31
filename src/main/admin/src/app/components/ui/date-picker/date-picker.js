@@ -4,7 +4,7 @@ angular.module('unicorn.ui')
 
     .directive('datePicker', function (uuid4) {
         return {
-            templateUrl: 'components/ui/template/date-picker.html',
+            templateUrl: 'app/components/ui/template/date-picker.html',
             restrict: 'EA',
             replace: true,
             scope: {

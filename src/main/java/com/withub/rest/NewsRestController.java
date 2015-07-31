@@ -33,11 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-/**
- * Content的Restful API的Controller.
- *
- * @author calvin
- */
+
 @RestController
 @RequestMapping(value = "/api/v1/news")
 public class NewsRestController extends BaseController {
@@ -59,15 +55,27 @@ public class NewsRestController extends BaseController {
             @RequestParam(value = "sortType", defaultValue = "auto") String sortType,
             @RequestParam(value = "regionId", defaultValue = "") String regionId,
             @RequestParam(value = "title", defaultValue = "") String title,
-
-
             ServletRequest request) {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        Page<Content> newsPage = contentService.getNews(searchParams, pageNo, pageSize, sortType, regionId, title);
+        return newsPage;
+    }
 
-        Page<Content> newsPage = contentService.getNews(searchParams, pageNo, pageSize, sortType,regionId,title);
+    // 多写了个查询列表，给手机端用，为了不传递 contentData 减少流量
 
 
+    @RequestMapping(value = "/mobile", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public Page<Content> list2(
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
+            @RequestParam(value = "sortType", defaultValue = "auto") String sortType,
+            @RequestParam(value = "regionId", defaultValue = "") String regionId,
+            @RequestParam(value = "title", defaultValue = "") String title,
+            ServletRequest request) {
+
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        Page<Content> newsPage = contentService.getNews(searchParams, pageNo, pageSize, sortType, regionId, title);
         return newsPage;
     }
 
@@ -84,7 +92,7 @@ public class NewsRestController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public ResponseEntity<?> create(@RequestBody Content content, UriComponentsBuilder uriBuilder) {
+    public void create(@RequestBody Content content, UriComponentsBuilder uriBuilder) {
         // 调用JSR303 Bean Validator进行校验, 异常将由RestExceptionHandler统一处理.
         BeanValidators.validateWithException(validator, content);
 
@@ -92,14 +100,6 @@ public class NewsRestController extends BaseController {
 //        content.setUser(getCurrentUser());
         content.setContentColumnId("101");
         contentService.saveContent(content);
-
-        // 按照Restful风格约定，创建指向新内容的url, 也可以直接返回id或对象.
-        String id = content.getId();
-        URI uri = uriBuilder.path("/api/v1/content/" + id).build().toUri();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uri);
-
-        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
@@ -119,6 +119,8 @@ public class NewsRestController extends BaseController {
         contentService.deleteContent(id);
     }
 
+
+    // 可以删掉的，有有关发布的东西
     @RequestMapping(value = "/{id}/publish/{value}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void publish(@PathVariable("id") String id, @PathVariable("value") Integer value) {
@@ -127,6 +129,5 @@ public class NewsRestController extends BaseController {
         content.setPublish(value);
         contentService.saveContent(content);
     }
-
 
 }

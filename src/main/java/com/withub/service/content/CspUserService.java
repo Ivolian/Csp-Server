@@ -72,7 +72,7 @@ public class CspUserService {
         item.put("result", result);
         if (result) {
             item.put("userId", cspUser.getId());
-            item.put("rootMenuItem",menuService.getRootMenuItem());
+            item.put("rootMenuItem", menuService.getRootMenuItem());
 //            item.put("favoriteCount", cspUser.getFavoriteCount());
         }
         return item;

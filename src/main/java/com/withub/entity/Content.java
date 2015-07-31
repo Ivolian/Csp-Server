@@ -14,23 +14,24 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+
 //JPA标识
 @Entity
 @Table(name = "ss_content")
 public class Content extends IdEntity {
 
     private String title;
-    private String summary;
     private ContentColumn contentColumn;
     private String contentColumnId;
     private ContentData contentData;
-//    private User user;
+    //    private User user;
     private Integer publish;
     private Date eventTime;
     private String picture;
     private String pictureFilename;
     private Integer deleteFlag;
     private FileUploadInfo attachment;
+
 
 
     // 新加的,冒充新闻类型
@@ -92,8 +93,8 @@ public class Content extends IdEntity {
         this.contentColumnId = contentColumnId;
     }
 
+//    @JsonIgnore
     @OneToOne(targetEntity = ContentData.class, mappedBy = "content", fetch = FetchType.LAZY)
-//    @Transient
     public ContentData getContentData() {
         return contentData;
     }
@@ -109,6 +110,8 @@ public class Content extends IdEntity {
     public void setPublish(Integer publish) {
         this.publish = publish;
     }
+
+
 
     // JPA 基于USER_ID列的多对一关系定义
 //    @ManyToOne
@@ -142,14 +145,6 @@ public class Content extends IdEntity {
         this.deleteFlag = deleteFlag;
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
     public String getPicture() {
         return picture;
     }
@@ -175,8 +170,8 @@ public class Content extends IdEntity {
         this.attachment = attachment;
     }
 
-    @ManyToOne(targetEntity = Menu.class)
-    @JoinColumn(name = "region_id")
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
     public Menu getMenu() {
         return menu;
     }
@@ -185,4 +180,13 @@ public class Content extends IdEntity {
         this.menu = menu;
     }
 
+    private Date postTime;
+
+    public Date getPostTime() {
+        return postTime;
+    }
+
+    public void setPostTime(Date postTime) {
+        this.postTime = postTime;
+    }
 }
