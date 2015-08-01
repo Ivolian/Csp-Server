@@ -6,6 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface CspUserDao extends PagingAndSortingRepository<CspUser, String>, JpaSpecificationExecutor<CspUser> {
 
-    public CspUser findOneByUsernameAndPassword(String username, String password);
+    public CspUser findOneByUsernameAndPasswordAndDeleteFlag(String username, String password,Integer deleteFlag);
 
 }

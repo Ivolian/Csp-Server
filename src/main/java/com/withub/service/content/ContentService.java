@@ -117,23 +117,23 @@ public class ContentService {
     }
 
     public Page<Content> getNews(Map<String, Object> searchParams, int pageNo, int pageSize,
-                                 String sortType,String regionId,String title) {
+                                 String menuId,String keyword) {
 
         searchParams.put("EQ_contentColumnId", "101");
-        searchParams.put("EQ_menu.id", regionId);
-        searchParams.put("_LIKE_title", title);
-        return getContent(searchParams, pageNo, pageSize, sortType);
+        searchParams.put("EQ_menu.id", menuId);
+        searchParams.put("_LIKE_title", keyword);
+        return getContent(searchParams, pageNo, pageSize);
     }
 
     public Page<Content> getCulture(Map<String, Object> searchParams, int pageNo, int pageSize,
                                     String sortType) {
 
         searchParams.put("EQ_contentColumnId", "102");
-        return getContent(searchParams, pageNo, pageSize, sortType);
+        return getContent(searchParams, pageNo, pageSize);
     }
 
-    public Page<Content> getContent(Map<String, Object> searchParams, int pageNo, int pageSize, String sortType) {
-        PageRequest pageRequest = buildPageRequest(pageNo, pageSize, sortType);
+    public Page<Content> getContent(Map<String, Object> searchParams, int pageNo, int pageSize) {
+        PageRequest pageRequest = buildPageRequest(pageNo, pageSize);
         Specification<Content> spec = buildSpecification(searchParams);
         return contentDao.findAll(spec, pageRequest);
     }
@@ -141,13 +141,8 @@ public class ContentService {
     /**
      * 创建分页请求.
      */
-    private PageRequest buildPageRequest(int pageNo, int pageSize, String sortType) {
-        Sort sort = null;
-        if ("auto".equals(sortType)) {
-            sort = new Sort(Direction.DESC, "eventTime");
-        } else if ("title".equals(sortType)) {
-            sort = new Sort(Direction.ASC, "title");
-        }
+    private PageRequest buildPageRequest(int pageNo, int pageSize) {
+        Sort sort = new Sort(Direction.DESC, "postTime");
         return new PageRequest(pageNo - 1, pageSize, sort);
     }
 

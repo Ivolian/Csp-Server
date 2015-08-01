@@ -8,33 +8,32 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "ss_comment")
+@Table(name = "csp_comment")
 public class Comment extends IdEntity {
 
-//    这个是冒充用户的
-//    private CspUser cspUser;
+    // 所属新闻
+    private Content news;
 
+    // 所属用户
+    private CspUser user;
+
+    // 创建时间
     private Date eventTime;
 
-    private String words;
+    // 评论内容
+    private String content;
 
-    private Content content;
-
-    /*删除
-    * 0：存在
-    * 1：删除
-    * */
     private Integer deleteFlag;
 
-//    @ManyToOne
-//    @JoinColumn(name = "email_id")
-//    public CspUser getCspUser() {
-//        return cspUser;
-//    }
-//
-//    public void setCspUser(CspUser cspUser) {
-//        this.cspUser = cspUser;
-//    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    public CspUser getUser() {
+        return user;
+    }
+
+    public void setUser(CspUser user) {
+        this.user = user;
+    }
 
     public Date getEventTime() {
         return eventTime;
@@ -44,22 +43,22 @@ public class Comment extends IdEntity {
         this.eventTime = eventTime;
     }
 
-    public String getWords() {
-        return words;
+    public String getContent() {
+        return content;
     }
 
-    public void setWords(String words) {
-        this.words = words;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @ManyToOne
     @JoinColumn(name = "content_id")
-    public Content getContent() {
-        return content;
+    public Content getNews() {
+        return news;
     }
 
-    public void setContent(Content content) {
-        this.content = content;
+    public void setNews(Content news) {
+        this.news = news;
     }
 
     public Integer getDeleteFlag() {

@@ -60,11 +60,9 @@ public class CommentService {
         commentDao.save(comment);
     }
 
-    public Page<Comment> getComment(Map<String, Object> searchParams, int pageNo, int pageSize,String contentId) {
+    public Page<Comment> getComment(Map<String, Object> searchParams, int pageNo, int pageSize, String newsId) {
 
-        //
-        searchParams.put("EQ_content.id",contentId);
-
+        searchParams.put("EQ_news.id", newsId);
         Sort sort = new Sort(Direction.DESC, "eventTime");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Comment> spec = buildSpecificationComment(searchParams);
@@ -80,26 +78,22 @@ public class CommentService {
 
     // 新增的
 
-    public JSONObject create(String userId, String contentId, String words) {
+    public JSONObject create(String userId, String newsId, String content) {
 
         JSONObject jsonObject = new JSONObject();
 
-        CspUser cspUser = cspUserDao.findOne(userId);
-        Content content = contentDao.findOne(contentId);
-        if (cspUser == null) {
+        CspUser user = cspUserDao.findOne(userId);
+        Content news = contentDao.findOne(newsId);
+        if (user == null || news == null) {
             jsonObject.put("result", false);
-            jsonObject.put("errorMsg", "用户" + userId + " 不存在");
-        }
-        if (content == null) {
-            jsonObject.put("result", false);
-            jsonObject.put("errorMsg", "新闻" + contentId + " 不存在");
+            return jsonObject;
         }
 
         Comment comment = new Comment();
         comment.setId(Identities.uuid());
-//        comment.setCspUser(cspUser);
+        comment.setUser(user);
+        comment.setNews(news);
         comment.setContent(content);
-        comment.setWords(words);
         comment.setEventTime(new Date());
         comment.setDeleteFlag(0);
         commentDao.save(comment);

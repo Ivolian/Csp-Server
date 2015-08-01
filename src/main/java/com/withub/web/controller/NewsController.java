@@ -36,7 +36,7 @@ public class NewsController {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
         searchParams.put("EQ_publish", "1");
-        Page<Content> news = contentService.getNews(searchParams, pageNo, pageSize, sortType,"","");
+        Page<Content> news = contentService.getNews(searchParams, pageNo, pageSize,"","");
         return news;
     }
 

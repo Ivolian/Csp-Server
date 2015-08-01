@@ -40,7 +40,6 @@ public class CspUserRestController extends BaseController {
             ServletRequest request) {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
-
         Page<CspUser> email = cspUserService.getEmail(searchParams, pageNo, pageSize);
         return email;
     }
@@ -94,6 +93,15 @@ public class CspUserRestController extends BaseController {
             @RequestParam(value = "password", defaultValue = "") String password) {
 
         return cspUserService.loginCheck(username, password);
+    }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public JSONObject changePassword(
+            @RequestParam(value = "userId", defaultValue = "") String userId,
+            @RequestParam(value = "oldPassword", defaultValue = "") String oldPassword,
+            @RequestParam(value = "newPassword", defaultValue = "") String newPassword) {
+
+        return cspUserService.changePassword(userId, oldPassword, newPassword);
     }
 
 }

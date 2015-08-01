@@ -65,7 +65,7 @@ public class CspUserService {
 
     public JSONObject loginCheck(String username, String password) {
 
-        CspUser cspUser = cspUserDao.findOneByUsernameAndPassword(username, password);
+        CspUser cspUser = cspUserDao.findOneByUsernameAndPasswordAndDeleteFlag(username, password, 0);
         boolean result = cspUser != null;
 
         JSONObject item = new JSONObject();
@@ -76,6 +76,26 @@ public class CspUserService {
 //            item.put("favoriteCount", cspUser.getFavoriteCount());
         }
         return item;
+    }
+
+    public JSONObject changePassword(String userId, String oldPassword, String newPassword) {
+
+        CspUser cspUser = cspUserDao.findOne(userId);
+        boolean result = cspUser != null;
+        if (result) {
+            result = (cspUser.getDeleteFlag() == 0);
+        }
+        if (result) {
+            result = cspUser.getPassword().equals(oldPassword);
+        }
+        if (result) {
+            cspUser.setPassword(newPassword);
+            saveUser(cspUser);
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", result);
+        return jsonObject;
     }
 
 }

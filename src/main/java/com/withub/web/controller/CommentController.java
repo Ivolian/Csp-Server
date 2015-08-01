@@ -62,20 +62,18 @@ public class CommentController {
     public JSONObject list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
-            @RequestParam(value = "contentId", defaultValue = "") String contentId,
+            @RequestParam(value = "newsId", defaultValue = "") String newsId) {
 
-            ServletRequest request) {
-
-        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-        Page<Comment> commentPage = commentService.getComment(searchParams, pageNo, pageSize, contentId);
+        Map<String, Object> searchParams = new HashMap<>();
+        Page<Comment> commentPage = commentService.getComment(searchParams, pageNo, pageSize, newsId);
         List<Comment> commentList = commentPage.getContent();
 
         List<Map> items = new ArrayList<>();
         for (Comment comment : commentList) {
             Map<String, Object> item = new HashMap<>();
-//            item.put("username", comment.getCspUser().getUsername());
+            item.put("username", comment.getUser().getUsername());
             item.put("eventtime", comment.getEventTime());
-            item.put("words", comment.getWords());
+            item.put("content", comment.getContent());
             items.add(item);
         }
 
@@ -83,7 +81,6 @@ public class CommentController {
         jsonObject.put("content", items);
         jsonObject.put("lastPage", commentPage.isLastPage());
         jsonObject.put("totalPages", commentPage.getTotalPages());
-
         return jsonObject;
     }
 

@@ -41,26 +41,14 @@ public class Content extends IdEntity {
     @Transient
     private List<Comment> commentList;
 
-    @Transient
     @JsonIgnore
-    @OneToMany(mappedBy = "content")
+    @OneToMany(mappedBy = "news")
     public List<Comment> getCommentList() {
         return commentList;
     }
 
-    @Transient
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
-    }
-
-    @JsonIgnore
-    @Transient
-    public int getCommentCount() {
-
-        if (commentList != null) {
-            return commentList.size();
-        }
-        return 0;
     }
 
     // JSR303 BeanValidator的校验规则
