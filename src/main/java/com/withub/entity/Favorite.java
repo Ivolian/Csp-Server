@@ -7,33 +7,33 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ss_favorite")
+@Table(name = "csp_favorite")
 public class Favorite extends IdEntity {
 
-//    private CspUser cspUser;
+    private CspUser user;
 
-    private Content content;
+    private Content news;
 
     private Integer deleteFlag;
 
-//    @ManyToOne
-//    @JoinColumn(name = "email_id")
-//    public CspUser getCspUser() {
-//        return cspUser;
-//    }
-//
-//    public void setCspUser(CspUser cspUser) {
-//        this.cspUser = cspUser;
-//    }
-
     @ManyToOne
-    @JoinColumn(name = "content_id")
-    public Content getContent() {
-        return content;
+    @JoinColumn(name = "user_id")
+    public CspUser getUser() {
+        return user;
     }
 
-    public void setContent(Content content) {
-        this.content = content;
+    public void setUser(CspUser user) {
+        this.user = user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "news_id")
+    public Content getNews() {
+        return news;
+    }
+
+    public void setNews(Content news) {
+        this.news = news;
     }
 
     public Integer getDeleteFlag() {

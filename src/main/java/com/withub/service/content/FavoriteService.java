@@ -31,40 +31,43 @@ public class FavoriteService {
     private FavoriteDao favoriteDao;
 
     @Autowired
-    private CspUserDao cspUserDao;
+    private CspUserDao userDao;
 
     @Autowired
-    private ContentDao contentDao;
+    private ContentDao newsDao;
 
-    // todo 不能重复收藏
-    public void saveFavorite(String contentId,String emailId) {
+    public boolean saveFavorite(String userId, String newsId) {
 
-        CspUser cspUser = cspUserDao.findOne(emailId);
-        Content content = contentDao.findOne(contentId);
-        Favorite favorite = new Favorite();
-        favorite.setContent(content);
-//        favorite.setCspUser(cspUser);
+        Favorite favorite = favoriteDao.findOneByUserIdAndNewsIdAndDeleteFlag(userId, newsId, 0);
+        if (favorite != null) {
+            return false;
+        }
 
+        favorite = new Favorite();
+        favorite.setUser(userDao.findOne(userId));
+        favorite.setNews(newsDao.findOne(newsId));
         if (StringUtils.isEmpty(favorite.getId())) {
             favorite.setId(Identities.uuid());
             favorite.setDeleteFlag(0);
         }
         favoriteDao.save(favorite);
+        return true;
     }
 
-    public void deleteFavorite(String userId,String contentId) {
+    public void deleteFavorite(String userId, String newsId) {
 
-//        Favorite favorite = favoriteDao.findOneByCspUserIdAndContentId(userId, contentId);
-//        favorite.setDeleteFlag(1);
-//        favoriteDao.save(favorite);
+        Favorite favorite = favoriteDao.findOneByUserIdAndNewsIdAndDeleteFlag(userId, newsId, 0);
+        favorite.setDeleteFlag(1);
+        favoriteDao.save(favorite);
     }
 
-    public Page<Favorite> getFavorite(Map<String, Object> searchParams, int pageNo, int pageSize,String userId) {
+    public Page<Favorite> getFavorite(Map<String, Object> searchParams, int pageNo, int pageSize, String userId) {
 
         //
-        searchParams.put("EQ_email.id",userId);
-        Sort sort = new Sort(Direction.DESC, "email.id");
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
+        searchParams.put("EQ_user.id", userId);
+        // TODO sort
+//        Sort sort = new Sort(Direction.DESC, "user.id");
+        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
         Specification<Favorite> spec = buildSpecificationComment(searchParams);
         return favoriteDao.findAll(spec, pageRequest);
     }
@@ -75,6 +78,5 @@ public class FavoriteService {
         Specification<Favorite> spec = DynamicSpecifications.bySearchFilter(filters.values(), Favorite.class);
         return spec;
     }
-
 
 }

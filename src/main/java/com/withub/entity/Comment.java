@@ -52,7 +52,7 @@ public class Comment extends IdEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "content_id")
+    @JoinColumn(name = "news_id")
     public Content getNews() {
         return news;
     }

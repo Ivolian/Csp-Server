@@ -7,6 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface FavoriteDao extends PagingAndSortingRepository<Favorite, String>, JpaSpecificationExecutor<Favorite> {
 
-
+    public Favorite findOneByUserIdAndNewsIdAndDeleteFlag(String userId,String newsId,Integer deleteFlag);
 
 }
