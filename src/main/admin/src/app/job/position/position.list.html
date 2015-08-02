@@ -6,7 +6,7 @@
                 <form class="form-inline pull-right" role="form">
 
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入职位名称" ng-model="grid.queryInfo.LIKE_name">
+                        <input type="text" class="form-control" placeholder="请输入书名" ng-model="grid.queryInfo.LIKE_name">
                           <span class="input-group-btn">
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i></button>
                           </span>
@@ -18,10 +18,7 @@
                 <thead>
                 <tr>
                     <th style="width: 60px;">#</th>
-                    <th>职位名称</th>
-                    <th>学历要求</th>
-                    <th>工作经历</th>
-                    <th>年龄要求</th>
+                    <th>书名</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
@@ -29,9 +26,6 @@
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
                     <td>{{x.name}}</td>
-                    <td>{{x.education | educationResult}}</td>
-                    <td>{{x.experience | experienceResult}}</td>
-                    <td>{{x.ageRequirement}}</td>
                     <td>
                         <button class="btn btn-xs btn-primary" ng-click="updatePosition(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removePosition(x)">删除</button>

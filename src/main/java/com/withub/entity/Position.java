@@ -1,32 +1,24 @@
 package com.withub.entity;
 
+import com.withub.common.FileUploadInfo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name = "ss_position")
+@Table(name = "csp_book")
 public class Position extends IdEntity{
-    /*职位名*/
+
+    /*
+        书名
+        封面
+        书籍
+     */
+
     private String name;
-    /*学历
-    * 0: 无限制
-    * 1：高中
-    * 2：大专
-    * 3：本科
-    * 4：硕士以上
-    * */
-    private Integer education;
-    /*招聘人数*/
-    private Integer experience;
-    /*年龄要求*/
-    private String ageRequirement;
-    /*任职要求*/
-    private String jobRequirements;
-    /*删除
-    * 0：存在
-    * 1：删除*/
+
     private Integer deleteFlag;
 
     public Integer getDeleteFlag() {
@@ -45,40 +37,32 @@ public class Position extends IdEntity{
         this.name = name;
     }
 
-    public Integer getEducation() {
-        return education;
+    private String picture;
+    private String pictureFilename;
+    private FileUploadInfo pictureAttachment;
+
+    public String getPicture() {
+        return picture;
     }
 
-    public void setEducation(Integer education) {
-        this.education = education;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
-    public Integer getExperience() {
-        return experience;
+    public String getPictureFilename() {
+        return pictureFilename;
     }
 
-    public void setExperience(Integer experience) {
-        this.experience = experience;
+    public void setPictureFilename(String pictureFilename) {
+        this.pictureFilename = pictureFilename;
     }
 
-    public String getAgeRequirement() {
-        return ageRequirement;
+    @Transient
+    public FileUploadInfo getPictureAttachment() {
+        return pictureAttachment;
     }
 
-    public void setAgeRequirement(String ageRequirement) {
-        this.ageRequirement = ageRequirement;
-    }
-
-    public String getJobRequirements() {
-        return jobRequirements;
-    }
-
-    public void setJobRequirements(String jobRequirements) {
-        this.jobRequirements = jobRequirements;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+    public void setPictureAttachment(FileUploadInfo pictureAttachment) {
+        this.pictureAttachment = pictureAttachment;
     }
 }

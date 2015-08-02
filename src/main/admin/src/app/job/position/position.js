@@ -67,14 +67,12 @@ angular.module('app')
         };
     })
 
-    .controller('PositionCreateCtrl', function ($scope, $modalInstance, Positions) {
+    .controller('PositionCreateCtrl', function ($scope, $modalInstance, Positions,FileUploader) {
 
         $scope.position = {
-            education : 0,
-            experience : 0
         };
 
-        $scope.title = '新增职位';
+        $scope.title = '新增书籍';
 
         $scope.cancel = function () {
             $modalInstance.dismiss();
@@ -86,15 +84,26 @@ angular.module('app')
                 $modalInstance.close();
             });
         };
+
+        var uploader = $scope.uploader = new FileUploader({
+            url: PageContext.path + '/api/v1/file/upload',
+            alias: 'attachment',
+            removeAfterUpload: true,
+            autoUpload: true
+        });
+        uploader.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.position.pictureAttachment = response;
+            $scope.position.pictureFilename = response.fileName;
+        };
     })
 
-    .controller('PositionUpdateCtrl', function ($scope, $modalInstance, Restangular, Positions, id) {
+    .controller('PositionUpdateCtrl', function ($scope, $modalInstance, Restangular, Positions, id,FileUploader) {
 
         $scope.promise = Positions.one(id).get();
 
         $scope.position = $scope.promise.$object;
 
-        $scope.title = '修改职位';
+        $scope.title = '修改书籍';
 
         $scope.cancel = function () {
             $modalInstance.dismiss();
@@ -105,6 +114,17 @@ angular.module('app')
                 Toaster.success("保存成功！");
                 $modalInstance.close();
             });
+        };
+
+        var uploader = $scope.uploader = new FileUploader({
+            url: PageContext.path + '/api/v1/file/upload',
+            alias: 'attachment',
+            removeAfterUpload: true,
+            autoUpload: true
+        });
+        uploader.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.position.pictureAttachment = response;
+            $scope.position.pictureFilename = response.fileName;
         };
     })
 ;

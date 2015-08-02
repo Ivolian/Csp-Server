@@ -2,8 +2,11 @@ package com.withub.service.content;
 
 import com.withub.entity.Position;
 import com.withub.repository.PositionDao;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,6 +18,10 @@ import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +31,15 @@ import java.util.Map;
 // 类中所有public函数都纳入事务管理的标识.
 @Transactional
 public class PositionService {
-    private PositionDao positionDao;
 
     @Autowired
-    public void setPositionDao(PositionDao positionDao) {
-        this.positionDao = positionDao;
-    }
+    private PositionDao positionDao;
+
+    @Value("${exploded.path}")
+    private String explodedPath;
+
+    @Value("${temp.path}")
+    private String tempPath;
 
     public Position getPosition(String id) {
         return positionDao.findOne(id);
@@ -40,6 +50,23 @@ public class PositionService {
             entity.setId(Identities.uuid());
             entity.setDeleteFlag(0);
         }
+
+        // save picture
+        if (entity.getPictureAttachment() != null && StringUtils.isNotEmpty(entity.getPictureAttachment().getFileName())) {
+            try {
+                String distPath = "/attachment/content/" + new SimpleDateFormat("yyyy/MM").format(new Date());
+                File distFile = new File(explodedPath + distPath);
+                if (!distFile.exists()) {
+                    FileUtils.forceMkdir(distFile);
+                }
+                entity.setPicture(distPath + "/" + entity.getPictureAttachment().getTempFileName() + "." + FilenameUtils.getExtension(entity.getPictureAttachment().getFileName()));
+                entity.setPictureFilename(entity.getPictureAttachment().getFileName());
+                FileUtils.copyFile(new File(tempPath + "/" + entity.getPictureAttachment().getTempFileName()), new File(explodedPath + entity.getPicture()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         positionDao.save(entity);
     }
 

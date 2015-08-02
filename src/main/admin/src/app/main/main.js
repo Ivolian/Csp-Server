@@ -80,17 +80,17 @@ angular.module('app')
                         state: 'job.email'
                     },
                     {
+                        title: '书籍管理',
+                        state: 'job.position'
+                    },
+                    {
                         title: '菜单管理',
                         state: 'job.region'
-                    },
-                    {
-                        title: '招聘列表',
-                        state: 'job.list'
-                    },
-                    {
-                        title: '职位管理',
-                        state: 'job.position'
                     }
+//                    {
+//                        title: '招聘列表',
+//                        state: 'job.list'
+//                    },
 
                 ]
             },
