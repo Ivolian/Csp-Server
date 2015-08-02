@@ -83,11 +83,13 @@ public class PositionService {
             }
         }
 
+        Position first = positionDao.findFirstByOrderById2Asc();
+        entity.setId2(first == null ? 1 : first.getId2() + 1);
         positionDao.save(entity);
     }
 
     public void deletePosition(String id) {
-        Position position= getPosition(id);
+        Position position = getPosition(id);
         position.setDeleteFlag(1);
         positionDao.save(position);
     }

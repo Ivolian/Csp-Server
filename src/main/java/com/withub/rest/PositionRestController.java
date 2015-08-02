@@ -64,7 +64,7 @@ public class PositionRestController extends BaseController {
         JSONArray jsonArray = new JSONArray();
         for (Position book : bookList) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", book.getId());
+            jsonObject.put("id", book.getId2());
             jsonObject.put("name", book.getName());
             jsonObject.put("picture", book.getPicture());
             jsonObject.put("ebook", book.getEbook());

@@ -7,5 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface PositionDao extends PagingAndSortingRepository<Position, String>, JpaSpecificationExecutor<Position> {
 
+    public Position findFirstByOrderById2Asc();
 
 }

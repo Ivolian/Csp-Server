@@ -96,4 +96,15 @@ public class Position extends IdEntity{
     public void setEbookAttachment(FileUploadInfo ebookAttachment) {
         this.ebookAttachment = ebookAttachment;
     }
+
+
+    private Integer id2;
+
+    public Integer getId2() {
+        return id2;
+    }
+
+    public void setId2(Integer id2) {
+        this.id2 = id2;
+    }
 }
