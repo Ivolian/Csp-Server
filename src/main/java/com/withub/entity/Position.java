@@ -65,4 +65,35 @@ public class Position extends IdEntity{
     public void setPictureAttachment(FileUploadInfo pictureAttachment) {
         this.pictureAttachment = pictureAttachment;
     }
+
+    //
+
+    private String ebook;
+    private String ebookFilename;
+    private FileUploadInfo ebookAttachment;
+
+    public String getEbook() {
+        return ebook;
+    }
+
+    public void setEbook(String ebook) {
+        this.ebook = ebook;
+    }
+
+    public String getEbookFilename() {
+        return ebookFilename;
+    }
+
+    public void setEbookFilename(String ebookFilename) {
+        this.ebookFilename = ebookFilename;
+    }
+
+    @Transient
+    public FileUploadInfo getEbookAttachment() {
+        return ebookAttachment;
+    }
+
+    public void setEbookAttachment(FileUploadInfo ebookAttachment) {
+        this.ebookAttachment = ebookAttachment;
+    }
 }

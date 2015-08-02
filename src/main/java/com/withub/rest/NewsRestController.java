@@ -66,8 +66,6 @@ public class NewsRestController extends BaseController {
     }
 
     // 多写了个查询，给手机端用，为了不传递 contentData 减少流量
-
-
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public JSONObject list2(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,

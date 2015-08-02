@@ -12,7 +12,7 @@ angular.module('app')
     })
 
     .factory('Positions', function (Restangular) {
-        return Restangular.service('position');
+        return Restangular.service('book');
     })
 
     .filter('educationResult', function () {
@@ -94,6 +94,22 @@ angular.module('app')
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
             $scope.position.pictureAttachment = response;
             $scope.position.pictureFilename = response.fileName;
+            console.log($scope.position.pictureFilename)
+
+        };
+
+        // for ebook
+        var uploader2 = $scope.uploader2 = new FileUploader({
+            url: PageContext.path + '/api/v1/file/upload',
+            alias: 'attachment',
+            removeAfterUpload: true,
+            autoUpload: true
+        });
+        uploader2.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.position.ebookAttachment = response;
+            $scope.position.ebookFilename = response.fileName;
+//            console.log($scope.position.ebookFilename)
+
         };
     })
 
@@ -125,6 +141,20 @@ angular.module('app')
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
             $scope.position.pictureAttachment = response;
             $scope.position.pictureFilename = response.fileName;
+        };
+
+        // for ebook
+        var uploader2 = $scope.uploader2 = new FileUploader({
+            url: PageContext.path + '/api/v1/file/upload',
+            alias: 'attachment',
+            removeAfterUpload: true,
+            autoUpload: true
+        });
+        uploader2.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.position.ebookAttachment = response;
+            $scope.position.ebookFilename = response.fileName;
+//            console.log($scope.position.ebookFilename)
+
         };
     })
 ;

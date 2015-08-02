@@ -1,5 +1,8 @@
 package com.withub.rest;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.withub.entity.Content;
 import com.withub.entity.Position;
 import com.withub.service.content.PositionService;
 import com.withub.web.controller.BaseController;
@@ -19,11 +22,12 @@ import org.springside.modules.web.Servlets;
 import javax.servlet.ServletRequest;
 import javax.validation.Validator;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/v1/position")
+@RequestMapping(value = "/api/v1/book")
 public class PositionRestController extends BaseController {
 
     private static Logger logger = LoggerFactory.getLogger(PositionRestController.class);
@@ -47,6 +51,33 @@ public class PositionRestController extends BaseController {
         return position;
     }
 
+    // 多写了个查询，给手机端用
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public JSONObject list2(
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize) {
+
+        Map<String, Object> searchParams = new HashMap<>();
+        Page<Position> bookPage = positionService.getPosition(searchParams, pageNo, pageSize);
+        List<Position> bookList = bookPage.getContent();
+
+        JSONArray jsonArray = new JSONArray();
+        for (Position book : bookList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", book.getId());
+            jsonObject.put("name", book.getName());
+            jsonObject.put("picture", book.getPicture());
+            jsonObject.put("ebook", book.getEbook());
+            jsonObject.put("ebookFilename",book.getEbookFilename());
+            jsonArray.add(jsonObject);
+        }
+
+        JSONObject response = new JSONObject();
+        response.put("content", jsonArray);
+        response.put("lastPage", bookPage.isLastPage());
+        response.put("totalPages", bookPage.getTotalPages());
+        return response;
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public List<Position> list() {
@@ -58,7 +89,7 @@ public class PositionRestController extends BaseController {
     public Position get(@PathVariable("id") String id) {
         Position position = positionService.getPosition(id);
         if (position == null) {
-            String message = "内容不存在(id:" + id + ")";
+            String message = "书籍不存在(id:" + id + ")";
             logger.warn(message);
             throw new RestException(HttpStatus.NOT_FOUND, message);
         }
@@ -66,20 +97,12 @@ public class PositionRestController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public ResponseEntity<?> create(@RequestBody Position position, UriComponentsBuilder uriBuilder) {
+    public void create(@RequestBody Position position, UriComponentsBuilder uriBuilder) {
         // 调用JSR303 Bean Validator进行校验, 异常将由RestExceptionHandler统一处理.
         BeanValidators.validateWithException(validator, position);
 
         // 保存内容
         positionService.savePosition(position);
-
-        // 按照Restful风格约定，创建指向新内容的url, 也可以直接返回id或对象.
-        String id = position.getId();
-        URI uri = uriBuilder.path("/api/v1/position/" + id).build().toUri();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uri);
-
-        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)

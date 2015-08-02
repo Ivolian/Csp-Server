@@ -67,6 +67,22 @@ public class PositionService {
             }
         }
 
+        // save ebook
+        if (entity.getEbookAttachment() != null && StringUtils.isNotEmpty(entity.getEbookAttachment().getFileName())) {
+            try {
+                String distPath = "/attachment/content/" + new SimpleDateFormat("yyyy/MM").format(new Date());
+                File distFile = new File(explodedPath + distPath);
+                if (!distFile.exists()) {
+                    FileUtils.forceMkdir(distFile);
+                }
+                entity.setEbook(distPath + "/" + entity.getEbookAttachment().getTempFileName() + "." + FilenameUtils.getExtension(entity.getEbookAttachment().getFileName()));
+                entity.setEbookFilename(entity.getEbookAttachment().getFileName());
+                FileUtils.copyFile(new File(tempPath + "/" + entity.getEbookAttachment().getTempFileName()), new File(explodedPath + entity.getEbook()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         positionDao.save(entity);
     }
 
