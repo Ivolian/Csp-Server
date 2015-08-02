@@ -38,7 +38,6 @@ public class Content extends IdEntity {
     private Menu menu;
 
     // 评论
-    @Transient
     private List<Comment> commentList;
 
     @JsonIgnore
@@ -49,6 +48,19 @@ public class Content extends IdEntity {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+
+    private List<Thumb> thumbList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "news")
+    public List<Thumb> getThumbList() {
+        return thumbList;
+    }
+
+    public void setThumbList(List<Thumb> thumbList) {
+        this.thumbList = thumbList;
     }
 
     // JSR303 BeanValidator的校验规则

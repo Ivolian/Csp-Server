@@ -86,6 +86,7 @@ public class NewsRestController extends BaseController {
             jsonObject.put("title", content.getTitle());
             jsonObject.put("picture", content.getPicture());
             jsonObject.put("commentCount", content.getCommentList().size());
+            jsonObject.put("thumbCount", content.getThumbList().size());
             jsonArray.add(jsonObject);
         }
 

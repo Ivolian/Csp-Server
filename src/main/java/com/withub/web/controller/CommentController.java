@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
-import org.springside.modules.web.Servlets;
 
 import javax.servlet.ServletRequest;
 import javax.validation.Validator;
@@ -52,10 +51,9 @@ public class CommentController {
     public JSONObject create(
             @RequestParam(value = "userId", defaultValue = "") String userId,
             @RequestParam(value = "contentId", defaultValue = "") String contentId,
-            @RequestParam(value = "words", defaultValue = "") String words,
-            ServletRequest request) {
+            @RequestParam(value = "content", defaultValue = "") String content) {
 
-        return commentService.create(userId, contentId, words);
+        return commentService.create(userId, contentId, content);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
