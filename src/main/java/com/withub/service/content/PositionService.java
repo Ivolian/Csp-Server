@@ -83,8 +83,8 @@ public class PositionService {
             }
         }
 
-        Position first = positionDao.findFirstByOrderById2Asc();
-        entity.setId2(first == null ? 1 : first.getId2() + 1);
+        Integer maxId2 = positionDao.getMaxId2();
+        entity.setId2(maxId2 == null ? 1 : maxId2 + 1);
         positionDao.save(entity);
     }
 
@@ -94,7 +94,11 @@ public class PositionService {
         positionDao.save(position);
     }
 
-    public Page<Position> getPosition(Map<String, Object> searchParams, int pageNo, int pageSize) {
+    public Page<Position> getPosition(Map<String, Object> searchParams, int pageNo, int pageSize,String menuId,String keyword) {
+
+        searchParams.put("EQ_menu.id", menuId);
+        searchParams.put("_LIKE_name", keyword);
+
         Sort sort = new Sort(Direction.ASC, "name");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Position> spec = buildSpecificationPosition(searchParams);

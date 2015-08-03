@@ -3,9 +3,7 @@ package com.withub.entity;
 import com.withub.common.FileUploadInfo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "csp_book")
@@ -107,4 +105,18 @@ public class Position extends IdEntity{
     public void setId2(Integer id2) {
         this.id2 = id2;
     }
+
+
+    private Menu menu;
+
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
 }

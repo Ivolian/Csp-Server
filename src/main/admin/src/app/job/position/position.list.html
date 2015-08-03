@@ -8,7 +8,8 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="请输入书名" ng-model="grid.queryInfo.LIKE_name">
                           <span class="input-group-btn">
-                            <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i></button>
+                            <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
+                            </button>
                           </span>
                     </div>
 
@@ -19,6 +20,8 @@
                 <tr>
                     <th style="width: 60px;">#</th>
                     <th>书名</th>
+                    <th>类型</th>
+                    <th>电子书</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
@@ -26,6 +29,8 @@
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
                     <td>{{x.name}}</td>
+                    <td>{{x.menu.name}}</td>
+                    <td>{{x.ebookFilename}}</td>
                     <td>
                         <button class="btn btn-xs btn-primary" ng-click="updatePosition(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removePosition(x)">删除</button>

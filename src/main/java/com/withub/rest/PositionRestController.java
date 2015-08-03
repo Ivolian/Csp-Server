@@ -47,7 +47,7 @@ public class PositionRestController extends BaseController {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
 
-        Page<Position> position = positionService.getPosition(searchParams, pageNo, pageSize);
+        Page<Position> position = positionService.getPosition(searchParams, pageNo, pageSize,"","");
         return position;
     }
 
@@ -55,10 +55,13 @@ public class PositionRestController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public JSONObject list2(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize) {
+            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
+            @RequestParam(value = "menuId", defaultValue = "") String menuId,
+            @RequestParam(value = "keyword", defaultValue = "") String keyword
+        ) {
 
         Map<String, Object> searchParams = new HashMap<>();
-        Page<Position> bookPage = positionService.getPosition(searchParams, pageNo, pageSize);
+        Page<Position> bookPage = positionService.getPosition(searchParams, pageNo, pageSize, menuId,keyword);
         List<Position> bookList = bookPage.getContent();
 
         JSONArray jsonArray = new JSONArray();
@@ -68,7 +71,7 @@ public class PositionRestController extends BaseController {
             jsonObject.put("name", book.getName());
             jsonObject.put("picture", book.getPicture());
             jsonObject.put("ebook", book.getEbook());
-            jsonObject.put("ebookFilename",book.getEbookFilename());
+            jsonObject.put("ebookFilename", book.getEbookFilename());
             jsonArray.add(jsonObject);
         }
 

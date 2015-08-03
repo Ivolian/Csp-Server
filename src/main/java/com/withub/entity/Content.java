@@ -34,9 +34,6 @@ public class Content extends IdEntity {
 
 
 
-    // 新加的,冒充新闻类型
-    private Menu menu;
-
     // 评论
     private List<Comment> commentList;
 
@@ -169,6 +166,8 @@ public class Content extends IdEntity {
     public void setAttachment(FileUploadInfo attachment) {
         this.attachment = attachment;
     }
+
+    private Menu menu;
 
     @ManyToOne
     @JoinColumn(name = "menu_id")

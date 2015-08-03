@@ -93,18 +93,19 @@ angular.module('app')
 //                    },
 
                 ]
-            },
-            {
-                title: '产品管理',
-                state: 'product',
-                iconCls: 'fa fa-users',
-                children: [
-                    {
-                        title: '产品列表',
-                        state: 'product.list'
-                    }
-                ]
             }
+//            ,
+//            {
+//                title: '产品管理',
+//                state: 'product',
+//                iconCls: 'fa fa-users',
+//                children: [
+//                    {
+//                        title: '产品列表',
+//                        state: 'product.list'
+//                    }
+//                ]
+//            }
         ];
 
         $rootScope.PageContext = PageContext;
