@@ -1,6 +1,5 @@
 package com.withub.entity;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -9,10 +8,8 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "csp_answer")
-public class Answer extends IdEntity {
-
-    private Question question;
+@Table(name = "csp_question")
+public class Question extends IdEntity {
 
     private String content;
 
@@ -23,14 +20,6 @@ public class Answer extends IdEntity {
     private Integer deleteFlag;
 
     //
-
-    public Integer getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(Integer deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
 
     public String getContent() {
         return content;
@@ -58,13 +47,11 @@ public class Answer extends IdEntity {
         this.eventTime = eventTime;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    public Question getQuestion() {
-        return question;
+    public Integer getDeleteFlag() {
+        return deleteFlag;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 }

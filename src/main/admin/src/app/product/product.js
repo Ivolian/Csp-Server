@@ -30,7 +30,7 @@ angular.module('app')
 
 
     .factory('Product', function (Restangular) {
-        return Restangular.service('product');
+        return Restangular.service('question');
     })
 
     .controller('ProductCtrl', function ($scope, $state) {
