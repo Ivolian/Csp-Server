@@ -1,10 +1,10 @@
 package com.withub.web.controller;
 
 
-import com.withub.entity.Job;
+import com.withub.entity.Answer;
 import com.withub.entity.Menu;
 import com.withub.rest.RestException;
-import com.withub.service.content.JobService;
+import com.withub.service.content.AnswerService;
 import com.withub.service.content.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,17 +27,12 @@ public class JobController {
     private static final String PAGE_SIZE = "10";
 
     @Autowired
-    private JobService jobService;
+    private AnswerService answerService;
 
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public List<Job> list() {
 
-        List<Job> job = jobService.getAllJob();
-        return job;
-    }
 
     @RequestMapping(value = "/region", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public List<Menu> regionList() {
@@ -49,13 +44,13 @@ public class JobController {
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public Job get(@PathVariable("id") String id) {
-        Job job = jobService.getJob(id);
-        if (job == null) {
+    public Answer get(@PathVariable("id") String id) {
+        Answer answer = answerService.getAnswer(id);
+        if (answer == null) {
             String message = "内容不存在(id:" + id + ")";
             logger.warn(message);
             throw new RestException(HttpStatus.NOT_FOUND, message);
         }
-        return job;
+        return answer;
     }
 }

@@ -86,11 +86,11 @@ angular.module('app')
                     {
                         title: '菜单管理',
                         state: 'job.region'
+                    },
+                    {
+                        title: '回答列表',
+                        state: 'job.list'
                     }
-//                    {
-//                        title: '招聘列表',
-//                        state: 'job.list'
-//                    },
 
                 ]
             }

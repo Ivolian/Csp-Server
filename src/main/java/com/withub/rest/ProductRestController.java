@@ -1,8 +1,6 @@
 package com.withub.rest;
 
-import com.withub.entity.Job;
 import com.withub.entity.Product;
-import com.withub.service.content.ContentService;
 import com.withub.service.content.ProductService;
 import com.withub.web.controller.BaseController;
 import org.slf4j.Logger;

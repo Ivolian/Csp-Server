@@ -15,7 +15,7 @@ angular.module('app')
 
         $stateProvider.state('job.list', {
             url: '/job',
-            displayName: '招聘列表',
+            displayName: '回答列表',
             templateUrl: 'app/job/job/job.list.html',
             controller: 'JobListCtrl'
         });
@@ -23,7 +23,7 @@ angular.module('app')
     })
 
     .factory('Job', function (Restangular) {
-        return Restangular.service('job');
+        return Restangular.service('answer');
     })
 
     .controller('JobListCtrl', function ($scope, $state, $modal, SimpleTable, Job) {
@@ -80,7 +80,7 @@ angular.module('app')
 
         $scope.job = {};
 
-        $scope.title = '新增公司职位';
+        $scope.title = '新增回答';
 
         $scope.cancel = function () {
             $modalInstance.dismiss();
@@ -100,7 +100,7 @@ angular.module('app')
 
         $scope.job = $scope.promise.$object;
 
-        $scope.title = '修改公司职位';
+        $scope.title = '修改回答';
 
         $scope.cancel = function () {
             $modalInstance.dismiss();
