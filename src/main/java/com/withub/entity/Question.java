@@ -1,11 +1,9 @@
 package com.withub.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "csp_question")
@@ -53,5 +51,20 @@ public class Question extends IdEntity {
 
     public void setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    //
+
+
+    private List<Answer> answerList;
+
+    @OneToMany(mappedBy = "question")
+    @OrderBy("eventTime desc ")
+    public List<Answer> getAnswerList() {
+        return answerList;
+    }
+
+    public void setAnswerList(List<Answer> answerList) {
+        this.answerList = answerList;
     }
 }

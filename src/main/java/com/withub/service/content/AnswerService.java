@@ -1,7 +1,10 @@
 package com.withub.service.content;
 
+import com.alibaba.fastjson.JSONObject;
 import com.withub.entity.*;
 import com.withub.repository.AnswerDao;
+import com.withub.repository.CspUserDao;
+import com.withub.repository.QuestionDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,12 @@ public class AnswerService {
 
     @Autowired
     private AnswerDao answerDao;
+
+    @Autowired
+    private CspUserDao userDao;
+
+    @Autowired
+    private QuestionDao questionDao;
 
     public Answer getAnswer(String id) {
         return answerDao.findOne(id);
@@ -64,11 +73,30 @@ public class AnswerService {
         return spec;
     }
 
-    public List<Answer> getAllAnswer() {
-        Sort sort = new Sort(Direction.ASC, "orderNo");
-        Map<String, Object> searchParams = new HashMap<>();
-        searchParams.put("EQ_publish", "1");
-        return answerDao.findAll(buildSpecificationAnswer(searchParams), sort);
+
+    public JSONObject create(String userId,String questionId, String content) {
+
+        JSONObject jsonObject = new JSONObject();
+
+        CspUser user = userDao.findOne(userId);
+        Question question = questionDao.findOne(questionId);
+        if (user == null ) {
+            jsonObject.put("result", false);
+            return jsonObject;
+        }
+
+        Answer answer = new Answer();
+        answer.setId(Identities.uuid());
+        answer.setContent(content);
+        answer.setUser(user);
+        answer.setQuestion(question);
+        answer.setEventTime(new Date());
+        answer.setDeleteFlag(0);
+        answerDao.save(answer);
+
+        jsonObject.put("result", true);
+        return jsonObject;
     }
+
 
 }

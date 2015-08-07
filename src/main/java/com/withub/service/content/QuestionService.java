@@ -1,6 +1,11 @@
 package com.withub.service.content;
 
+import com.alibaba.fastjson.JSONObject;
+import com.withub.entity.Comment;
+import com.withub.entity.Content;
+import com.withub.entity.CspUser;
 import com.withub.entity.Question;
+import com.withub.repository.CspUserDao;
 import com.withub.repository.QuestionDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +33,9 @@ public class QuestionService {
 
     @Autowired
     private QuestionDao questionDao;
+
+    @Autowired
+    private CspUserDao userDao;
 
     public Question getQuestion(String id) {
         return questionDao.findOne(id);
@@ -47,7 +56,7 @@ public class QuestionService {
     }
 
     public Page<Question> getQuestion(Map<String, Object> searchParams, int pageNo, int pageSize) {
-        Sort sort = new Sort(Direction.ASC, "eventTime");
+        Sort sort = new Sort(Direction.DESC, "eventTime");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Question> spec = buildSpecificationQuestion(searchParams);
         return questionDao.findAll(spec, pageRequest);
@@ -58,6 +67,28 @@ public class QuestionService {
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
         Specification<Question> spec = DynamicSpecifications.bySearchFilter(filters.values(), Question.class);
         return spec;
+    }
+
+    public JSONObject create(String userId, String content) {
+
+        JSONObject jsonObject = new JSONObject();
+
+        CspUser user = userDao.findOne(userId);
+        if (user == null ) {
+            jsonObject.put("result", false);
+            return jsonObject;
+        }
+
+        Question question = new Question();
+        question.setId(Identities.uuid());
+        question.setContent(content);
+        question.setUser(user);
+        question.setEventTime(new Date());
+        question.setDeleteFlag(0);
+        questionDao.save(question);
+
+        jsonObject.put("result", true);
+        return jsonObject;
     }
 
 }

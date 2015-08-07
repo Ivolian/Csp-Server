@@ -1,5 +1,6 @@
 package com.withub.rest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.withub.entity.Answer;
 import com.withub.service.content.AnswerService;
 import com.withub.web.controller.BaseController;
@@ -55,11 +56,16 @@ public class AnswerRestController extends BaseController{
         return answer;
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public void create(@RequestBody Answer answer, UriComponentsBuilder uriBuilder) {
 
-        answerService.saveAnswer(answer);
+    @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public JSONObject create(
+            @RequestParam(value = "userId", defaultValue = "") String userId,
+            @RequestParam(value = "questionId", defaultValue = "") String questionId,
+            @RequestParam(value = "content", defaultValue = "") String content) {
+
+        return answerService.create(userId, questionId,content);
     }
+
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -74,5 +80,8 @@ public class AnswerRestController extends BaseController{
 
         answerService.deleteAnswer(id);
     }
+
+
+
 
 }
