@@ -1,6 +1,8 @@
 package com.withub.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -58,6 +60,7 @@ public class Question extends IdEntity {
 
     private List<Answer> answerList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "question")
     @OrderBy("eventTime desc ")
     public List<Answer> getAnswerList() {

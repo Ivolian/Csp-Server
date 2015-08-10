@@ -50,10 +50,10 @@ public class CommentController {
     @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public JSONObject create(
             @RequestParam(value = "userId", defaultValue = "") String userId,
-            @RequestParam(value = "contentId", defaultValue = "") String contentId,
+            @RequestParam(value = "newsId", defaultValue = "") String newsId,
             @RequestParam(value = "content", defaultValue = "") String content) {
 
-        return commentService.create(userId, contentId, content);
+        return commentService.create(userId, newsId, content);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)

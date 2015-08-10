@@ -1,7 +1,9 @@
 package com.withub.rest;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.entity.Answer;
+import com.withub.entity.Content;
 import com.withub.service.content.AnswerService;
 import com.withub.web.controller.BaseController;
 import org.slf4j.Logger;
@@ -20,7 +22,10 @@ import org.springside.modules.web.Servlets;
 import javax.servlet.ServletRequest;
 import javax.validation.Validator;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/v1/answer")
@@ -37,11 +42,13 @@ public class AnswerRestController extends BaseController{
     public Page<Answer> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
+            @RequestParam(value = "questionId", defaultValue = PAGE_SIZE) String questionId,
+
             ServletRequest request) {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
 
-        Page<Answer> answer = answerService.getAnswer(searchParams, pageNo, pageSize);
+        Page<Answer> answer = answerService.getAnswer(searchParams, pageNo, pageSize,questionId);
         return answer;
     }
 
@@ -55,6 +62,34 @@ public class AnswerRestController extends BaseController{
         }
         return answer;
     }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public JSONObject list2(
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
+            @RequestParam(value = "questionId", defaultValue = PAGE_SIZE) String questionId){
+
+        Map<String, Object> searchParams = new HashMap<String,Object>();
+        Page<Answer> answerPage = answerService.getAnswer(searchParams, pageNo, pageSize, questionId);
+        List<Answer> answerList = answerPage.getContent();
+
+        JSONArray jsonArray = new JSONArray();
+        for (Answer answer :answerList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", answer.getId());
+            jsonObject.put("content", answer.getContent());
+            jsonObject.put("username", answer.getUser().getUsername());
+            jsonObject.put("eventTime", answer.getEventTime());
+            jsonArray.add(jsonObject);
+        }
+
+        JSONObject response = new JSONObject();
+        response.put("content", jsonArray);
+        response.put("lastPage", answerPage.isLastPage());
+        response.put("totalPages", answerPage.getTotalPages());
+        return response;
+    }
+
 
 
     @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)

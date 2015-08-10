@@ -52,9 +52,10 @@ public class AnswerService {
         answerDao.save(answer);
     }
 
-    public Page<Answer> getAnswer(Map<String, Object> searchParams, int pageNo, int pageSize) {
+    public Page<Answer> getAnswer(Map<String, Object> searchParams, int pageNo, int pageSize,String questionId) {
 
-        Sort sort = new Sort(Direction.ASC, "eventTime");
+        searchParams.put("EQ_question.id", questionId);
+        Sort sort = new Sort(Direction.DESC, "eventTime");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Answer> spec = buildSpecificationAnswer(searchParams);
         return answerDao.findAll(spec, pageRequest);
@@ -68,6 +69,7 @@ public class AnswerService {
             searchParams.remove("_LIKE_region");
         }
         searchParams.put("EQ_deleteFlag", "0");
+
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
         Specification<Answer> spec = DynamicSpecifications.bySearchFilter(filters.values(), Answer.class);
         return spec;
