@@ -101,7 +101,7 @@ angular.module('app')
                 iconCls: 'fa fa-users',
                 children: [
                     {
-                        title: '产品列表',
+                        title: '提问列表',
                         state: 'product.list'
                     }
                 ]

@@ -42,7 +42,7 @@ public class AnswerRestController extends BaseController{
     public Page<Answer> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
-            @RequestParam(value = "questionId", defaultValue = PAGE_SIZE) String questionId,
+            @RequestParam(value = "questionId", defaultValue = "") String questionId,
 
             ServletRequest request) {
 

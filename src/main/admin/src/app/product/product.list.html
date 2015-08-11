@@ -18,18 +18,18 @@
                 <thead>
                 <tr>
                     <th style="width: 60px;">#</th>
-                    <th>产品名称</th>
-                    <th>产品简称</th>
-                    <th>产品分类</th>
+                    <th>问题</th>
+                    <th>提问人</th>
+                    <th>提问时间</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
-                    <td>{{x.productName}}</td>
-                    <td>{{x.shortName}}</td>
-                    <td>{{x.productClassification|productClassificationResult}}</td>
+                    <td>{{x.content}}</td>
+                    <td>{{x.user.username}}</td>
+                    <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
                         <button class="btn btn-xs btn-primary" ng-click="updateProduct(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removeProduct(x)">删除</button>

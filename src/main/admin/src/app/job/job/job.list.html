@@ -18,20 +18,18 @@
                 <thead>
                 <tr>
                     <th style="width: 60px;">#</th>
-                    <th>职位名</th>
-                    <th>招聘人数</th>
-                    <th>任职地点</th>
-                    <th>电子邮箱</th>
+                    <th>回答</th>
+                    <th>回答人</th>
+                    <th>回答时间</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
-                    <td>{{x.position.name}}</td>
-                    <td>{{x.recruitmentNumber}}</td>
-                    <td>{{getRegionText(x)}}</td>
-                    <td>{{x.email.name}}</td>
+                    <td>{{x.content}}</td>
+                    <td>{{x.user.username}}</td>
+                    <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
                         <button ng-show="x.publish==0" class="btn btn-xs btn-success" ng-click="publishJob(x, 1)">发布</button>
                         <button ng-show="x.publish==1" class="btn btn-xs btn-warning" ng-click="publishJob(x, 0)">取消发布</button>

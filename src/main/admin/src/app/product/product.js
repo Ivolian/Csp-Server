@@ -15,7 +15,7 @@ angular.module('app')
 
         $stateProvider.state('product.list', {
             url: '/list',
-            displayName: '产品列表',
+            displayName: '提问列表',
             templateUrl: 'app/product/product.list.html',
             controller: 'ProductListCtrl'
         });
