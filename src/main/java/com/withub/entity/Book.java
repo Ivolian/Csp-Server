@@ -1,19 +1,13 @@
 package com.withub.entity;
 
 import com.withub.common.FileUploadInfo;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "csp_book")
-public class Position extends IdEntity{
-
-    /*
-        书名
-        封面
-        书籍
-     */
+public class Book extends IdEntity{
 
     private String name;
 
@@ -96,14 +90,14 @@ public class Position extends IdEntity{
     }
 
 
-    private Integer id2;
+    private Integer orderNo;
 
-    public Integer getId2() {
-        return id2;
+    public Integer getOrderNo() {
+        return orderNo;
     }
 
-    public void setId2(Integer id2) {
-        this.id2 = id2;
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
     }
 
 
@@ -119,7 +113,6 @@ public class Position extends IdEntity{
         this.menu = menu;
     }
 
-
     private String summary;
 
     public String getSummary() {
@@ -129,4 +122,5 @@ public class Position extends IdEntity{
     public void setSummary(String summary) {
         this.summary = summary;
     }
+
 }

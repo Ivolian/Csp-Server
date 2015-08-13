@@ -13,7 +13,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ContentDao extends PagingAndSortingRepository<Content, String>, JpaSpecificationExecutor<Content> {
 
-
-    Page<Content> findByContentColumnId(String id, Pageable pageRequest);
-
 }

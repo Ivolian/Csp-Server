@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "csp_favorite")
+@Table(name = "csp_favoritenews")
 public class Favorite extends IdEntity {
 
     private CspUser user;

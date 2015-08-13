@@ -2,10 +2,8 @@ package com.withub.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Content;
-import com.withub.entity.Favorite;
 import com.withub.entity.FavoriteBook;
-import com.withub.entity.Position;
+import com.withub.entity.Book;
 import com.withub.service.content.FavoriteBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,16 +51,16 @@ public class FavoriteBookRestController {
         Map<String, Object> searchParams = new HashMap<>();
         Page<FavoriteBook> favoritePage = favoriteBookService.getFavoriteBook(searchParams, pageNo, pageSize, userId);
         List<FavoriteBook> favoriteBookList = favoritePage.getContent();
-        List<Position> bookList = new ArrayList<>();
+        List<Book> bookList = new ArrayList<>();
         for (FavoriteBook favoriteBook : favoriteBookList) {
             bookList.add(favoriteBook.getBook());
         }
 
         JSONArray jsonArray = new JSONArray();
-        for (Position book : bookList) {
+        for (Book book : bookList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", book.getId());
-            jsonObject.put("id2", book.getId2());
+            jsonObject.put("id2", book.getOrderNo());
             jsonObject.put("name", book.getName());
             jsonObject.put("picture", book.getPicture());
             jsonObject.put("ebook", book.getEbook());

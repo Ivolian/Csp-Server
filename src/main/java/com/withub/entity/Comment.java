@@ -1,27 +1,23 @@
 package com.withub.entity;
 
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
 
+
 @Entity
 @Table(name = "csp_comment")
 public class Comment extends IdEntity {
 
-    // 所属新闻
     private Content news;
 
-    // 所属用户
     private CspUser user;
 
-    // 创建时间
-    private Date eventTime;
-
-    // 评论内容
     private String content;
+
+    private Date eventTime;
 
     private Integer deleteFlag;
 

@@ -1,13 +1,11 @@
 package com.withub.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
+
 
 @Entity
 @Table(name = "csp_answer")
@@ -15,13 +13,20 @@ public class Answer extends IdEntity {
 
     private Question question;
 
-    private String content;
-
     private CspUser user;
+
+    private String content;
 
     private Date eventTime;
 
     private Integer deleteFlag;
+
+
+
+
+
+
+
 
     //
 
@@ -68,4 +73,5 @@ public class Answer extends IdEntity {
     public void setQuestion(Question question) {
         this.question = question;
     }
+
 }

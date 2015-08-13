@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.awt.print.Book;
 
 @Entity
 @Table(name = "csp_favoritebook")
@@ -13,7 +12,7 @@ public class FavoriteBook extends IdEntity {
 
     private CspUser user;
 
-    private Position book;
+    private Book book;
 
     private Integer deleteFlag;
 
@@ -29,11 +28,11 @@ public class FavoriteBook extends IdEntity {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    public Position getBook() {
+    public Book getBook() {
         return book;
     }
 
-    public void setBook(Position book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 

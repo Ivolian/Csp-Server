@@ -1,6 +1,6 @@
 package com.withub.service.content;
 
-import com.withub.entity.Position;
+import com.withub.entity.Book;
 import com.withub.repository.PositionDao;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -41,11 +41,11 @@ public class PositionService {
     @Value("${temp.path}")
     private String tempPath;
 
-    public Position getPosition(String id) {
+    public Book getPosition(String id) {
         return positionDao.findOne(id);
     }
 
-    public void savePosition(Position entity) {
+    public void savePosition(Book entity) {
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setId(Identities.uuid());
             entity.setDeleteFlag(0);
@@ -83,36 +83,36 @@ public class PositionService {
             }
         }
 
-        Integer maxId2 = positionDao.getMaxId2();
-        entity.setId2(maxId2 == null ? 1 : maxId2 + 1);
+        Integer maxOrderNo = positionDao.getMaxOrderNo();
+        entity.setOrderNo(maxOrderNo == null ? 1 : maxOrderNo + 1);
         positionDao.save(entity);
     }
 
     public void deletePosition(String id) {
-        Position position = getPosition(id);
-        position.setDeleteFlag(1);
-        positionDao.save(position);
+        Book book = getPosition(id);
+        book.setDeleteFlag(1);
+        positionDao.save(book);
     }
 
-    public Page<Position> getPosition(Map<String, Object> searchParams, int pageNo, int pageSize,String menuId,String keyword) {
+    public Page<Book> getPosition(Map<String, Object> searchParams, int pageNo, int pageSize,String menuId,String keyword) {
 
         searchParams.put("EQ_menu.id", menuId);
         searchParams.put("_LIKE_name", keyword);
 
         Sort sort = new Sort(Direction.ASC, "name");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
-        Specification<Position> spec = buildSpecificationPosition(searchParams);
+        Specification<Book> spec = buildSpecificationPosition(searchParams);
         return positionDao.findAll(spec, pageRequest);
     }
 
-    private Specification<Position> buildSpecificationPosition(Map<String, Object> searchParams) {
+    private Specification<Book> buildSpecificationPosition(Map<String, Object> searchParams) {
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Position> spec = DynamicSpecifications.bySearchFilter(filters.values(), Position.class);
+        Specification<Book> spec = DynamicSpecifications.bySearchFilter(filters.values(), Book.class);
         return spec;
     }
 
-    public List<Position> getAllPosition() {
+    public List<Book> getAllPosition() {
         Sort sort = new Sort(Direction.ASC, "name");
         Map<String, Object> searchParams = new HashMap<>();
         return positionDao.findAll(buildSpecificationPosition(searchParams), sort);

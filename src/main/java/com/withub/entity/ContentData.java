@@ -9,9 +9,8 @@ import javax.persistence.Table;
 
 //JPA标识
 @Entity
-@Table(name = "ss_content_data")
+@Table(name = "csp_news_data")
 public class ContentData extends IdEntity {
-
 
     private Content content;
 
@@ -19,7 +18,7 @@ public class ContentData extends IdEntity {
 
     @JsonIgnore
     @OneToOne(targetEntity = Content.class)
-    @JoinColumn(name = "content_id")
+    @JoinColumn(name = "news_id")
     public Content getContent() {
         return content;
     }

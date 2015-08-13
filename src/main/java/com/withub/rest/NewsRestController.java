@@ -104,7 +104,7 @@ public class NewsRestController extends BaseController {
 
         // 保存内容
 //        content.setUser(getCurrentUser());
-        content.setContentColumnId("101");
+//        content.setContentColumnId("101");
         contentService.saveContent(content);
     }
 
@@ -141,7 +141,6 @@ public class NewsRestController extends BaseController {
     public void publish(@PathVariable("id") String id, @PathVariable("value") Integer value) {
 
         Content content = contentService.getContent(id);
-        content.setPublish(value);
         contentService.saveContent(content);
     }
 

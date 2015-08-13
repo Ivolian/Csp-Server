@@ -17,15 +17,11 @@ import java.util.List;
 
 //JPA标识
 @Entity
-@Table(name = "ss_content")
+@Table(name = "csp_news")
 public class Content extends IdEntity {
 
     private String title;
-    private ContentColumn contentColumn;
-    private String contentColumnId;
     private ContentData contentData;
-    //    private User user;
-    private Integer publish;
     private Date eventTime;
     private String picture;
     private String pictureFilename;
@@ -60,34 +56,12 @@ public class Content extends IdEntity {
         this.thumbList = thumbList;
     }
 
-    // JSR303 BeanValidator的校验规则
-    @NotBlank
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    // JPA 基于CONTENT_COLUMN_ID列的多对一关系定义
-    @OneToOne()
-    @JoinColumn(name = "content_column_id", insertable = false, updatable = false)
-    public ContentColumn getContentColumn() {
-        return contentColumn;
-    }
-
-    public void setContentColumn(ContentColumn contentColumn) {
-        this.contentColumn = contentColumn;
-    }
-
-    @Column(name = "content_column_id")
-    public String getContentColumnId() {
-        return contentColumnId;
-    }
-
-    public void setContentColumnId(String contentColumnId) {
-        this.contentColumnId = contentColumnId;
     }
 
 //    @JsonIgnore
@@ -99,27 +73,6 @@ public class Content extends IdEntity {
     public void setContentData(ContentData contentData) {
         this.contentData = contentData;
     }
-
-    public Integer getPublish() {
-        return publish;
-    }
-
-    public void setPublish(Integer publish) {
-        this.publish = publish;
-    }
-
-
-
-    // JPA 基于USER_ID列的多对一关系定义
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
 
     @Override
     public String toString() {

@@ -76,7 +76,6 @@ public class ContentService {
             entity.setId(Identities.uuid());
             entity.setEventTime(new Date());
             entity.setDeleteFlag(0);
-            entity.setPublish(1);
             ContentData contentData = entity.getContentData();
             contentData.setId(Identities.uuid());
         }
@@ -119,7 +118,7 @@ public class ContentService {
     public Page<Content> getNews(Map<String, Object> searchParams, int pageNo, int pageSize,
                                  String menuId,String keyword) {
 
-        searchParams.put("EQ_contentColumnId", "101");
+//        searchParams.put("EQ_contentColumnId", "101");
         searchParams.put("EQ_menu.id", menuId);
         searchParams.put("_LIKE_title", keyword);
         return getContent(searchParams, pageNo, pageSize);
