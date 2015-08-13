@@ -5,7 +5,7 @@
  *******************************************************************************/
 package com.withub.service.account;
 
-import com.withub.entity.User;
+import com.withub.entity.SSUser;
 import com.withub.repository.UserDao;
 import com.withub.service.ServiceException;
 import com.withub.service.account.ShiroDbRealm.ShiroUser;
@@ -41,31 +41,31 @@ public class AccountService {
     private UserDao userDao;
     private Clock clock = Clock.DEFAULT;
 
-    public List<User> getAllUser() {
-        return (List<User>) userDao.findAll();
+    public List<SSUser> getAllUser() {
+        return (List<SSUser>) userDao.findAll();
     }
 
-    public User getUser(Long id) {
+    public SSUser getUser(Long id) {
         return userDao.findOne(id);
     }
 
-    public User findUserByLoginName(String loginName) {
+    public SSUser findUserByLoginName(String loginName) {
         return userDao.findByLoginName(loginName);
     }
 
-    public void registerUser(User user) {
-        entryptPassword(user);
-        user.setRoles("user");
-        user.setRegisterDate(clock.getCurrentDate());
+    public void registerUser(SSUser SSUser) {
+        entryptPassword(SSUser);
+        SSUser.setRoles("user");
+        SSUser.setRegisterDate(clock.getCurrentDate());
 
-        userDao.save(user);
+        userDao.save(SSUser);
     }
 
-    public void updateUser(User user) {
-        if (StringUtils.isNotBlank(user.getPlainPassword())) {
-            entryptPassword(user);
+    public void updateUser(SSUser SSUser) {
+        if (StringUtils.isNotBlank(SSUser.getPlainPassword())) {
+            entryptPassword(SSUser);
         }
-        userDao.save(user);
+        userDao.save(SSUser);
     }
 
     public void deleteUser(Long id) {
@@ -94,12 +94,12 @@ public class AccountService {
     /**
      * 设定安全的密码，生成随机的salt并经过1024次 sha-1 hash
      */
-    private void entryptPassword(User user) {
+    private void entryptPassword(SSUser SSUser) {
         byte[] salt = Digests.generateSalt(SALT_SIZE);
-        user.setSalt(Encodes.encodeHex(salt));
+        SSUser.setSalt(Encodes.encodeHex(salt));
 
-        byte[] hashPassword = Digests.sha1(user.getPlainPassword().getBytes(), salt, HASH_INTERATIONS);
-        user.setPassword(Encodes.encodeHex(hashPassword));
+        byte[] hashPassword = Digests.sha1(SSUser.getPlainPassword().getBytes(), salt, HASH_INTERATIONS);
+        SSUser.setPassword(Encodes.encodeHex(hashPassword));
     }
 
     @Autowired

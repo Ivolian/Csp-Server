@@ -1,7 +1,6 @@
 package com.withub.repository;
 
-import com.withub.entity.Favorite;
-import com.withub.entity.FavoriteBook;
+import com.withub.csp.entity.FavoriteBook;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

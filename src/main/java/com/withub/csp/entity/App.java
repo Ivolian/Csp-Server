@@ -1,32 +1,29 @@
-package com.withub.entity;
+package com.withub.csp.entity;
 
 import com.withub.common.FileUploadInfo;
+import com.withub.csp.entity.base.BaseEntity;
 
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "csp_app")
-public class App extends IdEntity{
+public class App extends BaseEntity {
 
-    private String versionName;
-
+    // 用于比较
     private Integer versionCode;
 
-    private Integer deleteFlag;
+    // 用于展示
+    private String versionName;
 
+    // apk
     private String apk;
+
     private String apkFilename;
+
     private FileUploadInfo apkAttachment;
 
-
-    public String getVersionName() {
-        return versionName;
-    }
-
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
-    }
+    //
 
     public Integer getVersionCode() {
         return versionCode;
@@ -36,13 +33,15 @@ public class App extends IdEntity{
         this.versionCode = versionCode;
     }
 
-    public Integer getDeleteFlag() {
-        return deleteFlag;
+    public String getVersionName() {
+        return versionName;
     }
 
-    public void setDeleteFlag(Integer deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
     }
+
+    //
 
     public String getApk() {
         return apk;

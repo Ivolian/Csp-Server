@@ -2,30 +2,22 @@ package com.withub.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Answer;
-import com.withub.entity.Content;
+import com.withub.csp.entity.Answer;
 import com.withub.service.content.AnswerService;
 import com.withub.web.controller.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springside.modules.beanvalidator.BeanValidators;
 import org.springside.modules.web.MediaTypes;
 import org.springside.modules.web.Servlets;
 
 import javax.servlet.ServletRequest;
-import javax.validation.Validator;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/v1/answer")

@@ -1,6 +1,6 @@
 package com.withub.rest;
 
-import com.withub.entity.Menu;
+import com.withub.csp.entity.Menu;
 import com.withub.service.content.MenuService;
 import com.withub.web.controller.BaseController;
 import org.apache.commons.lang3.StringUtils;

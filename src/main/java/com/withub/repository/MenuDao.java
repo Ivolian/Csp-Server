@@ -1,6 +1,6 @@
 package com.withub.repository;
 
-import com.withub.entity.Menu;
+import com.withub.csp.entity.Menu;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

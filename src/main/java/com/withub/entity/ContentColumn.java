@@ -5,6 +5,7 @@
  *******************************************************************************/
 package com.withub.entity;
 
+import com.withub.csp.entity.base.IdEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 

@@ -1,10 +1,13 @@
-package com.withub.entity;
+package com.withub.csp.entity;
+
+import com.withub.csp.entity.base.BaseEntity;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "csp_menu")
-public class Menu extends IdEntity {
+public class Menu extends BaseEntity {
 
     private String name;
 
@@ -14,7 +17,7 @@ public class Menu extends IdEntity {
 
     private Integer orderNo;
 
-    private Integer deleteFlag;
+    //
 
     public String getName() {
         return name;
@@ -33,14 +36,6 @@ public class Menu extends IdEntity {
 
     public void setParent(Menu parent) {
         this.parent = parent;
-    }
-
-    public Integer getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(Integer deleteFlag) {
-        this.deleteFlag = deleteFlag;
     }
 
     public Integer getOrderNo() {

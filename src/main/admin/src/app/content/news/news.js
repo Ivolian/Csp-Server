@@ -64,7 +64,7 @@ angular.module('app')
     .controller('NewsCreateCtrl', function ($scope, $modalInstance, SummernoteConfig, FileUploader, News) {
 
         $scope.news = {
-            contentData: {data: ''}
+            newsData: {data: ''}
         };
 
         $scope.title = '新增行业新闻';
@@ -89,7 +89,7 @@ angular.module('app')
             autoUpload: true
         });
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
-            $scope.news.attachment = response;
+            $scope.news.pictureAttachment = response;
             $scope.news.pictureFilename = response.fileName;
         };
     })
@@ -122,7 +122,7 @@ angular.module('app')
             autoUpload: true
         });
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
-            $scope.news.attachment = response;
+            $scope.news.pictureAttachment = response;
             $scope.news.pictureFilename = response.fileName;
         };
     })

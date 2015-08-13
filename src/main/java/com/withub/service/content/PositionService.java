@@ -1,6 +1,6 @@
 package com.withub.service.content;
 
-import com.withub.entity.Book;
+import com.withub.csp.entity.Book;
 import com.withub.repository.PositionDao;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;

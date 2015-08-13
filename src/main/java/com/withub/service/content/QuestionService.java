@@ -1,10 +1,8 @@
 package com.withub.service.content;
 
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Comment;
-import com.withub.entity.Content;
-import com.withub.entity.CspUser;
-import com.withub.entity.Question;
+import com.withub.csp.entity.User;
+import com.withub.csp.entity.Question;
 import com.withub.repository.CspUserDao;
 import com.withub.repository.QuestionDao;
 import org.apache.commons.lang3.StringUtils;
@@ -21,8 +19,6 @@ import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 // Spring Bean的标识.
@@ -73,7 +69,7 @@ public class QuestionService {
 
         JSONObject jsonObject = new JSONObject();
 
-        CspUser user = userDao.findOne(userId);
+        User user = userDao.findOne(userId);
         if (user == null ) {
             jsonObject.put("result", false);
             return jsonObject;

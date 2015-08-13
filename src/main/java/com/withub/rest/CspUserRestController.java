@@ -1,7 +1,7 @@
 package com.withub.rest;
 
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.CspUser;
+import com.withub.csp.entity.User;
 import com.withub.service.content.CspUserService;
 import com.withub.web.controller.BaseController;
 import org.slf4j.Logger;
@@ -34,51 +34,51 @@ public class CspUserRestController extends BaseController {
     private Validator validator;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public Page<CspUser> list(
+    public Page<User> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             ServletRequest request) {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
-        Page<CspUser> email = cspUserService.getEmail(searchParams, pageNo, pageSize);
+        Page<User> email = cspUserService.getEmail(searchParams, pageNo, pageSize);
         return email;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public List<CspUser> list() {
+    public List<User> list() {
 
         return cspUserService.getAllUser();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public CspUser get(@PathVariable("id") String id) {
-        CspUser cspUser = cspUserService.getUser(id);
-        if (cspUser == null) {
+    public User get(@PathVariable("id") String id) {
+        User user = cspUserService.getUser(id);
+        if (user == null) {
             String message = "用户不存在(id:" + id + ")";
             logger.warn(message);
             throw new RestException(HttpStatus.NOT_FOUND, message);
         }
-        return cspUser;
+        return user;
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public void create(@RequestBody CspUser cspUser) {
+    public void create(@RequestBody User user) {
         // 调用JSR303 Bean Validator进行校验, 异常将由RestExceptionHandler统一处理.
-        BeanValidators.validateWithException(validator, cspUser);
+        BeanValidators.validateWithException(validator, user);
 
         // 保存内容
-        cspUserService.saveUser(cspUser);
+        cspUserService.saveUser(user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
     // 按Restful风格约定，返回204状态码, 无内容. 也可以返回200状态码.
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody CspUser cspUser) {
+    public void update(@RequestBody User user) {
         // 调用JSR303 Bean Validator进行校验, 异常将由RestExceptionHandler统一处理.
-        BeanValidators.validateWithException(validator, cspUser);
+        BeanValidators.validateWithException(validator, user);
 
         // 保存内容
-        cspUserService.saveUser(cspUser);
+        cspUserService.saveUser(user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

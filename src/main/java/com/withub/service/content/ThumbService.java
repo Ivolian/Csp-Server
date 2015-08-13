@@ -1,7 +1,7 @@
 package com.withub.service.content;
 
-import com.withub.entity.Thumb;
-import com.withub.repository.ContentDao;
+import com.withub.csp.entity.Thumb;
+import com.withub.csp.repository.NewsDao;
 import com.withub.repository.CspUserDao;
 import com.withub.repository.ThumbDao;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,7 @@ public class ThumbService {
     private CspUserDao userDao;
 
     @Autowired
-    private ContentDao newsDao;
+    private NewsDao newsDao;
 
     public Thumb getThumb(String id) {
         return thumbDao.findOne(id);

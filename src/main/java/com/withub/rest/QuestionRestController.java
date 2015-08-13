@@ -2,9 +2,8 @@ package com.withub.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Answer;
-import com.withub.entity.Content;
-import com.withub.entity.Question;
+import com.withub.csp.entity.Answer;
+import com.withub.csp.entity.Question;
 import com.withub.service.content.QuestionService;
 import com.withub.web.controller.BaseController;
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springside.modules.web.MediaTypes;
 import org.springside.modules.web.Servlets;
 

@@ -1,7 +1,6 @@
 package com.withub.service.content;
 
-import com.withub.entity.Favorite;
-import com.withub.entity.FavoriteBook;
+import com.withub.csp.entity.FavoriteBook;
 import com.withub.repository.CspUserDao;
 import com.withub.repository.FavoriteBookDao;
 import com.withub.repository.PositionDao;

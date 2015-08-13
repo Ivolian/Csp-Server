@@ -2,8 +2,8 @@ package com.withub.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.FavoriteBook;
-import com.withub.entity.Book;
+import com.withub.csp.entity.FavoriteBook;
+import com.withub.csp.entity.Book;
 import com.withub.service.content.FavoriteBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

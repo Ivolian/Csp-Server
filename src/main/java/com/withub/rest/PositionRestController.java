@@ -2,7 +2,7 @@ package com.withub.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Book;
+import com.withub.csp.entity.Book;
 import com.withub.service.content.PositionService;
 import com.withub.web.controller.BaseController;
 import org.slf4j.Logger;

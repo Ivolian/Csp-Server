@@ -1,7 +1,7 @@
 package com.withub.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Comment;
+import com.withub.csp.entity.Comment;
 import com.withub.service.content.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 
-import javax.servlet.ServletRequest;
 import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.HashMap;

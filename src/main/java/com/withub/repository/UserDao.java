@@ -6,8 +6,8 @@
 package com.withub.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
-import com.withub.entity.User;
+import com.withub.entity.SSUser;
 
-public interface UserDao extends PagingAndSortingRepository<User, Long> {
-	User findByLoginName(String loginName);
+public interface UserDao extends PagingAndSortingRepository<SSUser, Long> {
+	SSUser findByLoginName(String loginName);
 }

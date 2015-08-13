@@ -1,17 +1,13 @@
 package com.withub.service.content;
 
-import com.withub.entity.Content;
-import com.withub.entity.CspUser;
-import com.withub.entity.Favorite;
-import com.withub.repository.ContentDao;
+import com.withub.csp.entity.FavoriteNews;
+import com.withub.csp.repository.NewsDao;
 import com.withub.repository.CspUserDao;
 import com.withub.repository.FavoriteDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,48 +30,48 @@ public class FavoriteService {
     private CspUserDao userDao;
 
     @Autowired
-    private ContentDao newsDao;
+    private NewsDao newsDao;
 
     public boolean saveFavorite(String userId, String newsId) {
 
-        Favorite favorite = favoriteDao.findOneByUserIdAndNewsIdAndDeleteFlag(userId, newsId, 0);
-        if (favorite != null) {
+        FavoriteNews favoriteNews = favoriteDao.findOneByUserIdAndNewsIdAndDeleteFlag(userId, newsId, 0);
+        if (favoriteNews != null) {
             return false;
         }
 
-        favorite = new Favorite();
-        favorite.setUser(userDao.findOne(userId));
-        favorite.setNews(newsDao.findOne(newsId));
-        if (StringUtils.isEmpty(favorite.getId())) {
-            favorite.setId(Identities.uuid());
-            favorite.setDeleteFlag(0);
+        favoriteNews = new FavoriteNews();
+        favoriteNews.setUser(userDao.findOne(userId));
+        favoriteNews.setNews(newsDao.findOne(newsId));
+        if (StringUtils.isEmpty(favoriteNews.getId())) {
+            favoriteNews.setId(Identities.uuid());
+            favoriteNews.setDeleteFlag(0);
         }
-        favoriteDao.save(favorite);
+        favoriteDao.save(favoriteNews);
         return true;
     }
 
     public void deleteFavorite(String userId, String newsId) {
 
-        Favorite favorite = favoriteDao.findOneByUserIdAndNewsIdAndDeleteFlag(userId, newsId, 0);
-        favorite.setDeleteFlag(1);
-        favoriteDao.save(favorite);
+        FavoriteNews favoriteNews = favoriteDao.findOneByUserIdAndNewsIdAndDeleteFlag(userId, newsId, 0);
+        favoriteNews.setDeleteFlag(1);
+        favoriteDao.save(favoriteNews);
     }
 
-    public Page<Favorite> getFavorite(Map<String, Object> searchParams, int pageNo, int pageSize, String userId) {
+    public Page<FavoriteNews> getFavorite(Map<String, Object> searchParams, int pageNo, int pageSize, String userId) {
 
         //
         searchParams.put("EQ_user.id", userId);
         // TODO sort
 //        Sort sort = new Sort(Direction.DESC, "user.id");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
-        Specification<Favorite> spec = buildSpecificationComment(searchParams);
+        Specification<FavoriteNews> spec = buildSpecificationComment(searchParams);
         return favoriteDao.findAll(spec, pageRequest);
     }
 
-    private Specification<Favorite> buildSpecificationComment(Map<String, Object> searchParams) {
+    private Specification<FavoriteNews> buildSpecificationComment(Map<String, Object> searchParams) {
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Favorite> spec = DynamicSpecifications.bySearchFilter(filters.values(), Favorite.class);
+        Specification<FavoriteNews> spec = DynamicSpecifications.bySearchFilter(filters.values(), FavoriteNews.class);
         return spec;
     }
 

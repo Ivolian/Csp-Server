@@ -1,25 +1,44 @@
-package com.withub.entity;
+package com.withub.csp.entity;
 
 import com.withub.common.FileUploadInfo;
+import com.withub.csp.entity.base.BaseEntity;
+import com.withub.csp.entity.Menu;
+import com.withub.csp.entity.base.MenuEntity;
 
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "csp_book")
-public class Book extends IdEntity{
+public class Book extends MenuEntity {
 
+    // 书名
     private String name;
 
-    private Integer deleteFlag;
+    // 作者
+    private String author;
 
-    public Integer getDeleteFlag() {
-        return deleteFlag;
-    }
+    // 简介
+    private String summary;
 
-    public void setDeleteFlag(Integer deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
+    // 封面
+    private String picture;
+
+    private String pictureFilename;
+
+    private FileUploadInfo pictureAttachment;
+
+    // 电子书
+    private String ebook;
+
+    private String ebookFilename;
+
+    private FileUploadInfo ebookAttachment;
+
+    // 排序号，有他用
+    private Integer orderNo;
+
+    //
 
     public String getName() {
         return name;
@@ -29,9 +48,22 @@ public class Book extends IdEntity{
         this.name = name;
     }
 
-    private String picture;
-    private String pictureFilename;
-    private FileUploadInfo pictureAttachment;
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    //
 
     public String getPicture() {
         return picture;
@@ -60,10 +92,6 @@ public class Book extends IdEntity{
 
     //
 
-    private String ebook;
-    private String ebookFilename;
-    private FileUploadInfo ebookAttachment;
-
     public String getEbook() {
         return ebook;
     }
@@ -89,8 +117,7 @@ public class Book extends IdEntity{
         this.ebookAttachment = ebookAttachment;
     }
 
-
-    private Integer orderNo;
+    //
 
     public Integer getOrderNo() {
         return orderNo;
@@ -98,29 +125,6 @@ public class Book extends IdEntity{
 
     public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
-    }
-
-
-    private Menu menu;
-
-    @ManyToOne
-    @JoinColumn(name = "menu_id")
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-
-    private String summary;
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
     }
 
 }

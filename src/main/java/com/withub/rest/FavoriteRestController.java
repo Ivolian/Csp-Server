@@ -2,8 +2,8 @@ package com.withub.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Content;
-import com.withub.entity.Favorite;
+import com.withub.csp.entity.News;
+import com.withub.csp.entity.FavoriteNews;
 import com.withub.service.content.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springside.modules.web.MediaTypes;
-import org.springside.modules.web.Servlets;
 
-import javax.servlet.ServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,15 +49,15 @@ public class FavoriteRestController {
             @RequestParam(value = "userId", defaultValue = "") String userId) {
 
         Map<String, Object> searchParams = new HashMap<>();
-        Page<Favorite> favoritePage = favoriteService.getFavorite(searchParams, pageNo, pageSize, userId);
-        List<Favorite> favoriteList = favoritePage.getContent();
-        List<Content> newsList = new ArrayList<>();
-        for (Favorite favorite : favoriteList) {
-            newsList.add(favorite.getNews());
+        Page<FavoriteNews> favoritePage = favoriteService.getFavorite(searchParams, pageNo, pageSize, userId);
+        List<FavoriteNews> favoriteNewsList = favoritePage.getContent();
+        List<News> newsList = new ArrayList<>();
+        for (FavoriteNews favoriteNews : favoriteNewsList) {
+            newsList.add(favoriteNews.getNews());
         }
 
         JSONArray jsonArray = new JSONArray();
-        for (Content news : newsList) {
+        for (News news : newsList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", news.getId());
             jsonObject.put("title", news.getTitle());

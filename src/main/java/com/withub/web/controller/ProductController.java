@@ -1,6 +1,6 @@
 package com.withub.web.controller;
 
-import com.withub.entity.Question;
+import com.withub.csp.entity.Question;
 import com.withub.rest.RestException;
 import com.withub.service.content.QuestionService;
 import org.slf4j.Logger;
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springside.modules.web.MediaTypes;
-
-import javax.servlet.ServletRequest;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/product")

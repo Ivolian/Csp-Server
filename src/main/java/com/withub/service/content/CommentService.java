@@ -1,11 +1,11 @@
 package com.withub.service.content;
 
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.Comment;
-import com.withub.entity.Content;
-import com.withub.entity.CspUser;
+import com.withub.csp.entity.Comment;
+import com.withub.csp.entity.News;
+import com.withub.csp.entity.User;
 import com.withub.repository.CommentDao;
-import com.withub.repository.ContentDao;
+import com.withub.csp.repository.NewsDao;
 import com.withub.repository.CspUserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class CommentService {
     private CspUserDao cspUserDao;
 
     @Autowired
-    private ContentDao contentDao;
+    private NewsDao newsDao;
 
     @Autowired
     public void setCommentDao(CommentDao commentDao) {
@@ -82,8 +82,8 @@ public class CommentService {
 
         JSONObject jsonObject = new JSONObject();
 
-        CspUser user = cspUserDao.findOne(userId);
-        Content news = contentDao.findOne(newsId);
+        User user = cspUserDao.findOne(userId);
+        News news = newsDao.findOne(newsId);
         if (user == null || news == null) {
             jsonObject.put("result", false);
             return jsonObject;

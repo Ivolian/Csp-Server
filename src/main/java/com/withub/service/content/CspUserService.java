@@ -1,7 +1,7 @@
 package com.withub.service.content;
 
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.*;
+import com.withub.csp.entity.User;
 import com.withub.repository.CspUserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,11 @@ public class CspUserService {
     @Autowired
     private MenuService menuService;
 
-    public CspUser getUser(String id) {
+    public User getUser(String id) {
         return cspUserDao.findOne(id);
     }
 
-    public void saveUser(CspUser entity) {
+    public void saveUser(User entity) {
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setId(Identities.uuid());
             entity.setDeleteFlag(0);
@@ -40,38 +40,38 @@ public class CspUserService {
     }
 
     public void deleteUser(String id) {
-        CspUser cspUser = getUser(id);
-        cspUser.setDeleteFlag(1);
-        cspUserDao.save(cspUser);
+        User user = getUser(id);
+        user.setDeleteFlag(1);
+        cspUserDao.save(user);
     }
 
-    public Page<CspUser> getEmail(Map<String, Object> searchParams, int pageNo, int pageSize) {
+    public Page<User> getEmail(Map<String, Object> searchParams, int pageNo, int pageSize) {
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
-        Specification<CspUser> spec = buildSpecificationEmail(searchParams);
+        Specification<User> spec = buildSpecificationEmail(searchParams);
         return cspUserDao.findAll(spec, pageRequest);
     }
 
-    private Specification<CspUser> buildSpecificationEmail(Map<String, Object> searchParams) {
+    private Specification<User> buildSpecificationEmail(Map<String, Object> searchParams) {
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<CspUser> spec = DynamicSpecifications.bySearchFilter(filters.values(), CspUser.class);
+        Specification<User> spec = DynamicSpecifications.bySearchFilter(filters.values(), User.class);
         return spec;
     }
 
-    public List<CspUser> getAllUser() {
+    public List<User> getAllUser() {
         Map<String, Object> searchParams = new HashMap();
         return cspUserDao.findAll(buildSpecificationEmail(searchParams));
     }
 
     public JSONObject loginCheck(String username, String password) {
 
-        CspUser cspUser = cspUserDao.findOneByUsernameAndPasswordAndDeleteFlag(username, password, 0);
-        boolean result = cspUser != null;
+        User user = cspUserDao.findOneByUsernameAndPasswordAndDeleteFlag(username, password, 0);
+        boolean result = user != null;
 
         JSONObject item = new JSONObject();
         item.put("result", result);
         if (result) {
-            item.put("userId", cspUser.getId());
+            item.put("userId", user.getId());
             item.put("rootMenuItem", menuService.getRootMenuItem());
 //            item.put("favoriteCount", cspUser.getFavoriteCount());
         }
@@ -80,17 +80,17 @@ public class CspUserService {
 
     public JSONObject changePassword(String userId, String oldPassword, String newPassword) {
 
-        CspUser cspUser = cspUserDao.findOne(userId);
-        boolean result = cspUser != null;
+        User user = cspUserDao.findOne(userId);
+        boolean result = user != null;
         if (result) {
-            result = (cspUser.getDeleteFlag() == 0);
+            result = (user.getDeleteFlag() == 0);
         }
         if (result) {
-            result = cspUser.getPassword().equals(oldPassword);
+            result = user.getPassword().equals(oldPassword);
         }
         if (result) {
-            cspUser.setPassword(newPassword);
-            saveUser(cspUser);
+            user.setPassword(newPassword);
+            saveUser(user);
         }
 
         JSONObject jsonObject = new JSONObject();

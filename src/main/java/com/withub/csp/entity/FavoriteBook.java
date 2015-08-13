@@ -1,28 +1,30 @@
-package com.withub.entity;
+package com.withub.csp.entity;
 
+import com.withub.csp.entity.base.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "csp_favoritebook")
-public class FavoriteBook extends IdEntity {
+public class FavoriteBook extends BaseEntity {
 
-    private CspUser user;
+    private User user;
 
     private Book book;
 
-    private Integer deleteFlag;
+    //
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    public CspUser getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(CspUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -36,12 +38,5 @@ public class FavoriteBook extends IdEntity {
         this.book = book;
     }
 
-    public Integer getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(Integer deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
 
 }

@@ -25,12 +25,13 @@ angular.module('webapp')
         $http({
             url: PageContext.path + '/news/' + $state.params.id + '.do'
         }).then(function (response) {
+            console.log(response)
             $scope.news = response.data.content;
         });
 
         $scope.getContentHtml = function (news) {
             if (news) {
-                return $sce.trustAsHtml(news.contentData.data);
+                return $sce.trustAsHtml(news.newsData.data);
             }
         }
 

@@ -1,30 +1,33 @@
-package com.withub.entity;
+package com.withub.csp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.withub.csp.entity.base.IdEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-//JPA标识
+
 @Entity
 @Table(name = "csp_news_data")
-public class ContentData extends IdEntity {
+public class NewsData extends IdEntity {
 
-    private Content content;
+    private News news;
 
     private String data;
 
+    //
+
     @JsonIgnore
-    @OneToOne(targetEntity = Content.class)
+    @OneToOne
     @JoinColumn(name = "news_id")
-    public Content getContent() {
-        return content;
+    public News getNews() {
+        return news;
     }
 
-    public void setContent(Content content) {
-        this.content = content;
+    public void setNews(News news) {
+        this.news = news;
     }
 
     public String getData() {

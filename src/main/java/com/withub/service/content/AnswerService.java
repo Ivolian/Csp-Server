@@ -1,7 +1,9 @@
 package com.withub.service.content;
 
 import com.alibaba.fastjson.JSONObject;
-import com.withub.entity.*;
+import com.withub.csp.entity.Answer;
+import com.withub.csp.entity.Question;
+import com.withub.csp.entity.User;
 import com.withub.repository.AnswerDao;
 import com.withub.repository.CspUserDao;
 import com.withub.repository.QuestionDao;
@@ -80,7 +82,7 @@ public class AnswerService {
 
         JSONObject jsonObject = new JSONObject();
 
-        CspUser user = userDao.findOne(userId);
+        User user = userDao.findOne(userId);
         Question question = questionDao.findOne(questionId);
         if (user == null ) {
             jsonObject.put("result", false);

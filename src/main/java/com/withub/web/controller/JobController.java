@@ -1,8 +1,8 @@
 package com.withub.web.controller;
 
 
-import com.withub.entity.Answer;
-import com.withub.entity.Menu;
+import com.withub.csp.entity.Answer;
+import com.withub.csp.entity.Menu;
 import com.withub.rest.RestException;
 import com.withub.service.content.AnswerService;
 import com.withub.service.content.MenuService;

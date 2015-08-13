@@ -1,7 +1,6 @@
 package com.withub.repository;
 
-import com.withub.entity.Comment;
-import com.withub.entity.Thumb;
+import com.withub.csp.entity.Thumb;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

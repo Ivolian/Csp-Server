@@ -8,6 +8,7 @@ package com.withub.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.ImmutableList;
+import com.withub.csp.entity.base.IdEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ss_user")
-public class User extends IdEntity {
+public class SSUser extends IdEntity {
 	private String loginName;
 	private String name;
 	private String plainPassword;
@@ -29,10 +30,10 @@ public class User extends IdEntity {
 	private String roles;
 	private Date registerDate;
 
-	public User() {
+	public SSUser() {
 	}
 
-	public User(String id) {
+	public SSUser(String id) {
 		this.id = id;
 	}
 
