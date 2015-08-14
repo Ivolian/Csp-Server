@@ -3,6 +3,7 @@ package com.withub.csp.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.withub.common.FileUploadInfo;
 import com.withub.csp.entity.base.MenuEntity;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,10 +29,6 @@ public class News extends MenuEntity {
 
     // 新闻内容
     private NewsData newsData;
-
-    private List<Comment> commentList;
-
-    private List<Thumb> thumbList;
 
     //
 
@@ -85,24 +82,34 @@ public class News extends MenuEntity {
         this.newsData = newsData;
     }
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
-    public List<Comment> getCommentList() {
-        return commentList;
-    }
 
-    public void setCommentList(List<Comment> commentList) {
-        this.commentList = commentList;
-    }
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
-    public List<Thumb> getThumbList() {
-        return thumbList;
-    }
 
-    public void setThumbList(List<Thumb> thumbList) {
-        this.thumbList = thumbList;
-    }
+    /*
+        todo
+        我尝试用 @Where(clause = "deleteFlag=0")
+        但好像有点问题
+     */
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
+//    @Where(clause = "deleteFlag=0")
+//    public List<Comment> getCommentList() {
+//        return commentList;
+//    }
+//
+//    public void setCommentList(List<Comment> commentList) {
+//        this.commentList = commentList;
+//    }
+//
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
+//    public List<Thumb> getThumbList() {
+//        return thumbList;
+//    }
+//
+//    public void setThumbList(List<Thumb> thumbList) {
+//        this.thumbList = thumbList;
+//    }
 
 }

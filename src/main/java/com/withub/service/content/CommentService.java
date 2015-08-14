@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Comment;
 import com.withub.csp.entity.News;
 import com.withub.csp.entity.User;
-import com.withub.repository.CommentDao;
+import com.withub.csp.repository.CommentDao;
 import com.withub.csp.repository.NewsDao;
 import com.withub.repository.CspUserDao;
 import org.apache.commons.lang3.StringUtils;

@@ -62,7 +62,7 @@ public class FavoriteRestController {
             jsonObject.put("id", news.getId());
             jsonObject.put("title", news.getTitle());
             jsonObject.put("picture", news.getPicture());
-            jsonObject.put("commentCount", news.getCommentList().size());
+//            jsonObject.put("commentCount", news.getCommentList().size());
             jsonArray.add(jsonObject);
         }
 

@@ -1,9 +1,13 @@
 package com.withub.csp.service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.NewsData;
 import com.withub.csp.entity.News;
+import com.withub.csp.repository.CommentDao;
 import com.withub.csp.repository.NewsDao;
 import com.withub.csp.repository.NewsDataDao;
+import com.withub.csp.repository.ThumbDao;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -43,12 +49,17 @@ public class NewsService {
     @Autowired
     private NewsDataDao newsDataDao;
 
+    @Autowired
+    private CommentDao commentDao;
+
+    @Autowired
+    private ThumbDao thumbDao;
+
     //
 
     public News getNews(String id) {
 
-        News news = newsDao.findOne(id);
-        return news;
+        return newsDao.findOne(id);
     }
 
     public Page<News> getNews(Map<String, Object> searchParams, int pageNo, int pageSize, String menuId, String keyword) {
@@ -116,12 +127,35 @@ public class NewsService {
         newsDataDao.save(newsData);
     }
 
-    // 逻辑删除
     public void deleteNews(String id) {
 
         News news = getNews(id);
         news.setDeleteFlag(1);
         newsDao.save(news);
+    }
+
+    public JSONObject listForMobile(int pageNo, int pageSize, String menuId, String keyword) {
+
+        Map<String, Object> searchParams = new HashMap<String, Object>();
+        Page<News> newsPage = getNews(searchParams, pageNo, pageSize, menuId, keyword);
+        List<News> newsList = newsPage.getContent();
+        JSONArray jsonArray = new JSONArray();
+        for (News news : newsList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", news.getId());
+            jsonObject.put("title", news.getTitle());
+            jsonObject.put("picture", news.getPicture());
+            jsonObject.put("postTime", news.getPostTime());
+            jsonObject.put("commentCount", commentDao.getCommentCountOfNews(news.getId()));
+            jsonObject.put("thumbCount", thumbDao.getThumbCountOfNews(news.getId()));
+            jsonArray.add(jsonObject);
+        }
+
+        JSONObject response = new JSONObject();
+        response.put("content", jsonArray);
+        response.put("lastPage", newsPage.isLastPage());
+        response.put("totalPages", newsPage.getTotalPages());
+        return response;
     }
 
 }

@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
+// 点赞
 @Entity
 @Table(name = "csp_thumb")
 public class Thumb extends BaseEntity {

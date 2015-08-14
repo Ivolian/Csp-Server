@@ -6,7 +6,7 @@
                 <form class="form-inline pull-right" role="form">
 
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入标题" ng-model="grid.queryInfo.LIKE_title">
+                        <input type="text" class="form-control" placeholder="请输入新闻标题" ng-model="grid.queryInfo.LIKE_title">
                           <span class="input-group-btn">
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i></button>
                           </span>
@@ -18,8 +18,8 @@
                 <thead>
                 <tr>
                     <th style="width: 60px;">#</th>
-                    <th>标题</th>
-                    <th>类型</th>
+                    <th>新闻标题</th>
+                    <th>所属菜单</th>
                     <th style="width: 160px;">发布时间</th>
                     <th style="width: 160px;">创建时间</th>
                     <th style="width: 120px;">操作</th>
@@ -33,8 +33,6 @@
                     <td>{{x.postTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
-                        <button ng-show="x.publish==0" class="btn btn-xs btn-success" ng-click="publishNews(x, 1)">发布</button>
-                        <button ng-show="x.publish==1" class="btn btn-xs btn-warning" ng-click="publishNews(x, 0)">取消发布</button>
                         <button class="btn btn-xs btn-primary" ng-click="updateNews(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removeNews(x)">删除</button>
                     </td>
