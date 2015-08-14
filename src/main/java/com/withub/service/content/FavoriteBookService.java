@@ -1,7 +1,7 @@
 package com.withub.service.content;
 
 import com.withub.csp.entity.FavoriteBook;
-import com.withub.repository.CspUserDao;
+import com.withub.csp.repository.UserDao;
 import com.withub.repository.FavoriteBookDao;
 import com.withub.repository.PositionDao;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +27,7 @@ public class FavoriteBookService {
     private FavoriteBookDao favoriteBookDao;
 
     @Autowired
-    private CspUserDao userDao;
+    private UserDao userDao;
 
     @Autowired
     private PositionDao bookDao;

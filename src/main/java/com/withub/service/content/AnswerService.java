@@ -5,7 +5,7 @@ import com.withub.csp.entity.Answer;
 import com.withub.csp.entity.Question;
 import com.withub.csp.entity.User;
 import com.withub.repository.AnswerDao;
-import com.withub.repository.CspUserDao;
+import com.withub.csp.repository.UserDao;
 import com.withub.repository.QuestionDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class AnswerService {
     private AnswerDao answerDao;
 
     @Autowired
-    private CspUserDao userDao;
+    private UserDao userDao;
 
     @Autowired
     private QuestionDao questionDao;

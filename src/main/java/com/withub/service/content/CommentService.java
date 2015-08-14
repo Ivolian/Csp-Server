@@ -6,7 +6,7 @@ import com.withub.csp.entity.News;
 import com.withub.csp.entity.User;
 import com.withub.csp.repository.CommentDao;
 import com.withub.csp.repository.NewsDao;
-import com.withub.repository.CspUserDao;
+import com.withub.csp.repository.UserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +32,7 @@ public class CommentService {
     private CommentDao commentDao;
 
     @Autowired
-    private CspUserDao cspUserDao;
+    private UserDao userDao;
 
     @Autowired
     private NewsDao newsDao;
@@ -82,7 +82,7 @@ public class CommentService {
 
         JSONObject jsonObject = new JSONObject();
 
-        User user = cspUserDao.findOne(userId);
+        User user = userDao.findOne(userId);
         News news = newsDao.findOne(newsId);
         if (user == null || news == null) {
             jsonObject.put("result", false);

@@ -2,7 +2,7 @@ package com.withub.service.content;
 
 import com.withub.csp.entity.FavoriteNews;
 import com.withub.csp.repository.NewsDao;
-import com.withub.repository.CspUserDao;
+import com.withub.csp.repository.UserDao;
 import com.withub.repository.FavoriteDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class FavoriteService {
     private FavoriteDao favoriteDao;
 
     @Autowired
-    private CspUserDao userDao;
+    private UserDao userDao;
 
     @Autowired
     private NewsDao newsDao;

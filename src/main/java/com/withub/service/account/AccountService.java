@@ -6,7 +6,7 @@
 package com.withub.service.account;
 
 import com.withub.entity.SSUser;
-import com.withub.repository.UserDao;
+import com.withub.repository.SSUserDao;
 import com.withub.service.ServiceException;
 import com.withub.service.account.ShiroDbRealm.ShiroUser;
 import org.apache.commons.lang3.StringUtils;
@@ -38,19 +38,19 @@ public class AccountService {
 
     private static Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-    private UserDao userDao;
+    private SSUserDao SSUserDao;
     private Clock clock = Clock.DEFAULT;
 
     public List<SSUser> getAllUser() {
-        return (List<SSUser>) userDao.findAll();
+        return (List<SSUser>) SSUserDao.findAll();
     }
 
     public SSUser getUser(Long id) {
-        return userDao.findOne(id);
+        return SSUserDao.findOne(id);
     }
 
     public SSUser findUserByLoginName(String loginName) {
-        return userDao.findByLoginName(loginName);
+        return SSUserDao.findByLoginName(loginName);
     }
 
     public void registerUser(SSUser SSUser) {
@@ -58,14 +58,14 @@ public class AccountService {
         SSUser.setRoles("user");
         SSUser.setRegisterDate(clock.getCurrentDate());
 
-        userDao.save(SSUser);
+        SSUserDao.save(SSUser);
     }
 
     public void updateUser(SSUser SSUser) {
         if (StringUtils.isNotBlank(SSUser.getPlainPassword())) {
             entryptPassword(SSUser);
         }
-        userDao.save(SSUser);
+        SSUserDao.save(SSUser);
     }
 
     public void deleteUser(Long id) {
@@ -73,7 +73,7 @@ public class AccountService {
             logger.warn("操作员{}尝试删除超级管理员用户", getCurrentUserName());
             throw new ServiceException("不能删除超级管理员用户");
         }
-        userDao.delete(id);
+        SSUserDao.delete(id);
     }
 
     /**
@@ -103,8 +103,8 @@ public class AccountService {
     }
 
     @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setSSUserDao(SSUserDao SSUserDao) {
+        this.SSUserDao = SSUserDao;
     }
 
     public void setClock(Clock clock) {

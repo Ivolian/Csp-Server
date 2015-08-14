@@ -2,7 +2,7 @@ package com.withub.service.content;
 
 import com.withub.csp.entity.Thumb;
 import com.withub.csp.repository.NewsDao;
-import com.withub.repository.CspUserDao;
+import com.withub.csp.repository.UserDao;
 import com.withub.csp.repository.ThumbDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ThumbService {
     private ThumbDao thumbDao;
 
     @Autowired
-    private CspUserDao userDao;
+    private UserDao userDao;
 
     @Autowired
     private NewsDao newsDao;

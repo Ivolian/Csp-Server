@@ -1,8 +1,9 @@
-package com.withub.service.content;
+package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.User;
-import com.withub.repository.CspUserDao;
+import com.withub.csp.repository.UserDao;
+import com.withub.service.content.MenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,69 +20,70 @@ import java.util.*;
 
 @Component
 @Transactional
-public class CspUserService {
+public class UserService {
 
     @Autowired
-    private CspUserDao cspUserDao;
+    private UserDao userDao;
 
     @Autowired
     private MenuService menuService;
 
+    //
+
     public User getUser(String id) {
-        return cspUserDao.findOne(id);
+        return userDao.findOne(id);
     }
 
     public void saveUser(User entity) {
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setId(Identities.uuid());
+            entity.setEventTime(new Date());
             entity.setDeleteFlag(0);
         }
-        cspUserDao.save(entity);
+        userDao.save(entity);
     }
 
     public void deleteUser(String id) {
         User user = getUser(id);
         user.setDeleteFlag(1);
-        cspUserDao.save(user);
+        userDao.save(user);
     }
 
-    public Page<User> getEmail(Map<String, Object> searchParams, int pageNo, int pageSize) {
+    public Page<User> getUser(Map<String, Object> searchParams, int pageNo, int pageSize) {
+
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
-        Specification<User> spec = buildSpecificationEmail(searchParams);
-        return cspUserDao.findAll(spec, pageRequest);
+        Specification<User> spec = buildSpecification(searchParams);
+        return userDao.findAll(spec, pageRequest);
     }
 
-    private Specification<User> buildSpecificationEmail(Map<String, Object> searchParams) {
+    private Specification<User> buildSpecification(Map<String, Object> searchParams) {
+
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<User> spec = DynamicSpecifications.bySearchFilter(filters.values(), User.class);
-        return spec;
+        return DynamicSpecifications.bySearchFilter(filters.values(), User.class);
     }
 
-    public List<User> getAllUser() {
-        Map<String, Object> searchParams = new HashMap();
-        return cspUserDao.findAll(buildSpecificationEmail(searchParams));
-    }
-
+    // 登录
     public JSONObject loginCheck(String username, String password) {
 
-        User user = cspUserDao.findOneByUsernameAndPasswordAndDeleteFlag(username, password, 0);
-        boolean result = user != null;
+        User user = userDao.findOneByUsernameAndPasswordAndDeleteFlag(username, password, 0);
+        boolean result = (user != null);
 
         JSONObject item = new JSONObject();
         item.put("result", result);
         if (result) {
             item.put("userId", user.getId());
             item.put("rootMenuItem", menuService.getRootMenuItem());
-//            item.put("favoriteCount", cspUser.getFavoriteCount());
         }
         return item;
     }
 
+    // 修改密码
     public JSONObject changePassword(String userId, String oldPassword, String newPassword) {
 
-        User user = cspUserDao.findOne(userId);
-        boolean result = user != null;
+        User user = userDao.findOne(userId);
+        boolean result = (user != null);
+
         if (result) {
             result = (user.getDeleteFlag() == 0);
         }
