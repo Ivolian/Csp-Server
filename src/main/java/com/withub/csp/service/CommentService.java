@@ -1,4 +1,4 @@
-package com.withub.service.content;
+package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Comment;
@@ -23,12 +23,12 @@ import org.springside.modules.utils.Identities;
 import java.util.Date;
 import java.util.Map;
 
-// Spring Bean的标识.
+
 @Component
-// 类中所有public函数都纳入事务管理的标识.
 @Transactional
 public class CommentService {
 
+    @Autowired
     private CommentDao commentDao;
 
     @Autowired
@@ -37,28 +37,7 @@ public class CommentService {
     @Autowired
     private NewsDao newsDao;
 
-    @Autowired
-    public void setCommentDao(CommentDao commentDao) {
-        this.commentDao = commentDao;
-    }
-
-    public Comment getComment(String id) {
-        return commentDao.findOne(id);
-    }
-
-    public void saveComment(Comment entity) {
-        if (StringUtils.isEmpty(entity.getId())) {
-            entity.setId(Identities.uuid());
-            entity.setDeleteFlag(0);
-        }
-        commentDao.save(entity);
-    }
-
-    public void deleteComment(String id) {
-        Comment comment = getComment(id);
-        comment.setDeleteFlag(1);
-        commentDao.save(comment);
-    }
+    //
 
     public Page<Comment> getComment(Map<String, Object> searchParams, int pageNo, int pageSize, String newsId) {
 
@@ -70,13 +49,11 @@ public class CommentService {
     }
 
     private Specification<Comment> buildSpecificationComment(Map<String, Object> searchParams) {
+
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Comment> spec = DynamicSpecifications.bySearchFilter(filters.values(), Comment.class);
-        return spec;
+        return DynamicSpecifications.bySearchFilter(filters.values(), Comment.class);
     }
-
-    // 新增的
 
     public JSONObject create(String userId, String newsId, String content) {
 
