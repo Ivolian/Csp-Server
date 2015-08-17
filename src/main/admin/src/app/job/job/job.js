@@ -9,11 +9,11 @@ angular.module('app')
         $stateProvider.state('job', {
             parent: 'root',
             url: '/job',
-            displayName: '招聘管理',
+            displayName: '数据管理',
             template: '<div ui-view></div>'
         });
 
-        $stateProvider.state('job.list', {
+        $stateProvider.state('product.list2', {
             url: '/job',
             displayName: '回答列表',
             templateUrl: 'app/job/job/job.list.html',

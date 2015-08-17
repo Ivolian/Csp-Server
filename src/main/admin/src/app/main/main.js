@@ -71,7 +71,7 @@ angular.module('app')
                 ]
             },
             {
-                title: '招聘管理',
+                title: '数据管理',
                 state: 'job',
                 iconCls: 'fa fa-users',
                 children: [
@@ -86,23 +86,22 @@ angular.module('app')
                     {
                         title: '菜单管理',
                         state: 'job.region'
-                    },
-                    {
-                        title: '回答列表',
-                        state: 'job.list'
                     }
-
                 ]
             }
             ,
             {
-                title: '产品管理',
+                title: '问答列表',
                 state: 'product',
                 iconCls: 'fa fa-users',
                 children: [
                     {
                         title: '提问列表',
                         state: 'product.list'
+                    },
+                    {
+                        title: '回答列表',
+                        state: 'product.list2'
                     }
                 ]
             }

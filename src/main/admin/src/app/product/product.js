@@ -8,7 +8,7 @@ angular.module('app')
         $stateProvider.state('product', {
             parent: 'root',
             url: '/product',
-            displayName: '产品管理',
+            displayName: '问答列表',
             template: '<div ui-view></div>',
             controller: 'ProductCtrl'
         });
