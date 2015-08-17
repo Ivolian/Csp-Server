@@ -86,6 +86,10 @@ angular.module('app')
                     {
                         title: '菜单管理',
                         state: 'job.region'
+                    },
+                    {
+                        title: 'APK管理',
+                        state: 'job.app'
                     }
                 ]
             }
