@@ -3,7 +3,7 @@ package com.withub.csp.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Menu;
-import com.withub.repository.MenuDao;
+import com.withub.csp.repository.MenuDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -15,6 +15,7 @@ import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class MenuService {
     public void saveMenu(Menu entity) {
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setId(Identities.uuid());
+            entity.setEventTime(new Date());
             entity.setDeleteFlag(0);
         }
         menuDao.save(entity);
