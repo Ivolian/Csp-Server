@@ -10,9 +10,6 @@ import javax.persistence.*;
 @Table(name = "csp_app")
 public class App extends BaseEntity {
 
-    // 用于比较
-    private Integer versionCode;
-
     // 用于展示
     private String versionName;
 
@@ -25,14 +22,6 @@ public class App extends BaseEntity {
 
     //
 
-    public Integer getVersionCode() {
-        return versionCode;
-    }
-
-    public void setVersionCode(Integer versionCode) {
-        this.versionCode = versionCode;
-    }
-
     public String getVersionName() {
         return versionName;
     }
@@ -40,8 +29,6 @@ public class App extends BaseEntity {
     public void setVersionName(String versionName) {
         this.versionName = versionName;
     }
-
-    //
 
     public String getApk() {
         return apk;

@@ -1,5 +1,6 @@
 package com.withub.csp.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.App;
 import com.withub.csp.repository.*;
 import org.apache.commons.io.FileUtils;
@@ -71,10 +72,6 @@ public class AppService {
             entity.setId(Identities.uuid());
             entity.setEventTime(new Date());
             entity.setDeleteFlag(0);
-
-            // 版本号递增
-            Integer versionCode = appDao.getMaxVersionCode() == null ? 1 : (appDao.getMaxVersionCode() + 1);
-            entity.setVersionCode(versionCode);
         }
 
         // save apk
@@ -103,6 +100,22 @@ public class AppService {
         appDao.save(app);
     }
 
-    // todo checkUpdate
+    public JSONObject checkUpdate(String versionName) {
+
+        JSONObject jsonObject = new JSONObject();
+        if (appDao.findAppList().size() == 0) {
+            jsonObject.put("needUpdate", false);
+            return jsonObject;
+        }
+
+        App currentApp = appDao.findAppList().get(0);
+        if (versionName.equals(currentApp.getVersionName())) {
+            jsonObject.put("needUpdate", false);
+        } else {
+            jsonObject.put("needUpdate", true);
+            jsonObject.put("apk", currentApp.getApk());
+        }
+        return jsonObject;
+    }
 
 }

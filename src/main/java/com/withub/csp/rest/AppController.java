@@ -1,5 +1,6 @@
 package com.withub.csp.rest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.App;
 import com.withub.csp.service.AppService;
 import com.withub.web.controller.BaseController;
@@ -55,13 +56,12 @@ public class AppController extends BaseController {
         appService.deleteApp(id);
     }
 
-//
-//    // 获取新闻内容
-//    @RequestMapping(value = "/appData", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-//    public String getContentDate(
-//            @RequestParam(value = "appId") String appId) {
-//
-//        return appService.getApp(appId).getAppData().getData();
-//    }
+
+    @RequestMapping(value = "/checkUpdate", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public JSONObject getContentDate(
+            @RequestParam(value = "versionName") String versionName) {
+
+        return appService.checkUpdate(versionName);
+    }
 
 }
