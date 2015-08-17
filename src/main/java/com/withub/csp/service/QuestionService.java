@@ -1,10 +1,10 @@
-package com.withub.service.content;
+package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.User;
 import com.withub.csp.entity.Question;
 import com.withub.csp.repository.UserDao;
-import com.withub.repository.QuestionDao;
+import com.withub.csp.repository.QuestionDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,25 +33,10 @@ public class QuestionService {
     @Autowired
     private UserDao userDao;
 
-    public Question getQuestion(String id) {
-        return questionDao.findOne(id);
-    }
-
-    public void saveQuestion(Question entity) {
-        if (StringUtils.isEmpty(entity.getId())) {
-            entity.setId(Identities.uuid());
-            entity.setDeleteFlag(0);
-        }
-        questionDao.save(entity);
-    }
-
-    public void deleteQuestion(String id) {
-        Question question = getQuestion(id);
-        question.setDeleteFlag(1);
-        questionDao.save(question);
-    }
+    //
 
     public Page<Question> getQuestion(Map<String, Object> searchParams, int pageNo, int pageSize) {
+
         Sort sort = new Sort(Direction.DESC, "eventTime");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Question> spec = buildSpecificationQuestion(searchParams);
@@ -59,10 +44,10 @@ public class QuestionService {
     }
 
     private Specification<Question> buildSpecificationQuestion(Map<String, Object> searchParams) {
+
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Question> spec = DynamicSpecifications.bySearchFilter(filters.values(), Question.class);
-        return spec;
+        return DynamicSpecifications.bySearchFilter(filters.values(), Question.class);
     }
 
     public JSONObject create(String userId, String content) {
@@ -70,7 +55,7 @@ public class QuestionService {
         JSONObject jsonObject = new JSONObject();
 
         User user = userDao.findOne(userId);
-        if (user == null ) {
+        if (user == null) {
             jsonObject.put("result", false);
             return jsonObject;
         }

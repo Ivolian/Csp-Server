@@ -1,15 +1,12 @@
-package com.withub.rest;
+package com.withub.csp.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Answer;
-import com.withub.service.content.AnswerService;
+import com.withub.csp.service.AnswerService;
 import com.withub.web.controller.BaseController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 import org.springside.modules.web.Servlets;
@@ -19,11 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping(value = "/api/v1/answer")
-public class AnswerRestController extends BaseController{
-
-    private static Logger logger = LoggerFactory.getLogger(AnswerRestController.class);
+public class AnswerController extends BaseController{
 
     private static final String PAGE_SIZE = "10";
 
@@ -35,28 +31,15 @@ public class AnswerRestController extends BaseController{
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "questionId", defaultValue = "") String questionId,
-
             ServletRequest request) {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
-
         Page<Answer> answer = answerService.getAnswer(searchParams, pageNo, pageSize,questionId);
         return answer;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public Answer get(@PathVariable("id") String id) {
-        Answer answer = answerService.getAnswer(id);
-        if (answer == null) {
-            String message = "回答不存在(id:" + id + ")";
-            logger.warn(message);
-            throw new RestException(HttpStatus.NOT_FOUND, message);
-        }
-        return answer;
-    }
-
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public JSONObject list2(
+    public JSONObject listForMobile(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "questionId", defaultValue = PAGE_SIZE) String questionId){
@@ -82,8 +65,6 @@ public class AnswerRestController extends BaseController{
         return response;
     }
 
-
-
     @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public JSONObject create(
             @RequestParam(value = "userId", defaultValue = "") String userId,
@@ -92,23 +73,5 @@ public class AnswerRestController extends BaseController{
 
         return answerService.create(userId, questionId,content);
     }
-
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Answer answer) {
-
-        answerService.saveAnswer(answer);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
-
-        answerService.deleteAnswer(id);
-    }
-
-
-
 
 }
