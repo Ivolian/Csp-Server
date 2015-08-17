@@ -1,4 +1,4 @@
-package com.withub.repository;
+package com.withub.csp.repository;
 
 import com.withub.csp.entity.FavoriteBook;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

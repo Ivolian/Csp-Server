@@ -1,7 +1,7 @@
-package com.withub.service.content;
+package com.withub.csp.service;
 
 import com.withub.csp.entity.Book;
-import com.withub.repository.PositionDao;
+import com.withub.csp.repository.BookDao;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,18 +22,15 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-// Spring Bean的标识.
+
 @Component
-// 类中所有public函数都纳入事务管理的标识.
 @Transactional
-public class PositionService {
+public class BookService {
 
     @Autowired
-    private PositionDao positionDao;
+    private BookDao bookDao;
 
     @Value("${exploded.path}")
     private String explodedPath;
@@ -41,13 +38,16 @@ public class PositionService {
     @Value("${temp.path}")
     private String tempPath;
 
-    public Book getPosition(String id) {
-        return positionDao.findOne(id);
+    //
+
+    public Book getBook(String id) {
+        return bookDao.findOne(id);
     }
 
-    public void savePosition(Book entity) {
+    public void saveBook(Book entity) {
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setId(Identities.uuid());
+            entity.setEventTime(new Date());
             entity.setDeleteFlag(0);
         }
 
@@ -83,18 +83,18 @@ public class PositionService {
             }
         }
 
-        Integer maxOrderNo = positionDao.getMaxOrderNo();
+        Integer maxOrderNo = bookDao.getMaxOrderNo();
         entity.setOrderNo(maxOrderNo == null ? 1 : maxOrderNo + 1);
-        positionDao.save(entity);
+        bookDao.save(entity);
     }
 
-    public void deletePosition(String id) {
-        Book book = getPosition(id);
+    public void deleteBook(String id) {
+        Book book = getBook(id);
         book.setDeleteFlag(1);
-        positionDao.save(book);
+        bookDao.save(book);
     }
 
-    public Page<Book> getPosition(Map<String, Object> searchParams, int pageNo, int pageSize,String menuId,String keyword) {
+    public Page<Book> getBook(Map<String, Object> searchParams, int pageNo, int pageSize, String menuId, String keyword) {
 
         searchParams.put("EQ_menu.id", menuId);
         searchParams.put("_LIKE_name", keyword);
@@ -102,19 +102,14 @@ public class PositionService {
         Sort sort = new Sort(Direction.ASC, "name");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Book> spec = buildSpecificationPosition(searchParams);
-        return positionDao.findAll(spec, pageRequest);
+        return bookDao.findAll(spec, pageRequest);
     }
 
     private Specification<Book> buildSpecificationPosition(Map<String, Object> searchParams) {
+
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Book> spec = DynamicSpecifications.bySearchFilter(filters.values(), Book.class);
-        return spec;
+        return DynamicSpecifications.bySearchFilter(filters.values(), Book.class);
     }
 
-    public List<Book> getAllPosition() {
-        Sort sort = new Sort(Direction.ASC, "name");
-        Map<String, Object> searchParams = new HashMap<>();
-        return positionDao.findAll(buildSpecificationPosition(searchParams), sort);
-    }
 }

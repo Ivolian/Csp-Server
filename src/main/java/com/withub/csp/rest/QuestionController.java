@@ -3,18 +3,20 @@ package com.withub.csp.rest;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Answer;
+import com.withub.csp.entity.Book;
+import com.withub.csp.entity.FavoriteBook;
 import com.withub.csp.entity.Question;
+import com.withub.csp.service.FavoriteBookService;
 import com.withub.csp.service.QuestionService;
-import com.withub.rest.RestException;
 import com.withub.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 import org.springside.modules.web.Servlets;
 
 import javax.servlet.ServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,5 +90,6 @@ public class QuestionController extends BaseController {
 
         return questionService.create(userId, content);
     }
+
 
 }

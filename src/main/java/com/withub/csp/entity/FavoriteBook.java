@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "csp_favoritebook")
+@Table(name = "csp_favorite_book")
 public class FavoriteBook extends BaseEntity {
 
     private User user;

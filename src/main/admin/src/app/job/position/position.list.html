@@ -20,6 +20,7 @@
                 <tr>
                     <th style="width: 60px;">#</th>
                     <th>书名</th>
+                    <th>作者</th>
                     <th>简介</th>
                     <th>类型</th>
                     <th>电子书</th>
@@ -30,6 +31,7 @@
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
                     <td>{{x.name}}</td>
+                    <td>{{x.author}}</td>
                     <td>{{x.summary}}</td>
                     <td>{{x.menu.name}}</td>
                     <td>{{x.ebookFilename}}</td>

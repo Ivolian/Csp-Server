@@ -1,10 +1,10 @@
-package com.withub.rest;
+package com.withub.csp.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.withub.csp.entity.FavoriteBook;
 import com.withub.csp.entity.Book;
-import com.withub.service.content.FavoriteBookService;
+import com.withub.csp.entity.FavoriteBook;
+import com.withub.csp.service.FavoriteBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping(value = "/api/v1/favoritebook")
-public class FavoriteBookRestController {
+public class FavoriteBookController {
 
     @Autowired
     private FavoriteBookService favoriteBookService;
@@ -60,13 +61,15 @@ public class FavoriteBookRestController {
         for (Book book : bookList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", book.getId());
-            jsonObject.put("id2", book.getOrderNo());
+            jsonObject.put("orderNo", book.getOrderNo());
             jsonObject.put("name", book.getName());
             jsonObject.put("picture", book.getPicture());
             jsonObject.put("ebook", book.getEbook());
             jsonObject.put("ebookFilename", book.getEbookFilename());
             jsonObject.put("summary", book.getSummary());
-            jsonObject.put("menuName",book.getMenu().getName());
+
+           //
+            jsonObject.put("menuName", book.getMenu().getName());
             jsonArray.add(jsonObject);
         }
 
