@@ -5,7 +5,7 @@ import com.withub.csp.entity.Answer;
 import com.withub.csp.entity.Menu;
 import com.withub.rest.RestException;
 import com.withub.service.content.AnswerService;
-import com.withub.service.content.MenuService;
+import com.withub.csp.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

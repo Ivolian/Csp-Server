@@ -1,45 +1,32 @@
-package com.withub.rest;
+package com.withub.csp.rest;
 
 import com.withub.csp.entity.Menu;
-import com.withub.service.content.MenuService;
+import com.withub.csp.service.MenuService;
 import com.withub.web.controller.BaseController;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springside.modules.beanvalidator.BeanValidators;
 import org.springside.modules.web.MediaTypes;
 
-import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping(value = "/api/v1/menu")
-public class MenuRestController extends BaseController {
-
-    private static Logger logger = LoggerFactory.getLogger(MenuRestController.class);
+public class MenuController extends BaseController {
 
     @Autowired
     private MenuService menuService;
 
-    @Autowired
-    private Validator validator;
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public Menu get(@PathVariable("id") String id) {
-        Menu menu = menuService.getMenu(id);
-        if (menu == null) {
-            String message = "菜单不存在(id:" + id + ")";
-            logger.warn(message);
-            throw new RestException(HttpStatus.NOT_FOUND, message);
-        }
-        return menu;
+
+        return menuService.getMenu(id);
     }
 
     @RequestMapping(value = "/tree/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
@@ -80,21 +67,14 @@ public class MenuRestController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
     public void create(@RequestBody Menu menu) {
-        // 调用JSR303 Bean Validator进行校验, 异常将由RestExceptionHandler统一处理.
-        BeanValidators.validateWithException(validator, menu);
 
-        // 保存内容
         menuService.saveMenu(menu);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
-    // 按Restful风格约定，返回204状态码, 无内容. 也可以返回200状态码.
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody Menu menu) {
-        // 调用JSR303 Bean Validator进行校验, 异常将由RestExceptionHandler统一处理.
-        BeanValidators.validateWithException(validator, menu);
 
-        // 保存内容
         menuService.saveMenu(menu);
     }
 

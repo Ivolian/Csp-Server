@@ -1,4 +1,4 @@
-package com.withub.service.content;
+package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -51,6 +51,7 @@ public class MenuService {
     }
 
     public List<Menu> getMenuByParentId(String parentId) {
+
         Sort sort = new Sort(Direction.ASC, "orderNo");
         Map<String, Object> searchParams = new HashMap<>();
         searchParams.put("EQ_parent.id", parentId);
@@ -59,10 +60,10 @@ public class MenuService {
     }
 
     private Specification<Menu> buildSpecificationRegion(Map<String, Object> searchParams) {
+
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Menu> spec = DynamicSpecifications.bySearchFilter(filters.values(), Menu.class);
-        return spec;
+        return DynamicSpecifications.bySearchFilter(filters.values(), Menu.class);
     }
 
     public List<Menu> getAllMenu() {
