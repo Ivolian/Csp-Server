@@ -19,7 +19,8 @@
                 <tr>
                     <th style="width: 60px;">#</th>
                     <th>用户名</th>
-                    <th>密码</th>
+                    <th>用户姓名</th>
+                   <th>所属法院</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
@@ -27,9 +28,10 @@
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
                     <td>{{x.username}}</td>
-                    <td>{{x.password}}</td>
+                    <td>{{x.cnName}}</td>
+                    <td>{{x.court.courtName}}</td>
                     <td>
-                        <button class="btn btn-xs btn-primary" ng-click="updateEmail(x)">编辑</button>
+                        <!--<button class="btn btn-xs btn-primary" ng-click="updateEmail(x)">编辑</button>-->
                         <button class="btn btn-xs btn-danger" ng-click="removeEmail(x)">删除</button>
                     </td>
                 </tr>

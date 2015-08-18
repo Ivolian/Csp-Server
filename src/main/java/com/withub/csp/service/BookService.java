@@ -98,6 +98,10 @@ public class BookService {
 
         searchParams.put("EQ_menu.id", menuId);
         searchParams.put("_LIKE_name", keyword);
+        return getBook(searchParams, pageNo, pageSize);
+    }
+
+    public Page<Book> getBook(Map<String, Object> searchParams, int pageNo, int pageSize) {
 
         Sort sort = new Sort(Direction.ASC, "name");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);

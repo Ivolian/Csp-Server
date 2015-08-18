@@ -34,7 +34,7 @@ public class BookController extends BaseController {
             ServletRequest request) {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
-        return bookService.getBook(searchParams, pageNo, pageSize, "", "");
+        return bookService.getBook(searchParams, pageNo, pageSize);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)

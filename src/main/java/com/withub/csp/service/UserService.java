@@ -1,6 +1,7 @@
 package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.withub.common.MD5Utils;
 import com.withub.csp.entity.User;
 import com.withub.csp.repository.UserDao;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +40,7 @@ public class UserService {
             entity.setEventTime(new Date());
             entity.setDeleteFlag(0);
         }
+        entity.setPassword(MD5Utils.encryptByMD5(entity.getPassword()));
         userDao.save(entity);
     }
 
@@ -65,16 +67,27 @@ public class UserService {
     // 登录
     public JSONObject loginCheck(String username, String password) {
 
-        User user = userDao.findOneByUsernameAndPasswordAndDeleteFlag(username, password, 0);
-        boolean result = (user != null);
-
         JSONObject item = new JSONObject();
-        item.put("result", result);
-        if (result) {
+
+        // 未找到用户
+        User user = userDao.findOneByUsernameAndDeleteFlag(username, 0);
+        boolean result = (user != null);
+        if (!result) {
+            item.put("result", false);
+            return item;
+        }
+
+        // 密码错误
+        result = user.getPassword().equals(MD5Utils.encryptByMD5(password));
+        if (!result) {
+            item.put("result", false);
+            return item;
+        }else {
+            item.put("result", true);
             item.put("userId", user.getId());
             item.put("rootMenuItem", menuService.getRootMenuItem());
+            return item;
         }
-        return item;
     }
 
     // 修改密码
@@ -87,7 +100,7 @@ public class UserService {
             result = (user.getDeleteFlag() == 0);
         }
         if (result) {
-            result = user.getPassword().equals(oldPassword);
+            result = user.getPassword().equals(MD5Utils.encryptByMD5(oldPassword));
         }
         if (result) {
             user.setPassword(newPassword);

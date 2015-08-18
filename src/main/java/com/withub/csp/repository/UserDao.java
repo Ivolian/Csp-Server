@@ -7,6 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface UserDao extends PagingAndSortingRepository<User, String>, JpaSpecificationExecutor<User> {
 
-    public User findOneByUsernameAndPasswordAndDeleteFlag(String username, String password, Integer deleteFlag);
+    public User findOneByUsernameAndDeleteFlag(String username, Integer deleteFlag);
 
 }

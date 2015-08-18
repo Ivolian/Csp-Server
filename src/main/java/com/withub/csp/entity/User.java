@@ -1,8 +1,11 @@
 package com.withub.csp.entity;
 
+import com.withub.csp.Court;
 import com.withub.csp.entity.base.BaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -10,9 +13,15 @@ import javax.persistence.Table;
 @Table(name = "csp_user")
 public class User extends BaseEntity {
 
+    // 其实是手机号
     private String username;
 
     private String password;
+
+    // 用户姓名
+    private String cnName;
+
+    private Court court;
 
     //
 
@@ -32,4 +41,21 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
+    public String getCnName() {
+        return cnName;
+    }
+
+    public void setCnName(String cnName) {
+        this.cnName = cnName;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "court_id")
+    public Court getCourt() {
+        return court;
+    }
+
+    public void setCourt(Court court) {
+        this.court = court;
+    }
 }
