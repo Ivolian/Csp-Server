@@ -69,10 +69,21 @@ public class NewsController extends BaseController {
 
     // 获取新闻内容
     @RequestMapping(value = "/newsData", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public String getContentDate(
+    public String getNewData(
+            @RequestParam(value = "userId") String userId,
             @RequestParam(value = "newsId") String newsId) {
 
+        newsService.addNewsRead(userId, newsId);
         return newsService.getNews(newsId).getNewsData().getData();
+    }
+
+    // 添加新闻访问（阅读）
+    @RequestMapping(value = "/addNewsRead", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public void addNewsRead(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "newsId") String newsId) {
+
+        newsService.addNewsRead(userId, newsId);
     }
 
 }

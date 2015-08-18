@@ -4,10 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.NewsData;
 import com.withub.csp.entity.News;
-import com.withub.csp.repository.CommentDao;
-import com.withub.csp.repository.NewsDao;
-import com.withub.csp.repository.NewsDataDao;
-import com.withub.csp.repository.ThumbDao;
+import com.withub.csp.entity.NewsRead;
+import com.withub.csp.entity.User;
+import com.withub.csp.repository.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +53,12 @@ public class NewsService {
 
     @Autowired
     private ThumbDao thumbDao;
+
+    @Autowired
+    private NewsReadDao newsReadDao;
+
+    @Autowired
+    private UserDao userDao;
 
     //
 
@@ -156,6 +161,23 @@ public class NewsService {
         response.put("lastPage", newsPage.isLastPage());
         response.put("totalPages", newsPage.getTotalPages());
         return response;
+    }
+
+    public void addNewsRead(String userId, String newsId) {
+
+        NewsRead newsRead = newsReadDao.findOneByUserIdAndNewsId(userId, newsId);
+        if (newsRead != null) {
+            return;
+        }
+
+        newsRead = new NewsRead();
+        newsRead.setId(Identities.uuid());
+        User user = userDao.findOne(userId);
+        newsRead.setUser(user);
+        News news = newsDao.findOne(newsId);
+        newsRead.setNews(news);
+        newsRead.setEventTime(new Date());
+        newsReadDao.save(newsRead);
     }
 
 }
