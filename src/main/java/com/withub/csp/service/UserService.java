@@ -3,7 +3,9 @@ package com.withub.csp.service;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.common.MD5Utils;
 import com.withub.csp.entity.User;
+import com.withub.csp.entity.UserLogin;
 import com.withub.csp.repository.UserDao;
+import com.withub.csp.repository.UserLoginDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,9 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserLoginDao userLoginDao;
 
     @Autowired
     private MenuService menuService;
@@ -86,6 +91,14 @@ public class UserService {
             item.put("result", true);
             item.put("userId", user.getId());
             item.put("rootMenuItem", menuService.getRootMenuItem());
+
+            // 添加登录记录
+            UserLogin userLogin = new UserLogin();
+            userLogin.setId(Identities.uuid());
+            userLogin.setUser(user);
+            userLogin.setEventTime(new Date());
+            userLoginDao.save(userLogin);
+
             return item;
         }
     }

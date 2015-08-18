@@ -1,6 +1,5 @@
 package com.withub.csp.entity;
 
-import com.withub.csp.Court;
 import com.withub.csp.entity.base.BaseEntity;
 
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.withub.csp;
+package com.withub.csp.entity;
 
 import com.withub.csp.entity.base.BaseEntity;
 
