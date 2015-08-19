@@ -55,24 +55,24 @@ public class QuestionController extends BaseController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", question.getId());
             jsonObject.put("content", question.getContent());
-            jsonObject.put("username", question.getUser().getUsername());
+            jsonObject.put("username", question.getUser().getCourt().getCourtName()+ " " + question.getUser().getCnName());
             jsonObject.put("eventTime", question.getEventTime().getTime());
-            JSONArray answerJSONArray = new JSONArray();
-            for (Answer answer : question.getAnswerList()) {
-                JSONObject answerJSONObject = new JSONObject();
-                answerJSONObject.put("id", answer.getId());
-                answerJSONObject.put("content", answer.getContent());
-                answerJSONObject.put("username", answer.getUser().getUsername());
-                answerJSONObject.put("eventTime", answer.getEventTime());
-                answerJSONArray.add(answerJSONObject);
-                int index = question.getAnswerList().indexOf(answer);
-                // 最多展示 5 条记录
-                if (index == 4) {
-                    break;
-                }
-            }
-
-            jsonObject.put("answerList", answerJSONArray);
+//            JSONArray answerJSONArray = new JSONArray();
+//            for (Answer answer : question.getAnswerList()) {
+//                JSONObject answerJSONObject = new JSONObject();
+//                answerJSONObject.put("id", answer.getId());
+//                answerJSONObject.put("content", answer.getContent());
+//                answerJSONObject.put("username", answer.getUser().getUsername());
+//                answerJSONObject.put("eventTime", answer.getEventTime());
+//                answerJSONArray.add(answerJSONObject);
+//                int index = question.getAnswerList().indexOf(answer);
+//                // 最多展示 5 条记录
+//                if (index == 4) {
+//                    break;
+//                }
+//            }
+//
+//            jsonObject.put("answerList", answerJSONArray);
             jsonArray.add(jsonObject);
         }
 
