@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 
-import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class CommentController {
         for (Comment comment : commentList) {
             Map<String, Object> item = new HashMap<String, Object>();
             if (comment.getUser().getCourt() != null) {
-                item.put("courtName", comment.getUser().getCourt().getCourtName());
+                item.put("courtName", comment.getUser().getCourt().getName());
             }
             item.put("username", comment.getUser().getCnName());
             item.put("eventtime", comment.getEventTime());

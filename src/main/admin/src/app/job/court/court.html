@@ -1,0 +1,77 @@
+<div class="row" style="min-width: 1000px;">
+    <div class="col-xs-4 col-lg-3" style="padding-right: 0">
+        <div class="panel panel-primary" panel-fit-height>
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    法院
+                </h3>
+                <button ng-disabled="!checkCreateCourt()" class="btn btn-primary pull-right" ng-click="createCourt()">
+                    <i class="fa fa-fw fa-plus"></i> 新增
+                </button>
+            </div>
+            <div class="panel-body" style="padding: 5px;">
+                <div simple-tree="tree" selected-node="court"></div>
+                <div cg-busy="tree.promise"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-8 col-lg-9" ng-show="court!=null">
+        <div class="panel panel-primary" panel-fit-height>
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{getCourtTitle()}}
+                </h3>
+
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-danger" ng-disabled="!court.parent" ng-click="deleteCourt()">删除</button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" name="courtForm">
+                    <div class="modal-body">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">名称</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="name" ng-model="court.name" validator="required" focus-on="name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">类型</label>
+
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="type" ng-model="court.type" validator="required">
+                                        <option value="father">父节点</option>
+                                        <option value="news">新闻</option>
+                                        <option value="book">书籍</option>
+                                        <option value="bookCity">网上书城</option>
+                                        <option value="myShelf">我的书架</option>
+                                        <option value="chart">阅读分布</option>
+                                        <option value="question">有问有答</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">排序号</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="orderNo" ng-model="court.orderNo" validator="required,number">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-bw" validation-submit="courtForm" ng-click="saveCourt()">保存</button>
+                    </div>
+                    <div cg-busy="promise"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

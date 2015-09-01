@@ -88,6 +88,10 @@ angular.module('app')
                         state: 'job.region'
                     },
                     {
+                        title: '法院管理',
+                        state: 'job.court'
+                    },
+                    {
                         title: 'APK管理',
                         state: 'job.app'
                     }

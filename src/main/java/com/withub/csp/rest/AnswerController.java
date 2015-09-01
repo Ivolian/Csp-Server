@@ -54,7 +54,7 @@ public class AnswerController extends BaseController{
             jsonObject.put("id", answer.getId());
             jsonObject.put("content", answer.getContent());
             if (answer.getUser().getCourt()!=null) {
-                jsonObject.put("username", answer.getUser().getCourt().getCourtName() + " " + answer.getUser().getCnName());
+                jsonObject.put("username", answer.getUser().getCourt().getName() + " " + answer.getUser().getCnName());
             }
             jsonObject.put("eventTime", answer.getEventTime());
             jsonArray.add(jsonObject);
