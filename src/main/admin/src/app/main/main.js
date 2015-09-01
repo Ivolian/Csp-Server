@@ -60,7 +60,7 @@ angular.module('app')
                 iconCls: 'fa fa-newspaper-o',
                 children: [
                     {
-                        title: '行业新闻',
+                        title: '新闻管理',
                         state: 'content.news'
                     }
 //                    ,
@@ -95,7 +95,7 @@ angular.module('app')
             }
             ,
             {
-                title: '问答列表',
+                title: '问答管理',
                 state: 'product',
                 iconCls: 'fa fa-users',
                 children: [

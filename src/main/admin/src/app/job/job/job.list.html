@@ -21,21 +21,21 @@
                     <th>回答</th>
                     <th>回答人</th>
                     <th>回答时间</th>
-                    <th style="width: 120px;">操作</th>
+                    <!--<th style="width: 120px;">操作</th>-->
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
-                    <td>{{x.content}}</td>
-                    <td>{{x.user.username}}</td>
+                    <td>{{x.content | limitTo:50}}</td>
+                    <td>{{x.user.cnName}}</td>
                     <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
-                    <td>
-                        <button ng-show="x.publish==0" class="btn btn-xs btn-success" ng-click="publishJob(x, 1)">发布</button>
-                        <button ng-show="x.publish==1" class="btn btn-xs btn-warning" ng-click="publishJob(x, 0)">取消发布</button>
-                        <button class="btn btn-xs btn-primary" ng-click="updateJob(x)">编辑</button>
-                        <button class="btn btn-xs btn-danger" ng-click="removeJob(x)">删除</button>
-                    </td>
+                    <!--<td>-->
+                        <!--<button ng-show="x.publish==0" class="btn btn-xs btn-success" ng-click="publishJob(x, 1)">发布</button>-->
+                        <!--<button ng-show="x.publish==1" class="btn btn-xs btn-warning" ng-click="publishJob(x, 0)">取消发布</button>-->
+                        <!--<button class="btn btn-xs btn-primary" ng-click="updateJob(x)">编辑</button>-->
+                        <!--<button class="btn btn-xs btn-danger" ng-click="removeJob(x)">删除</button>-->
+                    <!--</td>-->
                 </tr>
                 </tbody>
             </table>

@@ -2,62 +2,6 @@
 
 angular.module('unicorn.ui')
 
-    // todo :exceed
-    .directive('staticTree', function () {
-        return {
-            replace: false,
-            scope: {
-                ngModel: '=',
-                config: '=staticTree',
-                selectedNode: '='
-            },
-            templateUrl: 'app/components/ui/simple-tree/static/simple-tree-tpl.html',
-            link: function ($scope, elenemt, attrs) {
-
-                var config = $scope.config || {};
-                var defaultRender = function (node, collapsed) {
-                    var iconHtml = '';
-                    if (node.icon) {
-                        var icon = node.icon;
-                        if (icon == 'fa-folder-o') {
-                            icon = collapsed ? icon : 'fa-folder-open-o';
-                        }
-                        iconHtml = '<i class="fa ' + icon + '"></i>&nbsp;'
-                    }
-                    return iconHtml + ((node.title || node.name) || '');
-                };
-
-                if (config.nodeRender) {
-                    $scope.nodeRender = config.nodeRender;
-                } else {
-                    $scope.nodeRender = defaultRender;
-                }
-
-                if (config.selectable === false) {
-                    $scope.selectNode = function (node) {
-                    };
-                } else {
-                    $scope.selectNode = function (node) {
-                        $scope.selectedNode = node;
-                    };
-                }
-
-                if (config.treeHandleTemplate) {
-                    $scope.treeHandleTemplate = config.treeHandleTemplate;
-                } else {
-                    $scope.treeHandleTemplate = 'app/components/ui/simple-tree/static/simple-tree-handle-content-tpl.html';
-                }
-
-                $scope.checkDisabled = function (node) {
-                    if (!config.disabledNode || _.isEmpty(config.disabledNode)) {
-                        return;
-                    }
-                    return _.pluck(config.disabledNode, '$$hashKey').indexOf(node.$$hashKey) >= 0;
-                };
-            }
-        };
-    })
-
     .directive('simpleTree', function () {
         return {
             replace: false,
@@ -73,6 +17,8 @@ angular.module('unicorn.ui')
                 var simpleTree = $scope.simpleTree || {};
 
                 var options = simpleTree.options;
+
+                var root = options.root || 'root';
 
                 var defaultNodeRender = function (node, collapsed) {
                     var iconHtml = '';
@@ -145,32 +91,40 @@ angular.module('unicorn.ui')
                                 result = node;
                                 return false;
                             }
-                            if (node.items && node.items.length > 0) {
-                                result = fn(node.items);
-                            }
                         });
+                        if (result == null) {
+                            _.forEach(items, function (node) {
+                                if (node.items && node.items.length > 0) {
+                                    result = fn(node.items);
+                                    if (result != null) {
+                                        return false;
+                                    }
+                                }
+                            });
+                        }
                         return result;
                     };
                     return fn($scope.items);
                 };
 
                 $scope.$watch(function () {
-                    return simpleTree.$nodeCache.id
-                }, function (value) {
-                    if (value == undefined || angular.lowercase(value) == 'root') {
-                        $scope.items = simpleTree.$nodeCache.items
+                    return simpleTree.$nodeCache._t;
+                }, function () {
+                    var id = simpleTree.$nodeCache.id;
+                    if (id == undefined || id == root) {
+                        $scope.items = simpleTree.$nodeCache.items;
                     } else {
-                        var parent = findItem(value);
+                        var parent = findItem(id);
                         parent.items = simpleTree.$nodeCache.items;
                         _.forEach(parent.items, function (item) {
                             item.parent = parent;
                             item.$snapshot = true;
                         });
-                        parent.leaf = parent.items.length == 0;
+                        parent.leaf = parent.items.length == 0 ? 1 : 0;
                     }
                 });
 
-                simpleTree.load('Root');
+                simpleTree.load(root);
             }
         };
     })
@@ -190,7 +144,8 @@ angular.module('unicorn.ui')
                         return me.promise = fetchFn({id: id}).then(function (response) {
                             me.$nodeCache = {
                                 id: id,
-                                items: response.data
+                                items: response.data,
+                                _t: new Date().getTime()
                             };
                         })['finally'](function () {
                             me.loading = false;

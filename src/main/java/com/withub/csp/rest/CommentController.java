@@ -44,13 +44,15 @@ public class CommentController {
 
         List<Map> items = new ArrayList<>();
         for (Comment comment : commentList) {
-            Map<String, Object> item = new HashMap<>();
-            item.put("courtName", comment.getUser().getCourt().getCourtName());
+            Map<String, Object> item = new HashMap<String, Object>();
+            if (comment.getUser().getCourt() != null) {
+                item.put("courtName", comment.getUser().getCourt().getCourtName());
+            }
             item.put("username", comment.getUser().getCnName());
             item.put("eventtime", comment.getEventTime());
             item.put("content", comment.getContent());
             items.add(item);
-    }
+        }
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("content", items);

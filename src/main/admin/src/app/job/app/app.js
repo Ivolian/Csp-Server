@@ -56,6 +56,8 @@ angular.module('app')
 
     .controller('AppCreateCtrl', function ($scope, $modalInstance, SummernoteConfig, FileUploader, App) {
 
+        $scope.app = {};
+
         $scope.title = '新增APK';
 
         $scope.cancel = function () {

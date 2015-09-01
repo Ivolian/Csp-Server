@@ -5,7 +5,7 @@ angular.module('app')
 
         $stateProvider.state('content.news', {
             url: '/news',
-            displayName: '行业新闻',
+            displayName: '新闻管理',
             templateUrl: 'app/content/news/news.html',
             controller: 'NewsCtrl'
         });
@@ -67,7 +67,7 @@ angular.module('app')
             newsData: {data: ''}
         };
 
-        $scope.title = '新增行业新闻';
+        $scope.title = '新增新闻';
 
         $scope.summernoteConfig = _.extend(angular.copy(SummernoteConfig), {height: 360});
 
@@ -100,7 +100,7 @@ angular.module('app')
 
         $scope.news = $scope.promise.$object;
 
-        $scope.title = '修改行业新闻';
+        $scope.title = '修改新闻';
 
         $scope.summernoteConfig = _.extend(angular.copy(SummernoteConfig), {height: 360});
 

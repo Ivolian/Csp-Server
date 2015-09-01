@@ -83,7 +83,7 @@ public class News extends MenuEntity {
     }
 
 
-
+    private List<Comment> commentList;
 
     /*
         todo
@@ -93,7 +93,7 @@ public class News extends MenuEntity {
 
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
-//    @Where(clause = "deleteFlag=0")
+//    @Where(clause = "delete_flag=0")
 //    public List<Comment> getCommentList() {
 //        return commentList;
 //    }

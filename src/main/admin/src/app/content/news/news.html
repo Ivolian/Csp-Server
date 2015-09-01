@@ -21,7 +21,6 @@
                     <th>新闻标题</th>
                     <th>所属菜单</th>
                     <th style="width: 160px;">发布时间</th>
-                    <th style="width: 160px;">创建时间</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
@@ -31,7 +30,6 @@
                     <td>{{x.title}}</td>
                     <th>{{x.menu.name}}</th>
                     <td>{{x.postTime|date:'yyyy-MM-dd HH:mm'}}</td>
-                    <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
                         <button class="btn btn-xs btn-primary" ng-click="updateNews(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removeNews(x)">删除</button>

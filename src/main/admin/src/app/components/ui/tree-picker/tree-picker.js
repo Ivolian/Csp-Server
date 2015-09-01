@@ -2,7 +2,7 @@
 
 angular.module('unicorn.ui')
 
-    .directive('treePicker', function (uuid4, $injector, $timeout, SimpleTree) {
+    .directive('treePicker', function (uuid4, $injector, $http, $timeout, SimpleTree) {
         return {
             templateUrl: 'app/components/ui/template/tree-picker.html',
             restrict: 'EA',
@@ -39,6 +39,9 @@ angular.module('unicorn.ui')
                                     name: selectedNode.name,
                                     getQueryValue: function () {
                                         return this.id;
+                                    },
+                                    getAttribute: function (key) {
+                                        return selectedNode[key];
                                     }
                                 };
                             });
