@@ -92,6 +92,10 @@ angular.module('app')
 //                        state: 'job.court'
 //                    },
                     {
+                        title: '评论管理',
+                        state: 'job.comment'
+                    },
+                    {
                         title: 'APK管理',
                         state: 'job.app'
                     }

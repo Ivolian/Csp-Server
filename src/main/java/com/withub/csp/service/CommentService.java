@@ -1,6 +1,7 @@
 package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.withub.csp.entity.Book;
 import com.withub.csp.entity.Comment;
 import com.withub.csp.entity.News;
 import com.withub.csp.entity.User;
@@ -53,6 +54,17 @@ public class CommentService {
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
         return DynamicSpecifications.bySearchFilter(filters.values(), Comment.class);
+    }
+
+    public Comment getComment(String id) {
+        return commentDao.findOne(id);
+    }
+
+
+    public void deleteComment(String id) {
+        Comment comment = getComment(id);
+        comment.setDeleteFlag(1);
+        commentDao.save(comment);
     }
 
     public JSONObject create(String userId, String newsId, String content) {
