@@ -39,8 +39,18 @@ public class UserService {
         return userDao.findOne(id);
     }
 
-    public void saveUser(User entity) {
+    public void saveUser(User entity) throws Exception{
+
         if (StringUtils.isEmpty(entity.getId())) {
+
+            // 目前只有新增时的用户名唯一性验证
+            if (entity.getUsername() != null) {
+                User user = userDao.findOneByUsername(entity.getUsername());
+                if (user != null) {
+                    throw new Exception("用户名" + entity.getUsername() + "已存在！");
+                }
+            }
+
             entity.setId(Identities.uuid());
             entity.setPassword("111111");
             entity.setEventTime(new Date());
@@ -50,7 +60,9 @@ public class UserService {
         userDao.save(entity);
     }
 
-    public void updateUser(User user){
+    public void updateUser(User user) {
+
+
         userDao.save(user);
     }
 
@@ -92,7 +104,7 @@ public class UserService {
         if (!result) {
             item.put("result", false);
             return item;
-        }else {
+        } else {
             item.put("result", true);
             item.put("userId", user.getId());
             item.put("rootMenuItem", menuService.getRootMenuItem());
@@ -122,7 +134,11 @@ public class UserService {
         }
         if (result) {
             user.setPassword(newPassword);
-            saveUser(user);
+            try {
+                saveUser(user);
+            }catch (Exception e){
+                //
+            }
         }
 
         JSONObject jsonObject = new JSONObject();

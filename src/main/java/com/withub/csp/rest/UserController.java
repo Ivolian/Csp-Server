@@ -30,6 +30,11 @@ public class UserController extends BaseController {
             ServletRequest request) {
 
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
+        if (searchParams.get("_courtId")!=null) {
+            searchParams.put("EQ_court.id", searchParams.get("_courtId"));
+            searchParams.remove("_courtId");
+        }
+
         return userService.getUser(searchParams, pageNo, pageSize);
     }
 
@@ -40,7 +45,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public void create(@RequestBody User user) {
+    public void create(@RequestBody User user) throws Exception{
 
         userService.saveUser(user);
     }
@@ -58,7 +63,7 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-    public void resetPassword(String userId) {
+    public void resetPassword(String userId) throws Exception{
 
         User user = userService.getUser(userId);
         user.setPassword("111111");

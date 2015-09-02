@@ -5,10 +5,16 @@
                 <button class="btn btn-primary" ng-click="createUser()"><i class="fa fa-fw fa-plus"></i> 新增</button>
                 <form class="form-inline pull-right" role="form">
 
+                    <input type="text" class="form-control" placeholder="请输入用户名"
+                           ng-model="grid.queryInfo.LIKE_username">
+
+                    <input type="text" class="form-control" placeholder="请输入姓名"
+                           ng-model="grid.queryInfo.LIKE_cnName">
+
                     <div class="input-group">
 
-                        <input type="text" class="form-control" placeholder="请输入姓名"
-                               ng-model="grid.queryInfo.LIKE_cnName">
+                        <input tree-picker="Court" show-clear="false" ng-model="grid.queryInfo.courtId">
+
                           <span class="input-group-btn">
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
                             </button>

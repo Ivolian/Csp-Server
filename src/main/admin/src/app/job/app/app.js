@@ -5,7 +5,7 @@ angular.module('app')
 
         $stateProvider.state('job.app', {
             url: '/app',
-            displayName: 'Apk管理',
+            displayName: 'APK管理',
             templateUrl: 'app/job/app/app.html',
             controller: 'AppCtrl'
         });

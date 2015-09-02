@@ -5,7 +5,7 @@ angular.module('app')
 
         $stateProvider.state('job.position', {
             url: '/position',
-            displayName: '职位管理',
+            displayName: '书籍管理',
             templateUrl: 'app/job/position/position.list.html',
             controller: 'PositionListCtrl'
         });

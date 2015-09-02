@@ -9,4 +9,6 @@ public interface UserDao extends PagingAndSortingRepository<User, String>, JpaSp
 
     public User findOneByUsernameAndDeleteFlag(String username, Integer deleteFlag);
 
+    public User findOneByUsername(String username);
+
 }
