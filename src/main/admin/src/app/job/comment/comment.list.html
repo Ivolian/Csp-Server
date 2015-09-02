@@ -22,15 +22,17 @@
                 <tr>
                     <th style="width: 60px;">#</th>
                     <th>姓名</th>
+                    <th>新闻标题</th>
                     <th>评论内容</th>
-                    <th style="width: 200px;">操作</th>
+                    <th style="width: 60px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
-                    <td>{{x.username}}</td>
-                    <td>{{x.content}}</td>
+                    <td>{{x.user.cnName}}</td>
+                    <td>{{x.news.title | limitTo:50}}</td>
+                    <td>{{x.content  | limitTo:50}}</td>
                     <td>
                         <button class="btn btn-xs btn-danger" ng-click="removeComment(x)">删除</button>
                     </td>
