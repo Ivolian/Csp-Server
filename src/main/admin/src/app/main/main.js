@@ -77,7 +77,7 @@ angular.module('app')
                 children: [
                     {
                         title: '用户管理',
-                        state: 'job.email'
+                        state: 'job.user'
                     },
                     {
                         title: '书籍管理',
@@ -87,10 +87,10 @@ angular.module('app')
                         title: '菜单管理',
                         state: 'job.region'
                     },
-                    {
-                        title: '法院管理',
-                        state: 'job.court'
-                    },
+//                    {
+//                        title: '法院管理',
+//                        state: 'job.court'
+//                    },
                     {
                         title: 'APK管理',
                         state: 'job.app'

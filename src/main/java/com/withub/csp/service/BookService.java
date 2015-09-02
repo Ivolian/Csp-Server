@@ -103,7 +103,7 @@ public class BookService {
 
     public Page<Book> getBook(Map<String, Object> searchParams, int pageNo, int pageSize) {
 
-        Sort sort = new Sort(Direction.ASC, "name");
+        Sort sort = new Sort(Direction.DESC, "eventTime");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Book> spec = buildSpecificationPosition(searchParams);
         return bookDao.findAll(spec, pageRequest);

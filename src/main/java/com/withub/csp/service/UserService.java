@@ -42,11 +42,16 @@ public class UserService {
     public void saveUser(User entity) {
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setId(Identities.uuid());
+            entity.setPassword("111111");
             entity.setEventTime(new Date());
             entity.setDeleteFlag(0);
         }
         entity.setPassword(MD5Utils.encryptByMD5(entity.getPassword()));
         userDao.save(entity);
+    }
+
+    public void updateUser(User user){
+        userDao.save(user);
     }
 
     public void deleteUser(String id) {

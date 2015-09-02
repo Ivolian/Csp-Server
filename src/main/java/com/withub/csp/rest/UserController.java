@@ -48,13 +48,23 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
     public void update(@RequestBody User user) {
 
-        userService.saveUser(user);
+        userService.updateUser(user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id) {
         userService.deleteUser(id);
     }
+
+
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+    public void resetPassword(String userId) {
+
+        User user = userService.getUser(userId);
+        user.setPassword("111111");
+        userService.saveUser(user);
+    }
+
 
     // 登录
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
