@@ -2,26 +2,27 @@
     <div class="col-xs-12 table-wrapper">
         <div class="panel panel-table panel-primary">
             <div class="panel-heading">
-                <!--<button class="btn btn-primary" ng-click="createJob()"><i class="fa fa-fw fa-plus"></i> 新增</button>-->
-                <!--<form class="form-inline pull-right" role="form">-->
-<!---->
-                    <!--<div class="input-group">-->
-                        <!--<input type="text" class="form-control" placeholder="请输入省市" ng-model="grid.queryInfo.LIKE_region">-->
-                          <!--<span class="input-group-btn">-->
-                            <!--<button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i></button>-->
-                          <!--</span>-->
-                    <!--</div>-->
-<!---->
-                <!--</form>-->
+                <form class="form-inline pull-right" role="form">
+                    <input type="text" class="form-control" placeholder="请输入回答内容"
+                           ng-model="grid.queryInfo.content">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入回答人姓名" ng-model="grid.queryInfo.cnName">
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
+                            </button>
+                          </span>
+                    </div>
+                </form>
             </div>
             <table simple-table="grid" class="table table-hover  table-striped">
                 <thead>
                 <tr>
                     <th style="width: 60px;">#</th>
-                    <th>回答</th>
+                    <th>回答内容</th>
                     <th>回答人</th>
                     <th>回答时间</th>
-                    <!--<th style="width: 120px;">操作</th>-->
+                    <th style="width: 60px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,12 +31,9 @@
                     <td>{{x.content | limitTo:50}}</td>
                     <td>{{x.user.cnName}}</td>
                     <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
-                    <!--<td>-->
-                        <!--<button ng-show="x.publish==0" class="btn btn-xs btn-success" ng-click="publishJob(x, 1)">发布</button>-->
-                        <!--<button ng-show="x.publish==1" class="btn btn-xs btn-warning" ng-click="publishJob(x, 0)">取消发布</button>-->
-                        <!--<button class="btn btn-xs btn-primary" ng-click="updateJob(x)">编辑</button>-->
-                        <!--<button class="btn btn-xs btn-danger" ng-click="removeJob(x)">删除</button>-->
-                    <!--</td>-->
+                    <td>
+                        <button class="btn btn-xs btn-danger" ng-click="removeJob(x)">删除</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>

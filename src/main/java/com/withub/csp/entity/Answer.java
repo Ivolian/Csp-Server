@@ -2,10 +2,7 @@ package com.withub.csp.entity;
 
 import com.withub.csp.entity.base.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -13,12 +10,10 @@ import javax.persistence.Table;
 public class Answer extends BaseEntity {
 
     private User user;
-
     private Question question;
-
     private String content;
 
-    //
+    // ======================= Setter & Getter =======================
 
     @ManyToOne
     @JoinColumn(name = "user_id")

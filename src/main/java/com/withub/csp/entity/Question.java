@@ -12,12 +12,10 @@ import java.util.List;
 public class Question extends BaseEntity {
 
     private User user;
-
     private String content;
-
     private List<Answer> answerList;
 
-    //
+    // ======================= Setter & Getter =======================
 
     @ManyToOne
     @JoinColumn(name = "user_id")

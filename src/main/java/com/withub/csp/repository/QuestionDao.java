@@ -6,4 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface QuestionDao extends PagingAndSortingRepository<Question, String>, JpaSpecificationExecutor<Question> {
 
+    public Question findOneByIdAndDeleteFlag(String id, Integer deleteFlag);
+
 }

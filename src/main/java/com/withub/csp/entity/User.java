@@ -1,20 +1,10 @@
 package com.withub.csp.entity;
 
 import com.withub.csp.entity.base.BaseEntity;
-
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
-/*
-    todo
-    表结构修改
-    1. 添加 position, telephone, qq, email
-    2. court_id 从 int 改为 varchar36
- */
-
+// clear
 @Entity
 @Table(name = "csp_user")
 public class User extends BaseEntity {
@@ -24,7 +14,7 @@ public class User extends BaseEntity {
     private String cnName;       // 姓名
     private Court court;         // 所属法院
     private String position;     // 职位
-    private String telephone;    // 手机号
+    private String telephone;
     private String qq;
     private String email;
 
@@ -54,6 +44,7 @@ public class User extends BaseEntity {
         this.cnName = cnName;
     }
 
+    // 不能写 JsonIgnore, 否则前端怎么传入的 User 对象就不完整了
     @ManyToOne
     @JoinColumn(name = "court_id")
     public Court getCourt() {
