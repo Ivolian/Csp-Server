@@ -4,10 +4,10 @@ angular.module('app')
 
     .config(function ($stateProvider) {
 
-        $stateProvider.state('product.answer', {
+        $stateProvider.state('qa.answer', {
             url: '/answer',
             displayName: '回答管理',
-            templateUrl: 'app/job/answer/answer.list.html',
+            templateUrl: 'app/qa/answer/answer.list.html',
             controller: 'AnswerListCtrl'
         });
 

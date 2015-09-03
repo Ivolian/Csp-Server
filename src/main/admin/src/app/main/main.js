@@ -104,16 +104,16 @@ angular.module('app')
             ,
             {
                 title: '问答管理',
-                state: 'product',
-                iconCls: 'fa fa-users',
+                state: 'qa',
+                iconCls: 'fa fa-comments',
                 children: [
                     {
                         title: '提问管理',
-                        state: 'product.question'
+                        state: 'qa.question'
                     },
                     {
                         title: '回答管理',
-                        state: 'product.answer'
+                        state: 'qa.answer'
                     }
                 ]
             }

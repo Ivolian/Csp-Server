@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('app')
+
     .config(function ($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.when('/product', '/product/question');
+        $urlRouterProvider.when('/qa', '/qa/question');
 
-        $stateProvider.state('product', {
+        $stateProvider.state('qa', {
             parent: 'root',
-            url: '/product',
+            url: '/qa',
             displayName: '问答管理',
             template: '<div ui-view></div>'
         });
-
 
     })
 

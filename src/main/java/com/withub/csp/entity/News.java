@@ -1,10 +1,7 @@
 package com.withub.csp.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.withub.common.FileUploadInfo;
 import com.withub.csp.entity.base.MenuEntity;
-import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -14,21 +11,12 @@ import java.util.List;
 @Table(name = "csp_news")
 public class News extends MenuEntity {
 
-    // 新闻标题
-    private String title;
-
-    // 图片
-    private String picture;
-
+    private String title;                       // 新闻标题
+    private String picture;                     // 新闻图片
     private String pictureFilename;
-
     private FileUploadInfo pictureAttachment;
-
-    // 发布时间
-    private Date postTime;
-
-    // 新闻内容
-    private NewsData newsData;
+    private Date postTime;                      // 发布时间
+    private NewsData newsData;                  // 新闻内容
 
     //
 
