@@ -1,7 +1,10 @@
 package com.withub.csp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.withub.common.FileUploadInfo;
 import com.withub.csp.entity.base.MenuEntity;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -17,8 +20,10 @@ public class News extends MenuEntity {
     private FileUploadInfo pictureAttachment;
     private Date postTime;                      // 发布时间
     private NewsData newsData;                  // 新闻内容
+    private List<Comment> commentList;
+    private List<Thumb> thumbList;
 
-    //
+    // ======================= Setter & Getter =======================
 
     public String getTitle() {
         return title;
@@ -70,34 +75,26 @@ public class News extends MenuEntity {
         this.newsData = newsData;
     }
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
+    @Where(clause = "delete_flag=0")
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
 
-    private List<Comment> commentList;
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
 
-    /*
-        todo
-        我尝试用 @Where(clause = "deleteFlag=0")
-        但好像有点问题
-     */
+    @JsonIgnore
+    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
+    @Where(clause = "delete_flag=0")
+    public List<Thumb> getThumbList() {
+        return thumbList;
+    }
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
-//    @Where(clause = "delete_flag=0")
-//    public List<Comment> getCommentList() {
-//        return commentList;
-//    }
-//
-//    public void setCommentList(List<Comment> commentList) {
-//        this.commentList = commentList;
-//    }
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
-//    public List<Thumb> getThumbList() {
-//        return thumbList;
-//    }
-//
-//    public void setThumbList(List<Thumb> thumbList) {
-//        this.thumbList = thumbList;
-//    }
+    public void setThumbList(List<Thumb> thumbList) {
+        this.thumbList = thumbList;
+    }
 
 }

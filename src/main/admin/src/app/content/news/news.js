@@ -54,11 +54,6 @@ angular.module('app')
             });
         };
 
-        $scope.publishNews = function (news, publish) {
-            news.customPUT({}, 'publish/' + publish).then(function () {
-                $scope.grid.refresh();
-            });
-        };
     })
 
     .controller('NewsCreateCtrl', function ($scope, $modalInstance, SummernoteConfig, FileUploader, News) {
@@ -88,10 +83,12 @@ angular.module('app')
             removeAfterUpload: true,
             autoUpload: true
         });
+
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
             $scope.news.pictureAttachment = response;
             $scope.news.pictureFilename = response.fileName;
         };
+
     })
 
     .controller('NewsUpdateCtrl', function ($scope, $modalInstance, Restangular, SummernoteConfig, FileUploader, News, id) {
@@ -121,9 +118,11 @@ angular.module('app')
             removeAfterUpload: true,
             autoUpload: true
         });
+
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
             $scope.news.pictureAttachment = response;
             $scope.news.pictureFilename = response.fileName;
         };
+
     })
 ;

@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('app')
+
     .config(function ($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.when('/content', '/content/news');
@@ -9,11 +10,9 @@ angular.module('app')
             parent: 'root',
             url: '/content',
             displayName: '内容管理',
-            template: '<div ui-view></div>',
-            controller: 'ContentCtrl'
+            template: '<div ui-view></div>'
         });
-    })
-    .controller('ContentCtrl', function ($scope, $state) {
 
     })
+
 ;

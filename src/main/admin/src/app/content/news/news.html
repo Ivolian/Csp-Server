@@ -4,9 +4,12 @@
             <div class="panel-heading">
                 <button class="btn btn-primary" ng-click="createNews()"><i class="fa fa-fw fa-plus"></i> 新增</button>
                 <form class="form-inline pull-right" role="form">
+                    <input type="text" class="form-control" placeholder="请输入新闻标题" ng-model="grid.queryInfo.title">
 
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入新闻标题" ng-model="grid.queryInfo.LIKE_title">
+                        <input tree-picker="Region" show-clear="false" placeholder="请选择菜单"
+                               ng-model="grid.queryInfo.menuId">
+
                           <span class="input-group-btn">
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i></button>
                           </span>
