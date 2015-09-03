@@ -108,8 +108,8 @@ angular.module('app')
                 iconCls: 'fa fa-users',
                 children: [
                     {
-                        title: '提问列表',
-                        state: 'product.list'
+                        title: '提问管理',
+                        state: 'product.question'
                     },
                     {
                         title: '回答管理',

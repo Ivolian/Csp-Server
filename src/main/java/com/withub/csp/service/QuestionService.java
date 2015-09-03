@@ -1,31 +1,27 @@
 package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.withub.csp.entity.User;
 import com.withub.csp.entity.Question;
-import com.withub.csp.repository.UserDao;
+import com.withub.csp.entity.User;
 import com.withub.csp.repository.QuestionDao;
-import org.apache.commons.lang3.StringUtils;
+import com.withub.csp.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
-import org.springside.modules.utils.Identities;
 
-import java.util.Date;
 import java.util.Map;
 
-// Spring Bean的标识.
-@Component
-// 类中所有public函数都纳入事务管理的标识.
+
+@Service
 @Transactional
-public class QuestionService {
+public class QuestionService extends BaseService{
 
     @Autowired
     private QuestionDao questionDao;
@@ -33,8 +29,10 @@ public class QuestionService {
     @Autowired
     private UserDao userDao;
 
-    //
 
+    // ======================= Methods =======================
+
+    // 问题列表查询方法，供后台和手机端使用
     public Page<Question> getQuestion(Map<String, Object> searchParams, int pageNo, int pageSize) {
 
         Sort sort = new Sort(Direction.DESC, "eventTime");
@@ -43,33 +41,47 @@ public class QuestionService {
         return questionDao.findAll(spec, pageRequest);
     }
 
+    // 创建提问，供手机端使用
+    public JSONObject create(String userId, String content) {
+
+        JSONObject result = new JSONObject();
+
+        // 检查用户
+        User user = userDao.findOneByIdAndDeleteFlag(userId, 0);
+        if (user == null) {
+            result.put("result", false);
+            result.put("errorMsg", "用户不存在");        // 用户登录后，用户在后台被删除了。
+            return result;
+        }
+
+        // 创建提问
+        Question question = new Question();
+        initEntity(question);
+        question.setUser(user);
+        question.setContent(content);
+        questionDao.save(question);
+
+        result.put("result", true);
+        return result;
+    }
+
+    public Question getQuestion(String id) {
+        return questionDao.findOne(id);
+    }
+
+    public void deleteQuestion(String id) {
+
+        Question question = getQuestion(id);
+        question.setDeleteFlag(1);
+        questionDao.save(question);
+    }
+
+    // 基本无视的方法
     private Specification<Question> buildSpecificationQuestion(Map<String, Object> searchParams) {
 
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
         return DynamicSpecifications.bySearchFilter(filters.values(), Question.class);
-    }
-
-    public JSONObject create(String userId, String content) {
-
-        JSONObject jsonObject = new JSONObject();
-
-        User user = userDao.findOne(userId);
-        if (user == null) {
-            jsonObject.put("result", false);
-            return jsonObject;
-        }
-
-        Question question = new Question();
-        question.setId(Identities.uuid());
-        question.setContent(content);
-        question.setUser(user);
-        question.setEventTime(new Date());
-        question.setDeleteFlag(0);
-        questionDao.save(question);
-
-        jsonObject.put("result", true);
-        return jsonObject;
     }
 
 }

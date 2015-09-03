@@ -38,7 +38,7 @@ public class AnswerService extends BaseService {
 
     // ======================= Methods =======================
 
-    // 问题列表查询方法，供后台和手机端使用
+    // 回答列表查询方法，供后台和手机端使用
     public Page<Answer> getAnswer(Map<String, Object> searchParams, int pageNo, int pageSize) {
 
         Sort sort = new Sort(Direction.DESC, "eventTime");
@@ -47,7 +47,7 @@ public class AnswerService extends BaseService {
         return answerDao.findAll(spec, pageRequest);
     }
 
-    // 创建提问，供手机端使用
+    // 创建回答，供手机端使用
     public JSONObject create(String userId, String questionId, String content) {
 
         JSONObject result = new JSONObject();
@@ -68,7 +68,7 @@ public class AnswerService extends BaseService {
             return result;
         }
 
-        // 正常创建回答
+        // 创建回答
         Answer answer = new Answer();
         initEntity(answer);
         answer.setQuestion(question);

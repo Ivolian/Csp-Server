@@ -26,7 +26,7 @@ public class AnswerController extends BaseController {
 
     // ======================= Methods =======================
 
-    // 后台提问列表查询
+    // 后台列表查询
     @RequestMapping(method = RequestMethod.GET)
     public Page<Answer> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
@@ -49,7 +49,7 @@ public class AnswerController extends BaseController {
     }
 
 
-    // 手机端查询提问列表
+    // 手机端查询列表
     @RequestMapping(value = "/listForMobile", method = RequestMethod.GET)
     public JSONObject listForMobile(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,

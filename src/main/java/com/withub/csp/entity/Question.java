@@ -1,10 +1,11 @@
 package com.withub.csp.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.withub.csp.entity.base.BaseEntity;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 @Entity
@@ -13,7 +14,6 @@ public class Question extends BaseEntity {
 
     private User user;
     private String content;
-    private List<Answer> answerList;
 
     // ======================= Setter & Getter =======================
 
@@ -33,17 +33,6 @@ public class Question extends BaseEntity {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "question")
-    @OrderBy("eventTime desc")
-    public List<Answer> getAnswerList() {
-        return answerList;
-    }
-
-    public void setAnswerList(List<Answer> answerList) {
-        this.answerList = answerList;
     }
 
 }
