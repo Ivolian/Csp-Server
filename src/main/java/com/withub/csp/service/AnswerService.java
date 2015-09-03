@@ -41,12 +41,11 @@ public class AnswerService extends BaseService {
     // 问题列表查询方法，供后台和手机端使用
     public Page<Answer> getAnswer(Map<String, Object> searchParams, int pageNo, int pageSize) {
 
-        Sort sort = new Sort(Direction.DESC, "eventTime","question.id");
+        Sort sort = new Sort(Direction.DESC, "eventTime");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<Answer> spec = buildSpecificationAnswer(searchParams);
         return answerDao.findAll(spec, pageRequest);
     }
-
 
     // 创建提问，供手机端使用
     public JSONObject create(String userId, String questionId, String content) {
@@ -81,6 +80,17 @@ public class AnswerService extends BaseService {
         return result;
     }
 
+    // 这里统一用 findOne 吧，不管 deleteFlag 了
+    public Answer getAnswer(String id) {
+        return answerDao.findOne(id);
+    }
+
+    public void deleteAnswer(String id) {
+
+        Answer answer = getAnswer(id);
+        answer.setDeleteFlag(1);
+        answerDao.save(answer);
+    }
 
     // 基本无视的方法
     private Specification<Answer> buildSpecificationAnswer(Map<String, Object> searchParams) {

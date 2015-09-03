@@ -112,8 +112,8 @@ angular.module('app')
                         state: 'product.list'
                     },
                     {
-                        title: '回答列表',
-                        state: 'product.list2'
+                        title: '回答管理',
+                        state: 'product.answer'
                     }
                 ]
             }

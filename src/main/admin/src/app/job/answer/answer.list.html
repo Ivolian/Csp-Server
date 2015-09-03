@@ -15,24 +15,26 @@
                     </div>
                 </form>
             </div>
-            <table simple-table="grid" class="table table-hover  table-striped">
+            <table simple-table="grid" class="table table-hover  table-striped" style="table-layout: fixed;">
                 <thead>
                 <tr>
                     <th style="width: 60px;">#</th>
                     <th>回答内容</th>
-                    <th>回答人</th>
-                    <th>回答时间</th>
+                    <th style="width: 120px;">回答人</th>
+                    <th style="width: 180px;">回答时间</th>
                     <th style="width: 60px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="x in grid.items">
                     <td record-no></td>
-                    <td>{{x.content | limitTo:50}}</td>
+                    <td>
+                        <div style="overflow-x: hidden; text-overflow: ellipsis;" title="{{x.content}}">{{x.content}}</div>
+                    </td>
                     <td>{{x.user.cnName}}</td>
                     <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
-                        <button class="btn btn-xs btn-danger" ng-click="removeJob(x)">删除</button>
+                        <button class="btn btn-xs btn-danger" ng-click="removeAnswer(x)">删除</button>
                     </td>
                 </tr>
                 </tbody>

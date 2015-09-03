@@ -3,15 +3,12 @@ package com.withub.csp.rest;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Answer;
+import com.withub.csp.entity.User;
 import com.withub.csp.service.AnswerService;
 import com.withub.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springside.modules.web.MediaTypes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +24,10 @@ public class AnswerController extends BaseController {
     private AnswerService answerService;
 
 
+    // ======================= Methods =======================
+
     // 后台提问列表查询
-    @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    @RequestMapping(method = RequestMethod.GET)
     public Page<Answer> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
@@ -42,25 +41,32 @@ public class AnswerController extends BaseController {
         return answerService.getAnswer(searchParams, pageNo, pageSize);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+
+    // 后台删除
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id) {
+        answerService.deleteAnswer(id);
+    }
+
+
+    // 手机端查询提问列表
+    @RequestMapping(value = "/listForMobile", method = RequestMethod.GET)
     public JSONObject listForMobile(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "questionId", defaultValue = PAGE_SIZE) String questionId) {
 
-        // todo questionId
         Map<String, Object> searchParams = new HashMap<String, Object>();
+        searchParams.put("EQ_question.id", questionId);
+
         Page<Answer> answerPage = answerService.getAnswer(searchParams, pageNo, pageSize);
         List<Answer> answerList = answerPage.getContent();
 
         JSONArray jsonArray = new JSONArray();
         for (Answer answer : answerList) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", answer.getId());
             jsonObject.put("content", answer.getContent());
-            if (answer.getUser().getCourt() != null) {
-                jsonObject.put("username", answer.getUser().getCourt().getName() + " " + answer.getUser().getCnName());
-            }
+            jsonObject.put("displayName", getDisplayName(answer));
             jsonObject.put("eventTime", answer.getEventTime());
             jsonArray.add(jsonObject);
         }
@@ -72,13 +78,28 @@ public class AnswerController extends BaseController {
         return response;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public JSONObject create(
-            @RequestParam(value = "userId", defaultValue = "") String userId,
-            @RequestParam(value = "questionId", defaultValue = "") String questionId,
-            @RequestParam(value = "content", defaultValue = "") String content) {
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "questionId") String questionId,
+            @RequestParam(value = "content") String content) {
 
         return answerService.create(userId, questionId, content);
+    }
+
+
+    // ======================= 简单方法 =======================
+
+    private String getDisplayName(Answer answer) {
+
+        User user = answer.getUser();
+        if (user.getCourt() != null) {
+            // 法院为空的情况，虽然不应该发生这种情况
+            return answer.getUser().getCourt().getName() + " " + answer.getUser().getCnName();
+        } else {
+            return answer.getUser().getCnName();
+        }
     }
 
 }
