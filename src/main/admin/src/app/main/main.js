@@ -81,7 +81,7 @@ angular.module('app')
                     },
                     {
                         title: '书籍管理',
-                        state: 'job.position'
+                        state: 'job.book'
                     },
                     {
                         title: '菜单管理',

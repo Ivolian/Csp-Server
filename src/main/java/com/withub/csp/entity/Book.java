@@ -1,44 +1,31 @@
 package com.withub.csp.entity;
 
 import com.withub.common.FileUploadInfo;
-import com.withub.csp.entity.base.BaseEntity;
-import com.withub.csp.entity.Menu;
 import com.withub.csp.entity.base.MenuEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
 @Table(name = "csp_book")
 public class Book extends MenuEntity {
 
-    // 书名
-    private String name;
-
-    // 作者
+    private String name;                    // 书名
     private String author;
-
-    // 简介
-    private String summary;
-
-    // 封面
-    private String picture;
-
+    private String summary;                 // 简介
+    private String picture;                 // 封面
     private String pictureFilename;
-
     private FileUploadInfo pictureAttachment;
-
-    // 电子书
-    private String ebook;
-
+    private String ebook;                   // 电子书
     private String ebookFilename;
-
     private FileUploadInfo ebookAttachment;
 
-    // 排序号，有他用
+    // 排序号，因为手机端这边需要个唯一的整型来标识一本书
     private Integer orderNo;
 
-    //
+    // ======================= Setter & Getter =======================
 
     public String getName() {
         return name;
@@ -55,6 +42,7 @@ public class Book extends MenuEntity {
     public void setAuthor(String author) {
         this.author = author;
     }
+
     public String getSummary() {
         return summary;
     }
@@ -62,8 +50,6 @@ public class Book extends MenuEntity {
     public void setSummary(String summary) {
         this.summary = summary;
     }
-
-    //
 
     public String getPicture() {
         return picture;
@@ -90,8 +76,6 @@ public class Book extends MenuEntity {
         this.pictureAttachment = pictureAttachment;
     }
 
-    //
-
     public String getEbook() {
         return ebook;
     }
@@ -116,8 +100,6 @@ public class Book extends MenuEntity {
     public void setEbookAttachment(FileUploadInfo ebookAttachment) {
         this.ebookAttachment = ebookAttachment;
     }
-
-    //
 
     public Integer getOrderNo() {
         return orderNo;

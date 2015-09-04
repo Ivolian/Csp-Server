@@ -3,38 +3,26 @@
 angular.module('app')
     .config(function ($stateProvider) {
 
-        $stateProvider.state('job.position', {
-            url: '/position',
+        $stateProvider.state('job.book', {
+            url: '/book',
             displayName: '书籍管理',
-            templateUrl: 'app/job/position/position.list.html',
-            controller: 'PositionListCtrl'
+            templateUrl: 'app/job/book/book.list.html',
+            controller: 'BookListCtrl'
         });
     })
 
-    .factory('Positions', function (Restangular) {
+    .factory('Books', function (Restangular) {
         return Restangular.service('book');
     })
 
-    .filter('educationResult', function () {
-        return function (input) {
-            return {0: '无限制', 1: '高中', 2: '大专', 3: '本科', 4: '硕士以上'}[input];
-        }
-    })
+    .controller('BookListCtrl', function ($scope, $modal, SimpleTable, Books) {
 
-    .filter('experienceResult', function () {
-        return function (input) {
-            return {0: '无限制', 1: '1-3年', 2: '3-5年'}[input];
-        }
-    })
+        $scope.grid = SimpleTable(Books.getList);
 
-    .controller('PositionListCtrl', function ($scope, $state, $modal, SimpleTable, Positions) {
-
-        $scope.grid = SimpleTable(Positions.getList);
-
-        $scope.createPosition = function () {
+        $scope.createBook = function () {
             var modalInstance = $modal.open({
-                templateUrl: 'app/job/position/position.form.html',
-                controller: 'PositionCreateCtrl',
+                templateUrl: 'app/job/book/book.form.html',
+                controller: 'BookCreateCtrl',
                 size: 'lg'
             });
             modalInstance.result.then(function (result) {
@@ -42,14 +30,14 @@ angular.module('app')
             });
         };
 
-        $scope.updatePosition = function (position) {
+        $scope.updateBook = function (book) {
             var modalInstance = $modal.open({
-                templateUrl: 'app/job/position/position.form.html',
-                controller: 'PositionUpdateCtrl',
+                templateUrl: 'app/job/book/book.form.html',
+                controller: 'BookUpdateCtrl',
                 size: 'lg',
                 resolve: {
                     id: function () {
-                        return position.id;
+                        return book.id;
                     }
                 }
             });
@@ -58,18 +46,18 @@ angular.module('app')
             });
         };
 
-        $scope.removePosition  = function (position) {
+        $scope.removeBook  = function (book) {
             Dialog.confirmDelete().then(function () {
-                position.remove().then(function () {
+                book.remove().then(function () {
                     $scope.grid.refresh();
                 });
             });
         };
     })
 
-    .controller('PositionCreateCtrl', function ($scope, $modalInstance, Positions,FileUploader) {
+    .controller('BookCreateCtrl', function ($scope, $modalInstance, Books,FileUploader) {
 
-        $scope.position = {
+        $scope.book = {
         };
 
         $scope.title = '新增书籍';
@@ -79,7 +67,7 @@ angular.module('app')
         };
 
         $scope.submit = function () {
-            $scope.promise = Positions.post($scope.position).then(function () {
+            $scope.promise = Books.post($scope.book).then(function () {
                 Toaster.success("保存成功！");
                 $modalInstance.close();
             });
@@ -92,9 +80,9 @@ angular.module('app')
             autoUpload: true
         });
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
-            $scope.position.pictureAttachment = response;
-            $scope.position.pictureFilename = response.fileName;
-            console.log($scope.position.pictureFilename)
+            $scope.book.pictureAttachment = response;
+            $scope.book.pictureFilename = response.fileName;
+            console.log($scope.book.pictureFilename)
 
         };
 
@@ -106,18 +94,18 @@ angular.module('app')
             autoUpload: true
         });
         uploader2.onSuccessItem = function (fileItem, response, status, headers) {
-            $scope.position.ebookAttachment = response;
-            $scope.position.ebookFilename = response.fileName;
-//            console.log($scope.position.ebookFilename)
+            $scope.book.ebookAttachment = response;
+            $scope.book.ebookFilename = response.fileName;
+//            console.log($scope.book.ebookFilename)
 
         };
     })
 
-    .controller('PositionUpdateCtrl', function ($scope, $modalInstance, Restangular, Positions, id,FileUploader) {
+    .controller('BookUpdateCtrl', function ($scope, $modalInstance, Restangular, Books, id,FileUploader) {
 
-        $scope.promise = Positions.one(id).get();
+        $scope.promise = Books.one(id).get();
 
-        $scope.position = $scope.promise.$object;
+        $scope.book = $scope.promise.$object;
 
         $scope.title = '修改书籍';
 
@@ -126,7 +114,7 @@ angular.module('app')
         };
 
         $scope.submit = function () {
-            $scope.promise = Restangular.copy($scope.position).save().then(function () {
+            $scope.promise = Restangular.copy($scope.book).save().then(function () {
                 Toaster.success("保存成功！");
                 $modalInstance.close();
             });
@@ -139,8 +127,8 @@ angular.module('app')
             autoUpload: true
         });
         uploader.onSuccessItem = function (fileItem, response, status, headers) {
-            $scope.position.pictureAttachment = response;
-            $scope.position.pictureFilename = response.fileName;
+            $scope.book.pictureAttachment = response;
+            $scope.book.pictureFilename = response.fileName;
         };
 
         // for ebook
@@ -151,9 +139,9 @@ angular.module('app')
             autoUpload: true
         });
         uploader2.onSuccessItem = function (fileItem, response, status, headers) {
-            $scope.position.ebookAttachment = response;
-            $scope.position.ebookFilename = response.fileName;
-//            console.log($scope.position.ebookFilename)
+            $scope.book.ebookAttachment = response;
+            $scope.book.ebookFilename = response.fileName;
+//            console.log($scope.book.ebookFilename)
 
         };
     })
