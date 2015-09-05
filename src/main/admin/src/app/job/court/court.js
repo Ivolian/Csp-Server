@@ -57,7 +57,7 @@ angular.module('app')
                 return '';
             }
             if ($scope.court.name == undefined) {
-                return '新增地区';
+                return '新增法院';
             } else {
                 return (getCourtTitle($scope.court) || '_');
             }

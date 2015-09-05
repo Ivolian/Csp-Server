@@ -66,9 +66,10 @@ public class CourtController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public void create(@RequestBody Court court) {
+    public Court create(@RequestBody Court court) {
 
         courtService.saveCourt(court);
+        return court;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
