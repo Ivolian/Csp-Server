@@ -10,14 +10,9 @@ import javax.persistence.*;
 @Table(name = "csp_app")
 public class App extends BaseEntity {
 
-    // 用于展示
-    private String versionName;
-
-    // apk
+    private String versionName;     // 版本号
     private String apk;
-
     private String apkFilename;
-
     private FileUploadInfo apkAttachment;
 
     //

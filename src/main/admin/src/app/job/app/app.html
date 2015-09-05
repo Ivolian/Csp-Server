@@ -10,7 +10,7 @@
                     <th style="width: 60px;">#</th>
                     <th>版本号</th>
                     <th style="width: 160px;">创建时间</th>
-                    <th style="width: 120px;">操作</th>
+                    <th style="width: 60px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,7 +19,7 @@
                     <td>{{x.versionName}}</td>
                     <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
-                        <button class="btn btn-xs btn-primary" ng-click="updateApp(x)">编辑</button>
+                        <!--<button class="btn btn-xs btn-primary" ng-click="updateApp(x)">编辑</button>-->
                         <button class="btn btn-xs btn-danger" ng-click="removeApp(x)">删除</button>
                     </td>
                 </tr>

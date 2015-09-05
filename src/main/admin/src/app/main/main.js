@@ -83,11 +83,10 @@ angular.module('app')
                         title: '菜单管理',
                         state: 'job.region'
                     },
-//                    {
-//                        title: '法院管理',
-//                        state: 'job.court'
-//                    },
-
+                    {
+                        title: '法院管理',
+                        state: 'job.court'
+                    },
                     {
                         title: 'APK管理',
                         state: 'job.app'
