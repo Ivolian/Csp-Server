@@ -1,19 +1,20 @@
 'use strict';
 
 angular.module('app')
+
     .config(function ($stateProvider) {
 
-        $stateProvider.state('job.comment', {
+        $stateProvider.state('qa.comment', {
             url: '/comment',
             displayName: '评论管理',
-            templateUrl: 'app/job/comment/comment.list.html',
+            templateUrl: 'app/qa/comment/comment.list.html',
             controller: 'CommentListCtrl'
         });
 
     })
 
     .factory('Comment', function (Restangular) {
-        return Restangular.service('commentList');
+        return Restangular.service('comment');
     })
 
     .controller('CommentListCtrl', function ($scope, $state, $modal, SimpleTable, Comment, $http) {

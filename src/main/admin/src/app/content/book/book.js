@@ -3,10 +3,10 @@
 angular.module('app')
     .config(function ($stateProvider) {
 
-        $stateProvider.state('job.book', {
+        $stateProvider.state('content.book', {
             url: '/book',
             displayName: '书籍管理',
-            templateUrl: 'app/job/book/book.list.html',
+            templateUrl: 'app/content/book/book.list.html',
             controller: 'BookListCtrl'
         });
     })
@@ -21,7 +21,7 @@ angular.module('app')
 
         $scope.createBook = function () {
             var modalInstance = $modal.open({
-                templateUrl: 'app/job/book/book.form.html',
+                templateUrl: 'app/content/book/book.form.html',
                 controller: 'BookCreateCtrl',
                 size: 'lg'
             });
@@ -32,7 +32,7 @@ angular.module('app')
 
         $scope.updateBook = function (book) {
             var modalInstance = $modal.open({
-                templateUrl: 'app/job/book/book.form.html',
+                templateUrl: 'app/content/book/book.form.html',
                 controller: 'BookUpdateCtrl',
                 size: 'lg',
                 resolve: {

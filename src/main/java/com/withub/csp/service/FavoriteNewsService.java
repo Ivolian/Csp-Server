@@ -100,7 +100,7 @@ public class FavoriteNewsService {
             jsonObject.put("title", news.getTitle());
             jsonObject.put("picture", news.getPicture());
             jsonObject.put("postTime", news.getPostTime());
-            jsonObject.put("commentCount", commentDao.getCommentCountOfNews(news.getId()));
+            jsonObject.put("commentCount", news.getCommentList().size());
             jsonObject.put("thumbCount", thumbDao.getThumbCountOfNews(news.getId()));
             jsonArray.add(jsonObject);
         }

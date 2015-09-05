@@ -62,12 +62,11 @@ angular.module('app')
                     {
                         title: '新闻管理',
                         state: 'content.news'
+                    },
+                    {
+                        title: '书籍管理',
+                        state: 'content.book'
                     }
-//                    ,
-//                    {
-//                        title: '企业文化',
-//                        state: 'content.culture'
-//                    }
                 ]
             },
             {
@@ -79,10 +78,7 @@ angular.module('app')
                         title: '用户管理',
                         state: 'job.user'
                     },
-                    {
-                        title: '书籍管理',
-                        state: 'job.book'
-                    },
+
                     {
                         title: '菜单管理',
                         state: 'job.region'
@@ -91,10 +87,7 @@ angular.module('app')
 //                        title: '法院管理',
 //                        state: 'job.court'
 //                    },
-                    {
-                        title: '评论管理',
-                        state: 'job.comment'
-                    },
+
                     {
                         title: 'APK管理',
                         state: 'job.app'
@@ -114,6 +107,10 @@ angular.module('app')
                     {
                         title: '回答管理',
                         state: 'qa.answer'
+                    },
+                    {
+                        title: '评论管理',
+                        state: 'qa.comment'
                     }
                 ]
             }

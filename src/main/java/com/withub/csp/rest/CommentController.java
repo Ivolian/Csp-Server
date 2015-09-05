@@ -1,63 +1,106 @@
 package com.withub.csp.rest;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Comment;
+import com.withub.csp.entity.User;
 import com.withub.csp.service.CommentService;
+import com.withub.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping(value = "/api/v1/comment")
-public class CommentController {
+public class CommentController extends BaseController {
 
-    private static final String PAGE_SIZE = "10";
 
     @Autowired
     private CommentService commentService;
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+
+    //
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public JSONObject create(
-            @RequestParam(value = "userId", defaultValue = "") String userId,
-            @RequestParam(value = "newsId", defaultValue = "") String newsId,
-            @RequestParam(value = "content", defaultValue = "") String content) {
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "newsId") String newsId,
+            @RequestParam(value = "content") String content) {
 
         return commentService.create(userId, newsId, content);
     }
 
+
+    // 后台列表查询
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public JSONObject list(
+    public Page<Comment> list(
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
+            @RequestParam(value = "search_content", defaultValue = "") String content,
+            @RequestParam(value = "search_cnName", defaultValue = "") String cnName) {
+
+        Map<String, Object> searchParams = new HashMap<>();
+        searchParams.put("LIKE_content", content);
+        searchParams.put("LIKE_user.cnName", cnName);
+
+        return commentService.getComment(searchParams, pageNo, pageSize);
+    }
+
+
+    @RequestMapping(value = "/listForMobile",method = RequestMethod.GET)
+    public JSONObject listForMobile(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "newsId", defaultValue = "") String newsId) {
 
         Map<String, Object> searchParams = new HashMap<>();
-        Page<Comment> commentPage = commentService.getComment(searchParams, pageNo, pageSize, newsId);
-        List<Comment> commentList = commentPage.getContent();
+        searchParams.put("EQ_news.id", newsId);
 
-        List<Map> items = new ArrayList<>();
+        Page<Comment> commentPage = commentService.getComment(searchParams, pageNo, pageSize);
+        List<Comment> commentList = commentPage.getContent();
+        JSONArray jsonArray = new JSONArray();
         for (Comment comment : commentList) {
-            Map<String, Object> item = new HashMap<String, Object>();
-            if (comment.getUser().getCourt() != null) {
-                item.put("courtName", comment.getUser().getCourt().getName());
-            }
-            item.put("username", comment.getUser().getCnName());
-            item.put("eventtime", comment.getEventTime());
-            item.put("content", comment.getContent());
-            items.add(item);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("displayName", getDisplayName(comment));
+            jsonObject.put("eventtime", comment.getEventTime());
+            jsonObject.put("content", comment.getContent());
+            jsonArray.add(jsonObject);
         }
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("content", items);
-        jsonObject.put("lastPage", commentPage.isLastPage());
-        jsonObject.put("totalPages", commentPage.getTotalPages());
-        return jsonObject;
+        JSONObject response = new JSONObject();
+        response.put("content", jsonArray);
+        response.put("lastPage", commentPage.isLastPage());
+        response.put("totalPages", commentPage.getTotalPages());
+        return response;
     }
+
+
+    //
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id) {
+        commentService.deleteComment(id);
+    }
+
+
+    // ======================= 简单方法 =======================
+
+    private String getDisplayName(Comment comment) {
+
+        User user = comment.getUser();
+        if (user.getCourt() != null) {
+            // 法院为空的情况，虽然不应该发生这种情况
+            return comment.getUser().getCourt().getName() + " " + comment.getUser().getCnName();
+        } else {
+            return comment.getUser().getCnName();
+        }
+    }
+
 
 }

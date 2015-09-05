@@ -51,7 +51,7 @@ public class QuestionController extends BaseController {
 
 
     // 手机端查询列表
-    @RequestMapping(value = "/listForMobile", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    @RequestMapping(value = "/listForMobile", method = RequestMethod.GET)
     public JSONObject listForMobile(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize) {

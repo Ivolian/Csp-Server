@@ -13,13 +13,10 @@ import javax.persistence.Table;
 public class Comment extends BaseEntity {
 
     private User user;
-
     private News news;
+    private String content;     // 评论内容
 
-    // 评论内容
-    private String content;
-
-    //
+    // ======================= Setter & Getter =======================
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -7,4 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface NewsDao extends PagingAndSortingRepository<News, String>, JpaSpecificationExecutor<News> {
 
+    public News findOneByIdAndDeleteFlag(String id, Integer deleteFlag);
+
 }
