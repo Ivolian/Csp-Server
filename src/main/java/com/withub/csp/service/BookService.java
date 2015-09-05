@@ -44,8 +44,19 @@ public class BookService extends BaseService {
     public void saveBook(Book book) {
 
         if (StringUtils.isEmpty(book.getId())) {
+
+            Book old = bookDao.findOneByEbookFilenameAndDeleteFlag(book.getEbookAttachment().getFileName(), 0);
+            if (old != null) {
+                throw new RuntimeException(book.getEbookAttachment().getFileName() + "已存在");
+            }
+
             initEntity(book);
             book.setOrderNo(getNextOrderNo());
+        }else {
+            Book old = bookDao.isBookExist(book.getEbookFilename(), book.getId());
+            if (old != null) {
+                throw new RuntimeException(book.getEbookFilename() + "已存在");
+            }
         }
 
         // save picture
@@ -79,6 +90,7 @@ public class BookService extends BaseService {
                 e.printStackTrace();
             }
         }
+
 
         bookDao.save(book);
     }
