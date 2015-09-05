@@ -65,21 +65,20 @@ public class MenuController extends BaseController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public void create(@RequestBody Menu menu) {
+    @RequestMapping(method = RequestMethod.POST)
+    public Menu create(@RequestBody Menu menu) {
 
         menuService.saveMenu(menu);
+        return menu;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@RequestBody Menu menu) {
 
         menuService.saveMenu(menu);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
         menuService.deleteMenu(id);
     }

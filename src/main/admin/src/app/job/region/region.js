@@ -57,7 +57,7 @@ angular.module('app')
                 return '';
             }
             if ($scope.region.name == undefined) {
-                return '新增地区';
+                return '新增菜单';
             } else {
                 return (getRegionTitle($scope.region) || '_');
             }
