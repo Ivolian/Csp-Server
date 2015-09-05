@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
-import org.springside.modules.web.Servlets;
 
-import javax.servlet.ServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -18,61 +17,51 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/user")
 public class UserController extends BaseController {
 
-    private static final String PAGE_SIZE = "10";
 
     @Autowired
     private UserService userService;
 
+
+    //
+
+    // 后台列表查询
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public Page<User> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
-            ServletRequest request) {
+            @RequestParam(value = "search_cnName", defaultValue = "") String cnName,
+            @RequestParam(value = "search_username", defaultValue = "") String username,
+            @RequestParam(value = "search_courtId", defaultValue = "") String courtId) {
 
-        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
-        if (searchParams.get("_courtId")!=null) {
-            searchParams.put("EQ_court.id", searchParams.get("_courtId"));
-            searchParams.remove("_courtId");
-        }
+        Map<String, Object> searchParams = new HashMap<>();
+        searchParams.put("LIKE_cnName", cnName);
+        searchParams.put("LIKE_username", username);
+        searchParams.put("EQ_court.id", courtId);
 
         return userService.getUser(searchParams, pageNo, pageSize);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public User get(@PathVariable("id") String id) {
-
-        return userService.getUser(id);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-    public void create(@RequestBody User user) throws Exception{
+    @RequestMapping(method = RequestMethod.POST)
+    public void create(@RequestBody User user) throws Exception {
 
         userService.saveUser(user);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@RequestBody User user) {
 
         userService.updateUser(user);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") String id) {
-        userService.deleteUser(id);
-    }
-
-
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-    public void resetPassword(String userId) throws Exception{
+    public void resetPassword(String userId) {
 
-        User user = userService.getUser(userId);
-        user.setPassword("111111");
-        userService.saveUser(user);
+        userService.resetPassword(userId);
     }
 
 
     // 登录
-    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public JSONObject login(
             @RequestParam(value = "username", defaultValue = "") String username,
             @RequestParam(value = "password", defaultValue = "") String password) {
@@ -81,7 +70,7 @@ public class UserController extends BaseController {
     }
 
     // 修改密码
-    @RequestMapping(value = "/changePassword", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public JSONObject changePassword(
             @RequestParam(value = "userId", defaultValue = "") String userId,
             @RequestParam(value = "oldPassword", defaultValue = "") String oldPassword,
@@ -89,5 +78,20 @@ public class UserController extends BaseController {
 
         return userService.changePassword(userId, oldPassword, newPassword);
     }
+
+
+    // 基本无视的方法
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id) {
+        userService.deleteUser(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public User get(@PathVariable("id") String id) {
+
+        return userService.getUser(id);
+    }
+
 
 }

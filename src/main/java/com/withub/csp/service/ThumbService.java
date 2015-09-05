@@ -2,17 +2,18 @@ package com.withub.csp.service;
 
 import com.withub.csp.entity.Thumb;
 import com.withub.csp.repository.NewsDao;
-import com.withub.csp.repository.UserDao;
 import com.withub.csp.repository.ThumbDao;
+import com.withub.csp.repository.UserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.utils.Identities;
 
 import java.util.Date;
 
-@Component
+
+@Service
 @Transactional
 public class ThumbService {
 
