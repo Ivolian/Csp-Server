@@ -65,7 +65,7 @@ public class FavoriteBookService {
 
         searchParams.put("EQ_user.id", userId);
         Sort sort = new Sort(Sort.Direction.DESC, "eventTime");
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
+        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<FavoriteBook> spec = buildSpecificationComment(searchParams);
         return favoriteBookDao.findAll(spec, pageRequest);
     }

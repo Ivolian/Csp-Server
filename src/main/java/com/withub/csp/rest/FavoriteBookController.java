@@ -67,9 +67,6 @@ public class FavoriteBookController {
             jsonObject.put("ebook", book.getEbook());
             jsonObject.put("ebookFilename", book.getEbookFilename());
             jsonObject.put("summary", book.getSummary());
-
-           //
-            jsonObject.put("menuName", book.getMenu().getName());
             jsonArray.add(jsonObject);
         }
 

@@ -8,14 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.utils.Identities;
-
-import java.util.Date;
 
 
 @Service
 @Transactional
-public class ThumbService {
+public class ThumbService extends BaseService{
 
     @Autowired
     private ThumbDao thumbDao;
@@ -28,14 +25,12 @@ public class ThumbService {
 
     //
 
-    public void saveThumb(Thumb entity) {
+    public void saveThumb(Thumb thumb) {
 
-        if (StringUtils.isEmpty(entity.getId())) {
-            entity.setId(Identities.uuid());
-            entity.setEventTime(new Date());
-            entity.setDeleteFlag(0);
+        if (StringUtils.isEmpty(thumb.getId())) {
+           initEntity(thumb);
         }
-        thumbDao.save(entity);
+        thumbDao.save(thumb);
     }
 
     public boolean create(String userId, String newsId) {

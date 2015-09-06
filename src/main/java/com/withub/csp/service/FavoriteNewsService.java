@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.FavoriteNews;
 import com.withub.csp.entity.News;
-import com.withub.csp.repository.*;
+import com.withub.csp.repository.FavoriteNewsDao;
+import com.withub.csp.repository.NewsDao;
+import com.withub.csp.repository.UserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,14 +17,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
-import org.springside.modules.utils.Identities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Component
 @Transactional
-public class FavoriteNewsService {
+public class FavoriteNewsService extends BaseService {
 
     @Autowired
     private FavoriteNewsDao favoriteNewsDao;
@@ -33,13 +37,9 @@ public class FavoriteNewsService {
     @Autowired
     private NewsDao newsDao;
 
-    @Autowired
-    private CommentDao commentDao;
-
-    @Autowired
-    private ThumbDao thumbDao;
 
     //
+
 
     public boolean saveFavoriteNews(String userId, String newsId) {
 
@@ -52,9 +52,7 @@ public class FavoriteNewsService {
         favoriteNews.setUser(userDao.findOne(userId));
         favoriteNews.setNews(newsDao.findOne(newsId));
         if (StringUtils.isEmpty(favoriteNews.getId())) {
-            favoriteNews.setId(Identities.uuid());
-            favoriteNews.setEventTime(new Date());
-            favoriteNews.setDeleteFlag(0);
+            initEntity(favoriteNews);
         }
         favoriteNewsDao.save(favoriteNews);
         return true;
@@ -101,7 +99,7 @@ public class FavoriteNewsService {
             jsonObject.put("picture", news.getPicture());
             jsonObject.put("postTime", news.getPostTime());
             jsonObject.put("commentCount", news.getCommentList().size());
-            jsonObject.put("thumbCount", thumbDao.getThumbCountOfNews(news.getId()));
+            jsonObject.put("thumbCount", news.getThumbList().size());
             jsonArray.add(jsonObject);
         }
 
