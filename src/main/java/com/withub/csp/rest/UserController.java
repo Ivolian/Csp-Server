@@ -54,7 +54,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-    public void resetPassword(String userId) {
+    public void resetPassword(String userId)throws Exception{
 
         userService.resetPassword(userId);
     }

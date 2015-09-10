@@ -33,12 +33,7 @@ public class UserService extends BaseService {
     @Autowired
     private MenuService menuService;
 
-
-    private String DEFAULT_PASSWORD = "111111";
-
-
     //
-
 
     public void saveUser(User user) {
 
@@ -47,14 +42,23 @@ public class UserService extends BaseService {
             throw new RuntimeException("用户名已存在");
         }
         initEntity(user);
-        user.setPassword(DEFAULT_PASSWORD);
+
+        String telephone = user.getTelephone();
+        String password = telephone.substring(5, 11);
+        user.setPassword(password);
         encryptAndSave(user);
     }
 
-    public void resetPassword(String userId) {
+    public void resetPassword(String userId) throws Exception {
 
         User user = getUser(userId);
-        user.setPassword(DEFAULT_PASSWORD);
+        String telephone = user.getTelephone();
+        if (telephone == null || telephone.equals("")) {
+            throw new Exception("手机号是空的");
+        }
+
+        String password = telephone.substring(5, 11);
+        user.setPassword(password);
         encryptAndSave(user);
     }
 
