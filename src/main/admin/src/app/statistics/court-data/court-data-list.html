@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-xs-12 table-wrapper">
+        <div class="panel panel-table panel-primary">
+            <div class="panel-heading">
+                <form class="form-inline pull-right" role="form">
+
+                    <!--<label class="checkbox-inline c-checkbox" style="margin-right: 15px">-->
+                        <!--<input type="checkbox" ng-model="grid.queryInfo.onlyNotLogin">-->
+                        <!--<span class="fa fa-check"></span>只查询未登录人员</label>-->
+
+                    <input type="text" class="form-control" placeholder="请输入姓名"
+                           ng-model="grid.queryInfo.cnName">
+
+                    <div class="input-group" >
+
+                        <input date-picker
+                               format="YYYY-MM-DD HH:mm"
+                               ng-model="grid.queryInfo.beginDate"
+                               placeholder="请输入起始日期">
+                    </div>
+
+                    <div class="input-group" >
+
+                        <input date-picker
+                               format="YYYY-MM-DD HH:mm"
+                               ng-model="grid.queryInfo.endDate"
+                               placeholder="请输入结束日期">
+                    </div>
+
+                    <div class="input-group">
+
+                        <input tree-picker="Court" show-clear="false" placeholder="请选择法院"
+                               ng-model="grid.queryInfo.courtId">
+
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
+                            </button>
+                          </span>
+                    </div>
+
+                </form>
+            </div>
+
+            <table simple-table="grid" class="table table-hover  table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 60px;">#</th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>所属法院</th>
+                    <th>评论次数</th>
+                    <th>点赞次数</th>
+                    <th>登录次数</th>
+                    <th>阅读次数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="x in grid.items">
+                    <td record-no></td>
+                    <td>{{x.username}}</td>
+                    <td>{{x.cnName}}</td>
+                    <td>{{x.courtName}}</td>
+                    <td>{{x.commentCount}}</td>
+                    <td>{{x.thumbCount}}</td>
+                    <td>{{x.loginTimes}}</td>
+                    <td>{{x.readTimes}}</td>
+                   </tr>
+                </tbody>
+            </table>
+            <div pagination ng-model="grid.currentPage" total-items="grid.total" items-per-page="grid.pageSize"></div>
+        </div>
+    </div>
+</div>

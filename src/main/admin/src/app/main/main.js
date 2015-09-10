@@ -112,6 +112,17 @@ angular.module('app')
                         state: 'qa.comment'
                     }
                 ]
+            },
+            {
+                title: '统计管理',
+                state: 'statistics',
+                iconCls: 'fa fa-users',
+                children: [
+                    {
+                        title: '法院实时数据',
+                        state: 'statistics.courtData'
+                    }
+                ]
             }
         ];
 
