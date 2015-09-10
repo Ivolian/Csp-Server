@@ -143,6 +143,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.orbit:javax.el:2.1.0.v201105211819" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.orbit:com.sun.el:1.0.0.v201105211818" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.orbit:org.eclipse.jdt.core:3.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi:3.8" level="project" />
   </component>
 </module>
 

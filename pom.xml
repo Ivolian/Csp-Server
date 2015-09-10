@@ -354,6 +354,13 @@
             <version>${jetty.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.8</version>
+        </dependency>
+
         <!-- TEST end -->
     </dependencies>
 

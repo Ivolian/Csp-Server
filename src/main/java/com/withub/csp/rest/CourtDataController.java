@@ -81,7 +81,7 @@ public class CourtDataController extends BaseController {
                 if (loginTimes == 0) {
                     content.add(jsonObject);
                 }
-            }else {
+            } else {
                 content.add(jsonObject);
             }
         }
@@ -96,6 +96,15 @@ public class CourtDataController extends BaseController {
         response.put("totalPages", page.getTotalPages());
 
         return response;
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public String export(
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+    ) throws Exception {
+
+
+            return "sadf";
     }
 
 
