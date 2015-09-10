@@ -16,7 +16,7 @@ angular.module('app')
         return Restangular.service('courtData');
     })
 
-    .controller('CourtDataCtrl', function ($scope, $state, $modal, SimpleTable, courtData,$http) {
+    .controller('CourtDataCtrl', function ($scope, $state, $modal, SimpleTable, courtData, $http) {
 
         $scope.grid = SimpleTable(courtData.getList);
 
@@ -25,28 +25,17 @@ angular.module('app')
         $scope.grid.queryInfo.endDate = new Date();
         $scope.grid.queryInfo.onlyNotLogin = false;
 
-        $scope.export = function(){
+        $scope.export = function () {
 
             $http({
-               url:            PageContext.path + "/api/v1/courtData/export"
-        });
-
-//    console.log(
-//            PageContext.path + "/courtData/export");
-
-//            $http({
-//                url: PageContext.path + '/aems/exhibitionChart/outExecl',
-//                method: 'GET',
-//                params: {
-//                    dataPoints: _.pluck(widget.attributes.dataPoints, 'objectId'),
-//                    startTime: moment(widget.queryInfo.startTime).format('YYYY-MM-DD HH:mm:ss'),
-//                    endTime: moment(widget.queryInfo.endTime).format('YYYY-MM-DD HH:mm:ss'),
-//                    timeUnit: widget.attributes.defaultDateRange.unit,
-//                    style: widget.attributes.chartStyle
-//                }
-//            }).success(function (response) {
-//                window.location.href = PageContext.path + '/system/common/downloadTempFile?fileName=' + response.data.fileName + '&tempFileName=' + response.data.tempFileName;
-//            });
+                url: PageContext.path + "/api/v1/courtData/export",
+                method: 'GET'
+            }).success(function (repsonce) {
+                var tempFileName = repsonce["tempFileName"];
+                console.log(tempFileName);
+                window.location.href = PageContext.path + '/api/v1/file/download?tempFileName=' + tempFileName +
+                    '&fileName=' + '1.xls';
+            });
 
 
         }

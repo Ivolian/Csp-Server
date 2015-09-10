@@ -7,6 +7,7 @@ import com.withub.csp.repository.CommentDao;
 import com.withub.csp.repository.NewsReadDao;
 import com.withub.csp.repository.ThumbDao;
 import com.withub.csp.repository.UserLoginDao;
+import com.withub.csp.service.CourtDataService;
 import com.withub.csp.service.UserService;
 import com.withub.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class CourtDataController extends BaseController {
 
     @Autowired
     private NewsReadDao newsReadDao;
+
+    @Autowired
+    private CourtDataService courtDataService;
 
 
     @RequestMapping(method = RequestMethod.GET)
@@ -99,14 +103,11 @@ public class CourtDataController extends BaseController {
     }
 
     @RequestMapping(value = "/export", method = RequestMethod.GET)
-    public String export(
-            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
-    ) throws Exception {
+    public JSONObject export() throws Exception {
 
+      return   courtDataService.exportExcel();
 
-            return "sadf";
-    }
-
+     }
 
 }
 
