@@ -103,11 +103,14 @@ public class CourtDataController extends BaseController {
     }
 
     @RequestMapping(value = "/export", method = RequestMethod.GET)
-    public JSONObject export() throws Exception {
+    public JSONObject export(
+            @RequestParam(value = "fileName") String fileName,
+            @RequestParam(value = "courtId") String courtId,
+            @RequestParam(value = "beginTime") String beginTime,
+            @RequestParam(value = "endTime") String endTime) throws Exception {
 
-      return   courtDataService.exportExcel();
-
-     }
+        return courtDataService.exportExcel(fileName,courtId, beginTime, endTime);
+    }
 
 }
 
