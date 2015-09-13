@@ -34,7 +34,6 @@ angular.module('app')
 
     })
 
-
     .controller('CourtDataExportCtrl', function ($scope, $modalInstance, $http) {
 
         $scope.courtDataExport = {};
@@ -53,8 +52,8 @@ angular.module('app')
                 params: {
                     fileName: $scope.courtDataExport.fileName,
                     courtId: $scope.courtDataExport.court.id,
-                    beginTime: $scope.courtDataExport.beginTime,
-                    endTime: $scope.courtDataExport.endTime
+                    beginTime: moment($scope.courtDataExport.beginTime).format('YYYY-MM-DD HH:mm'),
+                    endTime: moment($scope.courtDataExport.endTime).format('YYYY-MM-DD HH:mm')
                 }
             }).success(function (repsonce) {
 
@@ -66,7 +65,6 @@ angular.module('app')
                 $modalInstance.close();
             });
         };
-
 
     })
 

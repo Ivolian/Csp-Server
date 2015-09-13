@@ -57,7 +57,7 @@ public class CourtDataController extends BaseController {
             @RequestParam(value = "search_onlyNotLogin", defaultValue = "false") boolean onlyNotLogin
     ) throws Exception {
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date beginDate = simpleDateFormat.parse(beginDateString);
         Date endDate = simpleDateFormat.parse(endDateString);
 
@@ -109,7 +109,8 @@ public class CourtDataController extends BaseController {
             @RequestParam(value = "beginTime") String beginTime,
             @RequestParam(value = "endTime") String endTime) throws Exception {
 
-        return courtDataService.exportExcel(fileName,courtId, beginTime, endTime);
+        JSONObject response = courtDataService.exportExcel(fileName, courtId, beginTime,endTime);
+        return response;
     }
 
 }
