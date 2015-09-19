@@ -121,6 +121,10 @@ angular.module('app')
                     {
                         title: '法院实时数据',
                         state: 'statistics.courtData'
+                    },
+                    {
+                        title: '法院总汇数据',
+                        state: 'statistics.courtSum'
                     }
                 ]
             }

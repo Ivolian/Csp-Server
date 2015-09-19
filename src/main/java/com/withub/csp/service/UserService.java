@@ -87,6 +87,7 @@ public class UserService extends BaseService {
         User user = userDao.findOneByUsernameAndDeleteFlag(username, 0);
         if (user == null) {
             result.put("errorMsg", "用户不存在");
+            result.put("courtId",user.getCourt().getId());
             result.put("result", false);
             return result;
         }

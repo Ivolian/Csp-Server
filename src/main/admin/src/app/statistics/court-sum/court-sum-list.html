@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-xs-12 table-wrapper">
+        <div class="panel panel-table panel-primary">
+            <div class="panel-heading">
+                <button class="btn btn-primary" ng-click="exportExcel()"><i class="fa fa-fw fa-file-excel-o"></i>
+                    导出Excel
+                </button>
+
+                <form class="form-inline pull-right" role="form">
+
+                    <div class="input-group">
+
+                        <input date-picker
+                               format="YYYY-MM-DD HH:mm"
+                               ng-model="grid.queryInfo.beginDate"
+                               placeholder="请输入起始日期">
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <input date-picker
+                               format="YYYY-MM-DD HH:mm"
+                               ng-model="grid.queryInfo.endDate"
+                               placeholder="请输入结束日期">
+         <span class="input-group-btn">
+                            <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
+                            </button>
+                          </span>
+                    </div>
+
+                </form>
+            </div>
+
+            <table simple-table="grid" class="table table-hover  table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 60px;">#</th>
+                    <th>法院</th>
+                    <th>人数</th>
+                    <th>大于20</th>
+                    <th>0-20次</th>
+                    <th>0次</th>
+                    <th>登录过的人数</th>
+                    <th>登录率</th>
+                    <th>登录次数达标率</th>
+                    <th>登录次数</th>
+                    <th>阅读次数</th>
+                    <th>阅读比</th>
+                    <th>评论次数</th>
+                    <th>评论比</th>
+                    <th>点赞次数</th>
+                    <th>点赞比</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="x in grid.items">
+                    <td record-no></td>
+                    <td>{{x.courtName}}</td>
+                    <td>{{x.userCount}}</td>
+                    <td>{{x.userCount_20}}</td>
+                    <td>{{x.userCount_0_20}}</td>
+                    <td>{{x.userCount_0}}</td>
+                    <td>{{x.userCount_l}}</td>
+                    <td>{{x.loginRate}}</td>
+                    <td>{{x.goodLoginRate}}</td>
+                    <td>{{x.loginTimes}}</td>
+                    <td>{{x.readTimes}}</td>
+                    <td>{{x.readScale}}</td>
+                    <td>{{x.commentCount}}</td>
+                    <td>{{x.commentScale}}</td>
+                    <td>{{x.thumbCount}}</td>
+                    <td>{{x.thumbScale}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div pagination ng-model="grid.currentPage" total-items="grid.total" items-per-page="grid.pageSize"></div>
+        </div>
+    </div>
+</div>

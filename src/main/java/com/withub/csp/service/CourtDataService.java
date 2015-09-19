@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigInteger;
 import java.util.List;
 
 
@@ -84,13 +85,13 @@ public class CourtDataService extends BaseService {
             cCourtName = row.createCell(2);
             cCourtName.setCellValue(object[2].toString());
             cLoginTimes = row.createCell(3);
-            cLoginTimes.setCellValue(object[3].toString());
+            cLoginTimes.setCellValue(((BigInteger) object[3]).intValue());
             cReadTimes = row.createCell(4);
-            cReadTimes.setCellValue(object[4].toString());
+            cReadTimes.setCellValue(((BigInteger) object[4]).intValue());
             cCommentCount = row.createCell(5);
-            cCommentCount.setCellValue(object[5].toString());
+            cCommentCount.setCellValue(((BigInteger) object[5]).intValue());
             cThumbCount = row.createCell(6);
-            cThumbCount.setCellValue(object[6].toString());
+            cThumbCount.setCellValue(((BigInteger) object[6]).intValue());
         }
 
         return hssfWorkbook;
