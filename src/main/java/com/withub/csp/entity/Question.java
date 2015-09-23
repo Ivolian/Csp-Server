@@ -14,6 +14,7 @@ public class Question extends BaseEntity {
 
     private User user;
     private String content;
+    private String type;    // 有问有答 建议意见
 
     // ======================= Setter & Getter =======================
 
@@ -33,6 +34,14 @@ public class Question extends BaseEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

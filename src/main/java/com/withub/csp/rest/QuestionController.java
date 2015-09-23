@@ -54,9 +54,11 @@ public class QuestionController extends BaseController {
     @RequestMapping(value = "/listForMobile", method = RequestMethod.GET)
     public JSONObject listForMobile(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize) {
+            @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
+            @RequestParam(value = "type", defaultValue = "有问有答") String type) {
 
         Map<String, Object> searchParams = new HashMap<>();
+        searchParams.put("EQ_type", type);
 
         Page<Question> questionPage = questionService.getQuestion(searchParams, pageNo, pageSize);
         List<Question> questionList = questionPage.getContent();
@@ -80,9 +82,10 @@ public class QuestionController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public JSONObject create(
             @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "type") String type,
             @RequestParam(value = "content") String content) {
 
-        return questionService.create(userId, content);
+        return questionService.create(userId, type,content);
     }
 
 

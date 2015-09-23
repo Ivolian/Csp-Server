@@ -42,7 +42,7 @@ public class QuestionService extends BaseService{
     }
 
     // 创建提问，供手机端使用
-    public JSONObject create(String userId, String content) {
+    public JSONObject create(String userId, String type,String content) {
 
         JSONObject result = new JSONObject();
 
@@ -58,6 +58,7 @@ public class QuestionService extends BaseService{
         Question question = new Question();
         initEntity(question);
         question.setUser(user);
+        question.setType(type);
         question.setContent(content);
         questionDao.save(question);
 
