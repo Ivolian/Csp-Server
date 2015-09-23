@@ -80,14 +80,13 @@ public class UserService extends BaseService {
 
 
     // 登录
-    public JSONObject loginCheck(String username, String password) {
+    public JSONObject loginCheck(String username, String password,String currentVersionName) {
 
         JSONObject result = new JSONObject();
 
         User user = userDao.findOneByUsernameAndDeleteFlag(username, 0);
         if (user == null) {
             result.put("errorMsg", "用户不存在");
-            result.put("courtId",user.getCourt().getId());
             result.put("result", false);
             return result;
         }
@@ -101,7 +100,12 @@ public class UserService extends BaseService {
         // 登录成功
         result.put("result", true);
         result.put("userId", user.getId());
+        result.put("courtId",user.getCourt().getId());
         result.put("rootMenuItem", menuService.getRootMenuItem());
+
+        user.setCurrentVersionName(currentVersionName);
+        userDao.save(user);
+
 
         // 添加登录记录
         UserLogin userLogin = new UserLogin();
@@ -111,6 +115,13 @@ public class UserService extends BaseService {
         userLoginDao.save(userLogin);
 
         return result;
+    }
+
+    public void updatePushTag(String userId, String pushTag) {
+
+        User user = getUser(userId);
+        user.setPushTag(pushTag);
+        userDao.save(user);
     }
 
 

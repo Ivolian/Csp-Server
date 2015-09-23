@@ -1,5 +1,10 @@
 package com.withub.csp.rest;
 
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.model.Platform;
+import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.Notification;
 import com.withub.csp.entity.Court;
 import com.withub.csp.service.CourtService;
 import com.withub.web.controller.BaseController;
@@ -49,7 +54,7 @@ public class CourtController extends BaseController {
         for (Court court : courtList) {
             List<Court> subCourtList = courtService.getCourtByParentId(court.getId());
             Map<String, Object> item = new HashMap<>();
-            List<Map> subItems = new ArrayList<>();
+            List<Map> subItems = new ArrayList<Map>();
             item.put("name", court.getName());
             item.put("items", subItems);
             if (!CollectionUtils.isEmpty(subCourtList)) {
@@ -90,6 +95,26 @@ public class CourtController extends BaseController {
     public List<Court> list() {
 
         return courtService.getAllCourt();
+    }
+
+    //
+
+    @RequestMapping(value = "/pushUpdate", method = RequestMethod.GET)
+    public void pushUpdate(
+            @RequestParam(value = "courtId") String courtId) {
+
+        String pushTag = courtId.replace("-", "_");
+        JPushClient jPushClient = new JPushClient("4a403a6df5b37fe29b3b68f1", "0c6d82e59bc4a8b85eaa05c8", 3);
+
+        PushPayload pushPayload = PushPayload.newBuilder().setPlatform(Platform.android())
+                .setAudience(Audience.tag(pushTag))
+                .setNotification(Notification.alert("检测到新的版本"))
+                .build();
+        try {
+            jPushClient.sendPush(pushPayload);
+        } catch (Exception e) {
+            //
+        }
     }
 
 }

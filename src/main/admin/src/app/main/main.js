@@ -45,6 +45,7 @@ angular.module('app')
             '微软雅黑', '黑体', '宋体', '楷体',
             'Arial', 'Courier New', 'monospace'
         ],
+        fontSizes: [12,14,16,18,20,22,24,26,28,30],
         lang: "zh-CN"
     })
     .run(function ($rootScope, $state, $stateParams) {

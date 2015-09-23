@@ -17,6 +17,8 @@ public class User extends BaseEntity {
     private String telephone;
     private String qq;
     private String email;
+    private String currentVersionName;
+    private String pushTag;
 
     // ======================= Setter & Getter =======================
 
@@ -85,6 +87,22 @@ public class User extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCurrentVersionName() {
+        return currentVersionName;
+    }
+
+    public void setCurrentVersionName(String currentVersionName) {
+        this.currentVersionName = currentVersionName;
+    }
+
+    public String getPushTag() {
+        return pushTag;
+    }
+
+    public void setPushTag(String pushTag) {
+        this.pushTag = pushTag;
     }
 
 }

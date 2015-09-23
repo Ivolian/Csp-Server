@@ -18,6 +18,19 @@ angular.module('app')
 
     .controller('UserListCtrl', function ($scope, $state, $modal, SimpleTable, User, $http) {
 
+        $scope.pushUpdate = function (user) {
+
+            $http({
+                url: PageContext.path + "/api/v1/user/pushUpdate",
+                method: 'GET',
+                params: {
+                    userId: user.id
+                }
+            }).success(function (repsonce) {
+                Toaster.success("推送完成！");
+            });
+        };
+
         $scope.grid = SimpleTable(User.getList);
 
         $scope.createUser = function () {

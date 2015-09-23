@@ -1,5 +1,10 @@
 package com.withub.csp.rest;
 
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.model.Platform;
+import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.Notification;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.User;
 import com.withub.csp.service.UserService;
@@ -64,9 +69,11 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public JSONObject login(
             @RequestParam(value = "username", defaultValue = "") String username,
-            @RequestParam(value = "password", defaultValue = "") String password) {
+            @RequestParam(value = "password", defaultValue = "") String password,
+            @RequestParam(value = "currentVersionName", defaultValue = "") String currentVersionName
+            ) {
 
-        return userService.loginCheck(username, password);
+        return userService.loginCheck(username, password,currentVersionName);
     }
 
     // 修改密码
@@ -77,6 +84,16 @@ public class UserController extends BaseController {
             @RequestParam(value = "newPassword", defaultValue = "") String newPassword) {
 
         return userService.changePassword(userId, oldPassword, newPassword);
+    }
+
+    // 更新 pushTag
+    @RequestMapping(value = "/updatePushTag", method = RequestMethod.GET)
+    public void updatePushTag(
+            @RequestParam(value = "userId", defaultValue = "") String userId,
+            @RequestParam(value = "pushTag", defaultValue = "") String pushTag
+    ) {
+
+         userService.updatePushTag(userId, pushTag);
     }
 
 
@@ -93,5 +110,24 @@ public class UserController extends BaseController {
         return userService.getUser(id);
     }
 
+    //
+
+    @RequestMapping(value = "/pushUpdate", method = RequestMethod.GET)
+    public void pushUpdate(
+            @RequestParam(value = "userId") String userId) {
+
+        String pushTag = userId.replace("-", "_");
+        JPushClient jPushClient = new JPushClient("4a403a6df5b37fe29b3b68f1", "0c6d82e59bc4a8b85eaa05c8", 3);
+
+        PushPayload pushPayload = PushPayload.newBuilder().setPlatform(Platform.android())
+                .setAudience(Audience.tag(pushTag))
+                .setNotification(Notification.alert("检测到新的版本"))
+                .build();
+        try {
+            jPushClient.sendPush(pushPayload);
+        } catch (Exception e) {
+            //
+        }
+    }
 
 }

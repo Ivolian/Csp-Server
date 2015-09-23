@@ -23,7 +23,20 @@ angular.module('app')
         }, Restangular.service('court'));
     })
 
-    .controller('CourtCtrl', function ($scope, $timeout, $q, $state, $modal, SimpleTree, Court, focus) {
+    .controller('CourtCtrl', function ($scope, $timeout, $q, $state, $modal, SimpleTree, Court, focus, $http) {
+
+        $scope.pushUpdate = function () {
+
+            $http({
+                url: PageContext.path + "/api/v1/court/pushUpdate",
+                method: 'GET',
+                params: {
+                    courtId: $scope.court.id
+                }
+            }).success(function (repsonce) {
+                Toaster.success("推送完成！");
+            });
+        };
 
         $scope.tree = SimpleTree(Court.loadTree, {defaultIcon: 'fa-sitemap'});
 
