@@ -24,7 +24,9 @@
                 </h3>
 
                 <div class="btn-group pull-right">
-                    <button type="button" class="btn btn-danger" ng-disabled="!region.parent" ng-click="deleteRegion()">删除</button>
+                    <button type="button" class="btn btn-danger" ng-disabled="!region.parent" ng-click="deleteRegion()">
+                        删除
+                    </button>
                 </div>
             </div>
             <div class="panel-body">
@@ -35,7 +37,16 @@
                                 <label class="col-sm-2 control-label">名称</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name" ng-model="region.name" validator="required" focus-on="name">
+                                    <input type="text" class="form-control" name="name" ng-model="region.name"
+                                           validator="required" focus-on="name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">上层菜单</label>
+
+                                <div class="col-sm-10">
+                                    <input tree-picker="Region" show-clear="false" ng-model="region.parent">
                                 </div>
                             </div>
 
@@ -43,13 +54,14 @@
                                 <label class="col-sm-2 control-label">类型</label>
 
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="type" ng-model="region.type" validator="required">
+                                    <select class="form-control" name="type" ng-model="region.type"
+                                            validator="required">
                                         <option value="father">父节点</option>
                                         <option value="news">新闻</option>
                                         <option value="book">书籍</option>
                                         <option value="bookCity">中国知网</option>
                                         <option value="myShelf">我的书架</option>
-                                        <option value="qa">有问有答</option>
+                                        <option value="study">学习交流</option>
                                         <option value="advice">建议意见</option>
                                     </select>
                                 </div>
@@ -59,14 +71,17 @@
                                 <label class="col-sm-2 control-label">排序号</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="orderNo" ng-model="region.orderNo" validator="required,number">
+                                    <input type="text" class="form-control" name="orderNo" ng-model="region.orderNo"
+                                           validator="required,number">
                                 </div>
                             </div>
 
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary btn-bw" validation-submit="regionForm" ng-click="saveRegion()">保存</button>
+                        <button class="btn btn-primary btn-bw" validation-submit="regionForm" ng-click="saveRegion()">
+                            保存
+                        </button>
                     </div>
                     <div cg-busy="promise"></div>
                 </form>

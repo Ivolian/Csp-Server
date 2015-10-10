@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.utils.Identities;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.io.File;
@@ -99,11 +100,14 @@ public class CourtDataService extends BaseService {
 
     private List getResultList(String courtId, String beginTime, String endTime) {
 
-        Query query = entityManagerFactory.createEntityManager().createNativeQuery(getNativeSql());
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createNativeQuery(getNativeSql());
         query.setParameter("courtId", courtId);
         query.setParameter("beginTime", beginTime);
         query.setParameter("endTime", endTime);
-        return query.getResultList();
+        List resultList = query.getResultList();
+        entityManager.close();
+        return resultList;
     }
 
     private String getNativeSql() {
@@ -153,6 +157,7 @@ public class CourtDataService extends BaseService {
                 "LEFT JOIN csp_court f ON a.court_id = f.id \n" +
                 "\n" +
                 "WHERE a.court_id = :courtId\n" +
+                "AND a.delete_flag = 0\n"+
                 "ORDER BY b.loginTimes DESC";
     }
 

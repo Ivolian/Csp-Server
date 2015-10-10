@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.utils.Identities;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.io.File;
@@ -191,10 +192,13 @@ public class CourtSumService extends BaseService {
 
     private List getResultList(String beginTime, String endTime) {
 
-        Query query = entityManagerFactory.createEntityManager().createNativeQuery(getNativeSql());
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createNativeQuery(getNativeSql());
         query.setParameter("beginTime", beginTime);
         query.setParameter("endTime", endTime);
-        return query.getResultList();
+        List resultList = query.getResultList();
+        entityManager.close();
+        return resultList;
     }
 
 
@@ -264,6 +268,7 @@ public class CourtSumService extends BaseService {
                 "        ON a.id = e.user_id \n" +
                 "      LEFT JOIN csp_court f \n" +
                 "        ON a.court_id = f.id \n" +
+                " WHERE a.delete_flag = 0\n"+
                 "    GROUP BY f.id) b \n" +
                 "    ON a.id = b.court_id \n" +
                 "  LEFT JOIN \n" +
