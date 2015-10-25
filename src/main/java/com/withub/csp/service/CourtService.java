@@ -1,7 +1,5 @@
 package com.withub.csp.service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.Court;
 import com.withub.csp.repository.CourtDao;
 import org.apache.commons.lang3.StringUtils;
@@ -69,7 +67,7 @@ public class CourtService {
     }
 
     public List<Court> getAllCourt() {
-        Sort sort = new Sort(Direction.ASC, "parent", "orderNo");
+        Sort sort = new Sort(Direction.ASC, "parent");
         Map<String, Object> searchParams = new HashMap<>();
         return courtDao.findAll(buildSpecificationRegion(searchParams), sort);
     }
