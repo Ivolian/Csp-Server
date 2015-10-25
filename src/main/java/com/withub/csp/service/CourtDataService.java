@@ -57,7 +57,8 @@ public class CourtDataService extends BaseService {
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
         HSSFSheet hssfSheet = hssfWorkbook.createSheet();
         Row row;
-        Cell cUsername, cCnName, cCourtName, cLoginTimes, cReadTimes, cCommentCount, cThumbCount;
+        Cell cUsername, cCnName, cCourtName, cDepartment,
+                cLoginTimes, cReadTimes, cCommentCount, cThumbCount;
 
         // 表头
         row = hssfSheet.createRow(0);
@@ -67,13 +68,15 @@ public class CourtDataService extends BaseService {
         cCnName.setCellValue("姓名");
         cCourtName = row.createCell(2);
         cCourtName.setCellValue("所属法院");
-        cLoginTimes = row.createCell(3);
+        cDepartment = row.createCell(3);
+        cDepartment.setCellValue("所属部门");
+        cLoginTimes = row.createCell(4);
         cLoginTimes.setCellValue("登录次数");
-        cReadTimes = row.createCell(4);
+        cReadTimes = row.createCell(5);
         cReadTimes.setCellValue("阅读次数");
-        cCommentCount = row.createCell(5);
+        cCommentCount = row.createCell(6);
         cCommentCount.setCellValue("评论次数");
-        cThumbCount = row.createCell(6);
+        cThumbCount = row.createCell(7);
         cThumbCount.setCellValue("点赞次数");
 
         for (Object[] object : resultList) {
@@ -85,14 +88,18 @@ public class CourtDataService extends BaseService {
             cCnName.setCellValue(object[1].toString());
             cCourtName = row.createCell(2);
             cCourtName.setCellValue(object[2].toString());
-            cLoginTimes = row.createCell(3);
-            cLoginTimes.setCellValue(((BigInteger) object[3]).intValue());
-            cReadTimes = row.createCell(4);
-            cReadTimes.setCellValue(((BigInteger) object[4]).intValue());
-            cCommentCount = row.createCell(5);
-            cCommentCount.setCellValue(((BigInteger) object[5]).intValue());
-            cThumbCount = row.createCell(6);
-            cThumbCount.setCellValue(((BigInteger) object[6]).intValue());
+            cDepartment = row.createCell(3);
+            if (object[3] != null) {
+                cDepartment.setCellValue(object[3].toString());
+            }
+            cLoginTimes = row.createCell(4);
+            cLoginTimes.setCellValue(((BigInteger) object[4]).intValue());
+            cReadTimes = row.createCell(5);
+            cReadTimes.setCellValue(((BigInteger) object[5]).intValue());
+            cCommentCount = row.createCell(6);
+            cCommentCount.setCellValue(((BigInteger) object[6]).intValue());
+            cThumbCount = row.createCell(7);
+            cThumbCount.setCellValue(((BigInteger) object[7]).intValue());
         }
 
         return hssfWorkbook;
@@ -116,6 +123,7 @@ public class CourtDataService extends BaseService {
                 "a.username '用户名',\n" +
                 "a.cn_name '姓名',\n" +
                 "f.name '所属法院',\n" +
+                "g.name '所属部门',\n" +
                 "IFNULL(b.loginTimes,0) '登录次数',\n" +
                 "IFNULL(c.readTimes,0) '阅读次数',\n" +
                 "IFNULL(d.commentCount,0) '评论次数',\n" +
@@ -156,8 +164,10 @@ public class CourtDataService extends BaseService {
                 "\n" +
                 "LEFT JOIN csp_court f ON a.court_id = f.id \n" +
                 "\n" +
+                "LEFT JOIN csp_department g ON a.department_id = g.id \n" +
+                "\n" +
                 "WHERE a.court_id = :courtId\n" +
-                "AND a.delete_flag = 0\n"+
+                "AND a.delete_flag = 0\n" +
                 "ORDER BY b.loginTimes DESC";
     }
 
