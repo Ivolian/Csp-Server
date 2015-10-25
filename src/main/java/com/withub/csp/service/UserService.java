@@ -16,6 +16,12 @@ import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -32,6 +38,10 @@ public class UserService extends BaseService {
 
     @Autowired
     private MenuService menuService;
+
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
 
     //
 
@@ -80,7 +90,7 @@ public class UserService extends BaseService {
 
 
     // 登录
-    public JSONObject loginCheck(String username, String password,String currentVersionName) {
+    public JSONObject loginCheck(String username, String password, String currentVersionName) {
 
         JSONObject result = new JSONObject();
 
@@ -100,12 +110,14 @@ public class UserService extends BaseService {
         // 登录成功
         result.put("result", true);
         result.put("userId", user.getId());
-        result.put("courtId",user.getCourt().getId());
+        result.put("courtId", user.getCourt().getId());
         result.put("rootMenuItem", menuService.getRootMenuItem());
+
+        // 点赞，收藏，评论，阅读，回复，登录
+//        System.out.println(getUserCurrentMontyLoginTimes(user.getId()));
 
         user.setCurrentVersionName(currentVersionName);
         userDao.save(user);
-
 
         // 添加登录记录
         UserLogin userLogin = new UserLogin();
@@ -116,6 +128,7 @@ public class UserService extends BaseService {
 
         return result;
     }
+
 
     public void updatePushTag(String userId, String pushTag) {
 
@@ -177,6 +190,38 @@ public class UserService extends BaseService {
         String ePassword = MD5Utils.encryptByMD5(user.getPassword());
         user.setPassword(ePassword);
         userDao.save(user);
+    }
+
+    private String getFirstDayOfMonth() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        return new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+    }
+
+    private String getNextDay() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+    }
+
+    private int getUserCurrentMontyLoginTimes(String userId) {
+
+        String sql = "SELECT COUNT(*) FROM csp_user_login \n" +
+                "WHERE user_id = :userId\n" +
+                "AND event_time > :beginTime\n" +
+                "AND event_time < :endTime";
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("userId", userId);
+        query.setParameter("beginTime", getFirstDayOfMonth());
+        query.setParameter("endTime", getNextDay());
+        BigInteger loginTimes = (BigInteger) query.getSingleResult();
+        return loginTimes.intValue();
     }
 
 }

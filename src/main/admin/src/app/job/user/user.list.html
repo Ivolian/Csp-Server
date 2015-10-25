@@ -11,6 +11,11 @@
                     <input type="text" class="form-control" placeholder="请输入姓名"
                            ng-model="grid.queryInfo.cnName">
 
+                    <!--<div class="input-group">-->
+
+                        <!--<input group-select="Department" ng-model="grid.queryInfo.departmentId"  placeholder="请选择部门">-->
+                    <!--</div>-->
+
                     <div class="input-group">
 
                         <input tree-picker="Court" show-clear="false" placeholder="请选择法院"
@@ -20,6 +25,8 @@
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
                             </button>
                           </span>
+
+
                     </div>
 
                 </form>
@@ -30,7 +37,8 @@
                     <th style="width: 60px;">#</th>
                     <th>用户名</th>
                     <th>姓名</th>
-                    <th>所属法院</th>
+                    <th>法院</th>
+                    <th>部门</th>
                     <th>职位</th>
                     <th>手机号</th>
                     <th>客户端版本号</th>
@@ -44,6 +52,7 @@
                     <td>{{x.username}}</td>
                     <td>{{x.cnName}}</td>
                     <td>{{x.court.name}}</td>
+                    <td>{{x.department.name}}</td>
                     <td>{{x.position}}</td>
                     <td>{{x.telephone}}</td>
                     <td>{{x.currentVersionName}}</td>

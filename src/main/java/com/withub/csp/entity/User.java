@@ -1,6 +1,7 @@
 package com.withub.csp.entity;
 
 import com.withub.csp.entity.base.BaseEntity;
+
 import javax.persistence.*;
 
 
@@ -19,6 +20,7 @@ public class User extends BaseEntity {
     private String email;
     private String currentVersionName;
     private String pushTag;
+    private Department department;
 
     // ======================= Setter & Getter =======================
 
@@ -103,6 +105,16 @@ public class User extends BaseEntity {
 
     public void setPushTag(String pushTag) {
         this.pushTag = pushTag;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
 }

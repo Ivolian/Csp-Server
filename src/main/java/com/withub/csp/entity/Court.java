@@ -1,23 +1,24 @@
 package com.withub.csp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.withub.csp.entity.base.BaseEntity;
+import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 
-// todo 提醒小任 表结构改动
 @Entity
 @Table(name = "csp_court")
-public class Court extends BaseEntity{
+public class Court extends BaseEntity {
 
     private String name;
 
     private Integer courtType;
 
     private Court parent;
+
+    private List<Department> departmentList;
 
     //
 
@@ -45,6 +46,18 @@ public class Court extends BaseEntity{
 
     public void setParent(Court parent) {
         this.parent = parent;
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "court", fetch = FetchType.LAZY)
+    @OrderBy(value = "eventTime asc")
+    @Where(clause = "delete_flag=0")
+    public List<Department> getDepartmentList() {
+        return departmentList;
+    }
+
+    public void setDepartmentList(List<Department> departmentList) {
+        this.departmentList = departmentList;
     }
 
 }

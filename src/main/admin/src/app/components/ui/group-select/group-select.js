@@ -5,7 +5,8 @@ angular.module('unicorn.ui')
     .directive('groupSelect', function ($http) {
 
         var urls = {
-            'Region': PageContext.path + '/api/v1/region/group'
+            'Region': PageContext.path + '/api/v1/region/group',
+            'Department': PageContext.path + '/api/v1/department/group'
         };
 
         return {

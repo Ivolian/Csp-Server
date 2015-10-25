@@ -1,0 +1,31 @@
+<form class="form-horizontal new-form" role="form" name="departmentForm">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">所属法院</label>
+
+            <div class="col-sm-10">
+                <input tree-picker="Court" show-clear="false" name="court" ng-model="department.court" ng-validator="required">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">部门名称</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" ng-model="department.name" validator="required">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" validation-submit="departmentForm" ng-click="submit()">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+    <div cg-busy="promise"></div>
+</form>
