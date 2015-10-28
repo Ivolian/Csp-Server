@@ -113,7 +113,15 @@ public class UserService extends BaseService {
         result.put("courtId", user.getCourt().getId());
         result.put("rootMenuItem", menuService.getRootMenuItem());
 
-        // 点赞，收藏，评论，阅读，回复，登录
+        // 点赞，收藏，评论，阅读，登录次数
+        // todo 目前没有回复
+        result.put("thumbCount", getCurrentMonthThumbCount(user.getId()));
+        result.put("favoriteNewsCount", getCurrentMonthFavoriteNewsCount(user.getId()));
+        result.put("commentCount", getCurrentMonthCommentCount(user.getId()));
+        result.put("readTimes", getCurrentMontyReadTimes(user.getId()));
+        result.put("loginTimes", getCurrentMontyLoginTimes(user.getId()));
+
+
 //        System.out.println(getUserCurrentMontyLoginTimes(user.getId()));
 
         user.setCurrentVersionName(currentVersionName);
@@ -208,20 +216,70 @@ public class UserService extends BaseService {
         return new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
     }
 
-    private int getUserCurrentMontyLoginTimes(String userId) {
-
-        String sql = "SELECT COUNT(*) FROM csp_user_login \n" +
-                "WHERE user_id = :userId\n" +
-                "AND event_time > :beginTime\n" +
-                "AND event_time < :endTime";
+    private int getCurrentMonthData(String userId, String sql) {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("userId", userId);
         query.setParameter("beginTime", getFirstDayOfMonth());
         query.setParameter("endTime", getNextDay());
-        BigInteger loginTimes = (BigInteger) query.getSingleResult();
-        return loginTimes.intValue();
+        BigInteger result = (BigInteger) query.getSingleResult();
+        entityManager.close();
+        return result.intValue();
+    }
+
+    private int getCurrentMontyLoginTimes(String userId) {
+
+        String sql = "SELECT COUNT(*) FROM csp_user_login \n" +
+                "WHERE user_id = :userId\n" +
+                "AND event_time > :beginTime\n" +
+                "AND event_time < :endTime";
+
+        return getCurrentMonthData(userId, sql);
+    }
+
+    // todo 他会有缓存
+    private int getCurrentMonthThumbCount(String userId) {
+
+        String sql = "SELECT COUNT(*) FROM csp_thumb \n" +
+                "WHERE user_id = :userId\n" +
+                "AND delete_flag = 0\n" +
+                "AND event_time > :beginTime\n" +
+                "AND event_time < :endTime";
+
+        return getCurrentMonthData(userId, sql);
+    }
+
+    private int getCurrentMonthFavoriteNewsCount(String userId) {
+
+        String sql = "SELECT COUNT(*) FROM csp_favorite_news \n" +
+                "WHERE user_id = :userId\n" +
+                "AND delete_flag = 0\n" +
+                "AND event_time > :beginTime\n" +
+                "AND event_time < :endTime";
+
+        return getCurrentMonthData(userId, sql);
+    }
+
+    private int getCurrentMontyReadTimes(String userId) {
+
+        String sql = "SELECT COUNT(*) FROM csp_news_read \n" +
+                "WHERE user_id = :userId\n" +
+                "AND event_time > :beginTime\n" +
+                "AND event_time < :endTime";
+
+        return getCurrentMonthData(userId, sql);
+    }
+
+    private int getCurrentMonthCommentCount(String userId) {
+
+        String sql = "SELECT COUNT(*) FROM csp_comment \n" +
+                "WHERE user_id = :userId\n" +
+                "AND delete_flag = 0\n" +
+                "AND event_time > :beginTime\n" +
+                "AND event_time < :endTime";
+
+        return getCurrentMonthData(userId, sql);
     }
 
 }

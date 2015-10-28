@@ -6,8 +6,16 @@ import com.withub.csp.repository.ThumbDao;
 import com.withub.csp.repository.UserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springside.modules.persistence.DynamicSpecifications;
+import org.springside.modules.persistence.SearchFilter;
+
+import java.util.Map;
 
 
 @Service
@@ -45,6 +53,23 @@ public class ThumbService extends BaseService{
         thumb.setNews(newsDao.findOne(newsId));
         saveThumb(thumb);
         return true;
+    }
+
+    public Page<Thumb> getThumb(Map<String, Object> searchParams, int pageNo, int pageSize) {
+
+        Sort sort = new Sort(Sort.Direction.DESC, "eventTime");
+        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
+        Specification<Thumb> spec = buildSpecification(searchParams);
+        return thumbDao.findAll(spec, pageRequest);
+    }
+
+    // 基本无视的方法
+
+    private Specification<Thumb> buildSpecification(Map<String, Object> searchParams) {
+
+        searchParams.put("EQ_deleteFlag", "0");
+        Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+        return DynamicSpecifications.bySearchFilter(filters.values(), Thumb.class);
     }
 
 }
