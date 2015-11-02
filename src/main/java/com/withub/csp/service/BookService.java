@@ -1,5 +1,7 @@
 package com.withub.csp.service;
 
+import com.withub.common.DynamicSpecifications;
+import com.withub.common.SearchFilter;
 import com.withub.csp.entity.Book;
 import com.withub.csp.repository.BookDao;
 import org.apache.commons.io.FileUtils;
@@ -14,8 +16,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.DynamicSpecifications;
-import org.springside.modules.persistence.SearchFilter;
 
 import java.io.File;
 import java.io.IOException;

@@ -6,6 +6,25 @@
                 <form class="form-inline pull-right" role="form">
                     <input type="text" class="form-control" placeholder="请输入新闻标题" ng-model="grid.queryInfo.title">
 
+                    <div class="input-group" >
+
+                        <input date-picker
+                               format="YYYY-MM-DD HH:mm"
+                               ng-model="grid.queryInfo.beginDate"
+                               placeholder="请输入起始日期">
+                    </div>
+
+                    <div class="input-group" >
+
+                        <input date-picker
+                               format="YYYY-MM-DD HH:mm"
+                               ng-model="grid.queryInfo.endDate"
+                               placeholder="请输入结束日期">
+                    </div>
+                    <div class="input-group">
+
+                        <input group-select="Department" ng-model="grid.queryInfo.department"  placeholder="请选择部门">
+                    </div>
                     <div class="input-group">
                         <input tree-picker="Region" show-clear="false" placeholder="请选择菜单"
                                ng-model="grid.queryInfo.menuId">
@@ -23,6 +42,7 @@
                     <th style="width: 60px;">#</th>
                     <th>新闻标题</th>
                     <th>所属菜单</th>
+                    <th>发布部门</th>
                     <th style="width: 160px;">发布时间</th>
                     <th style="width: 120px;">操作</th>
                 </tr>
@@ -32,6 +52,7 @@
                     <td record-no></td>
                     <td>{{x.title}}</td>
                     <th>{{x.menu.name}}</th>
+                    <th>{{x.department.name}}</th>
                     <td>{{x.postTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
                         <button class="btn btn-xs btn-primary" ng-click="updateNews(x)">编辑</button>

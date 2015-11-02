@@ -25,7 +25,7 @@
             <label class="col-sm-2 control-label">作者</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="author" ng-model="book.author" validator="required">
+                <input type="text" class="form-control" name="author" ng-model="book.author">
             </div>
         </div>
 
@@ -33,7 +33,7 @@
             <label class="col-sm-2 control-label">简介</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="summary" ng-model="book.summary" validator="required">
+                <input type="text" class="form-control" name="summary" ng-model="book.summary">
             </div>
         </div>
 
@@ -43,7 +43,8 @@
             <div class="col-sm-10">
                 <section class="uploader">
                     <a ng-bind="book.pictureFilename" href="javascript:;"></a>
-                    <label for="upload-file" class="btn btn-default"><i class="fa fa-file-picture-o fa-fw"></i>上传图片</label>
+                    <label for="upload-file" class="btn btn-default"><i
+                            class="fa fa-file-picture-o fa-fw"></i>上传图片</label>
                     <input type="file" nv-file-select uploader="uploader" id="upload-file" style="display: none"/>
                 </section>
             </div>
@@ -55,10 +56,14 @@
             <div class="col-sm-10">
                 <section class="uploader">
                     <a ng-bind="book.ebookFilename" href="javascript:;"></a>
-                    <label for="upload-file2" class="btn btn-default"><i class="fa fa-file-picture-o fa-fw"></i>上传电子书</label>
+                    <label for="upload-file2" class="btn btn-default"><i class="fa fa-file-picture-o fa-fw"></i>上传电子书
+                        {{progress? progress+ "%" : ""}}
+                    </label>
                     <input type="file" nv-file-select uploader="uploader2" id="upload-file2" style="display: none"/>
                 </section>
+
             </div>
+
         </div>
 
     </div>

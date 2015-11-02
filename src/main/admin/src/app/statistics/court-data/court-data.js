@@ -36,7 +36,21 @@ angular.module('app')
 
     .controller('CourtDataExportCtrl', function ($scope, $modalInstance, $http) {
 
-        $scope.courtDataExport = {};
+        $scope.arr = [
+            {
+                id:"1",
+                name:"13"
+        },
+            {
+                id:"2",
+                name:"14"
+            }
+        ];
+
+        $scope.courtDataExport = {
+            court: {id: ""},
+            department: {id: ""}
+        };
 
         $scope.title = '导出法院实时数据';
 
@@ -46,12 +60,20 @@ angular.module('app')
 
         $scope.export = function () {
 
+            var courtId = $scope.courtDataExport.court.id;
+            var departmentId = $scope.courtDataExport.department.id;
+            if (courtId === "" && departmentId === "") {
+                Toaster.error("法院和部门不能同时为空！");
+                return;
+            }
+
             $http({
                 url: PageContext.path + "/api/v1/courtData/export",
                 method: 'GET',
                 params: {
                     fileName: $scope.courtDataExport.fileName,
-                    courtId: $scope.courtDataExport.court.id,
+                    courtId: courtId,
+                    departmentId: departmentId,
                     beginTime: moment($scope.courtDataExport.beginTime).format('YYYY-MM-DD HH:mm'),
                     endTime: moment($scope.courtDataExport.endTime).format('YYYY-MM-DD HH:mm')
                 }

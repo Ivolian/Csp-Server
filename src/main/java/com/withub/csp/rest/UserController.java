@@ -36,9 +36,15 @@ public class UserController extends BaseController {
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "search_cnName", defaultValue = "") String cnName,
             @RequestParam(value = "search_username", defaultValue = "") String username,
-            @RequestParam(value = "search_courtId", defaultValue = "") String courtId) {
+            @RequestParam(value = "search_courtId", defaultValue = "") String courtId,
+            @RequestParam(value = "search_department", defaultValue = "") String department) {
 
         Map<String, Object> searchParams = new HashMap<>();
+        JSONObject jsonObjectDepartment = JSONObject.parseObject(department);
+        if (jsonObjectDepartment!=null){
+            String departmentId = jsonObjectDepartment.getString("id");
+            searchParams.put("EQ_department.id", departmentId);
+        }
         searchParams.put("LIKE_cnName", cnName);
         searchParams.put("LIKE_username", username);
         searchParams.put("EQ_court.id", courtId);
@@ -59,7 +65,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-    public void resetPassword(String userId)throws Exception{
+    public void resetPassword(String userId) throws Exception {
 
         userService.resetPassword(userId);
     }
@@ -71,9 +77,9 @@ public class UserController extends BaseController {
             @RequestParam(value = "username", defaultValue = "") String username,
             @RequestParam(value = "password", defaultValue = "") String password,
             @RequestParam(value = "currentVersionName", defaultValue = "") String currentVersionName
-            ) {
+    ) {
 
-        return userService.loginCheck(username, password,currentVersionName);
+        return userService.loginCheck(username, password, currentVersionName);
     }
 
     // 修改密码
@@ -93,7 +99,7 @@ public class UserController extends BaseController {
             @RequestParam(value = "pushTag", defaultValue = "") String pushTag
     ) {
 
-         userService.updatePushTag(userId, pushTag);
+        userService.updatePushTag(userId, pushTag);
     }
 
 

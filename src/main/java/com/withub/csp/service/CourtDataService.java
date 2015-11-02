@@ -32,9 +32,9 @@ public class CourtDataService extends BaseService {
 
     //
 
-    public JSONObject exportExcel(String fileName, String courtId, String beginTime, String endTime) throws Exception {
+    public JSONObject exportExcel(String fileName, String courtId, String departmentId, String beginTime, String endTime) throws Exception {
 
-        List<Object[]> resultList = getResultList(courtId, beginTime, endTime);
+        List<Object[]> resultList = getResultList(courtId, departmentId, beginTime, endTime);
         HSSFWorkbook hssfWorkbook = createExcel(resultList);
 
         String tempFileName = Identities.uuid();
@@ -105,11 +105,15 @@ public class CourtDataService extends BaseService {
         return hssfWorkbook;
     }
 
-    private List getResultList(String courtId, String beginTime, String endTime) {
+    private List getResultList(String courtId, String departmentId, String beginTime, String endTime) {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query = entityManager.createNativeQuery(getNativeSql());
-        query.setParameter("courtId", courtId);
+        Query query = entityManager.createNativeQuery(getNativeSql(courtId, departmentId));
+        if (departmentId.equals("")) {
+            query.setParameter("courtId", courtId);
+        } else {
+            query.setParameter("departmentId", departmentId);
+        }
         query.setParameter("beginTime", beginTime);
         query.setParameter("endTime", endTime);
         List resultList = query.getResultList();
@@ -117,9 +121,9 @@ public class CourtDataService extends BaseService {
         return resultList;
     }
 
-    private String getNativeSql() {
+    private String getNativeSql(String courtId, String departmentId) {
 
-        return "SELECT \n" +
+        String sql = "SELECT \n" +
                 "a.username '用户名',\n" +
                 "a.cn_name '姓名',\n" +
                 "f.name '所属法院',\n" +
@@ -165,10 +169,19 @@ public class CourtDataService extends BaseService {
                 "LEFT JOIN csp_court f ON a.court_id = f.id \n" +
                 "\n" +
                 "LEFT JOIN csp_department g ON a.department_id = g.id \n" +
-                "\n" +
-                "WHERE a.court_id = :courtId\n" +
-                "AND a.delete_flag = 0\n" +
-                "ORDER BY b.loginTimes DESC";
+                "\n";
+
+        if (departmentId.equals("")) {
+            sql += "WHERE a.court_id = :courtId\n";
+
+        } else {
+            sql += "WHERE a.department_id = :departmentId\n";
+
+        }
+        sql += "AND a.delete_flag = 0\n";
+        sql += "ORDER BY b.loginTimes DESC";
+
+        return sql;
     }
 
     public String getTempPath() {

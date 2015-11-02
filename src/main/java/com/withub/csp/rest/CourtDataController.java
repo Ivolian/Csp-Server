@@ -106,10 +106,11 @@ public class CourtDataController extends BaseController {
     public JSONObject export(
             @RequestParam(value = "fileName") String fileName,
             @RequestParam(value = "courtId") String courtId,
+            @RequestParam(value = "departmentId") String departmentId,
             @RequestParam(value = "beginTime") String beginTime,
             @RequestParam(value = "endTime") String endTime) throws Exception {
 
-        JSONObject response = courtDataService.exportExcel(fileName, courtId, beginTime,endTime);
+        JSONObject response = courtDataService.exportExcel(fileName, courtId,departmentId, beginTime,endTime);
         return response;
     }
 

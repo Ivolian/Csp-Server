@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
-import org.springside.modules.web.Servlets;
 
-import javax.servlet.ServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -32,9 +32,27 @@ public class BookController extends BaseController {
     public Page<Book> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
-            ServletRequest request) {
+            @RequestParam(value = "search_name", defaultValue = "") String name,
+            @RequestParam(value = "search_author", defaultValue = "") String author,
+            @RequestParam(value = "search_menuId", defaultValue = "") String menuId,
+            @RequestParam(value = "search_beginDate", defaultValue = "") String beginDateString,
+            @RequestParam(value = "search_endDate", defaultValue = "") String endDateString
+    ) throws Exception {
 
-        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Map<String, Object> searchParams = new HashMap<String, Object>();
+        searchParams.put("LIKE_name", name);
+        searchParams.put("LIKE_author", author);
+        searchParams.put("EQ_menu.id", menuId);
+        if (!beginDateString.equals("")) {
+            Date beginDate = simpleDateFormat.parse(beginDateString);
+            searchParams.put("GTE_eventTime", beginDate);
+        }
+        if (!endDateString.equals("")) {
+            Date endDate = simpleDateFormat.parse(endDateString);
+            searchParams.put("LTE_eventTime", endDate);
+        }
+
         return bookService.getBook(searchParams, pageNo, pageSize);
     }
 
@@ -51,6 +69,7 @@ public class BookController extends BaseController {
         Map<String, Object> searchParams = new HashMap<>();
         searchParams.put("LIKE_name", keyword);
         searchParams.put("EQ_menu.id", menuId);
+
 
         Page<Book> bookPage = bookService.getBook(searchParams, pageNo, pageSize);
         List<Book> bookList = bookPage.getContent();
@@ -97,6 +116,14 @@ public class BookController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id) {
         bookService.deleteBook(id);
+    }
+
+    @RequestMapping(value = "/batchUpload", method = RequestMethod.POST)
+    public void batchUpload(@RequestBody List<Book> bookList) {
+
+        for (Book book : bookList) {
+            bookService.saveBook(book);
+        }
     }
 
 }

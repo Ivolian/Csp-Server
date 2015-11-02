@@ -22,6 +22,7 @@ public class News extends MenuEntity {
     private NewsData newsData;                  // 新闻内容
     private List<Comment> commentList;
     private List<Thumb> thumbList;
+    private Department department;
 
     // ======================= Setter & Getter =======================
 
@@ -95,6 +96,16 @@ public class News extends MenuEntity {
 
     public void setThumbList(List<Thumb> thumbList) {
         this.thumbList = thumbList;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
 }

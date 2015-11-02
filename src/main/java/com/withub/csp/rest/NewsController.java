@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +31,29 @@ public class NewsController extends BaseController {
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "search_title", defaultValue = "") String title,
-            @RequestParam(value = "search_menuId", defaultValue = "") String menuId) {
+            @RequestParam(value = "search_menuId", defaultValue = "") String menuId,
+            @RequestParam(value = "search_department", defaultValue = "") String department,
+            @RequestParam(value = "search_beginDate", defaultValue = "") String beginDateString,
+            @RequestParam(value = "search_endDate", defaultValue = "") String endDateString
+    ) throws Exception {
 
         Map<String, Object> searchParams = new HashMap<String, Object>();
         searchParams.put("LIKE_title", title);
         searchParams.put("EQ_menu.id", menuId);
-
+        JSONObject jsonObjectDepartment = JSONObject.parseObject(department);
+        if (jsonObjectDepartment != null) {
+            String departmentId = jsonObjectDepartment.getString("id");
+            searchParams.put("EQ_department.id", departmentId);
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        if (!beginDateString.equals("")) {
+            Date beginDate = simpleDateFormat.parse(beginDateString);
+            searchParams.put("GTE_postTime", beginDate);
+        }
+        if (!endDateString.equals("")) {
+            Date endDate = simpleDateFormat.parse(endDateString);
+            searchParams.put("LTE_postTime", endDate);
+        }
         return newsService.getNews(searchParams, pageNo, pageSize);
     }
 
