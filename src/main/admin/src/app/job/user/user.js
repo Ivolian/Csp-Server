@@ -31,6 +31,20 @@ angular.module('app')
             });
         };
 
+        $scope.enableOrDisable = function (user) {
+
+            $http({
+                url: PageContext.path + "/api/v1/user/enableOrDisable",
+                method: 'GET',
+                params: {
+                    userId: user.id
+                }
+            }).success(function (repsonce) {
+                $scope.grid.refresh();
+            });
+        };
+
+
         $scope.grid = SimpleTable(User.getList);
 
         $scope.createUser = function () {

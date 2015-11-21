@@ -57,7 +57,8 @@
       "main": [
         "./dist/summernote.js",
         "./lang/summernote-zh-CN.js",
-        "./dist/summernote.css"
+        "./dist/summernote.css",
+        "./plugin/summernote-ext-video.js"
       ]
     }
   }

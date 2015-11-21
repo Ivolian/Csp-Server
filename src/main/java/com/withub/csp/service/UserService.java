@@ -52,7 +52,7 @@ public class UserService extends BaseService {
             throw new RuntimeException("用户名已存在");
         }
         initEntity(user);
-
+//        user.setEnable(1);
         String telephone = user.getTelephone();
         String password = telephone.substring(5, 11);
         user.setPassword(password);
@@ -114,7 +114,6 @@ public class UserService extends BaseService {
         result.put("rootMenuItem", menuService.getRootMenuItem());
 
         // 点赞，收藏，评论，阅读，登录次数
-        // todo 目前没有回复
         result.put("thumbCount", getCurrentMonthThumbCount(user.getId()));
         result.put("favoriteNewsCount", getCurrentMonthFavoriteNewsCount(user.getId()));
         result.put("commentCount", getCurrentMonthCommentCount(user.getId()));
@@ -144,6 +143,14 @@ public class UserService extends BaseService {
         user.setPushTag(pushTag);
         userDao.save(user);
     }
+
+//    public void enableOrDisable(String userId) {
+//
+//        User user = getUser(userId);
+//        Integer oldEnable = user.getEnable();
+//        user.setEnable(oldEnable == 1 ? 0 : 1);
+//        userDao.save(user);
+//    }
 
 
     // 修改密码

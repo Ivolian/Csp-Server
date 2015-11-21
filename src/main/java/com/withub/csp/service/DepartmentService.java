@@ -1,6 +1,10 @@
 package com.withub.csp.service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.withub.csp.entity.Court;
 import com.withub.csp.entity.Department;
+import com.withub.csp.repository.CourtDao;
 import com.withub.csp.repository.DepartmentDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,9 @@ import java.util.*;
 
 
 public class DepartmentService {
+
+    @Autowired
+    private CourtDao courtDao;
 
     @Autowired
     private DepartmentDao departmentDao;
@@ -65,6 +72,19 @@ public class DepartmentService {
         searchParams.put("EQ_deleteFlag", "0");
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
         return DynamicSpecifications.bySearchFilter(filters.values(), Department.class);
+    }
+
+    public JSONArray getDepartmentListByCourtId(String courtId) {
+
+        Court court = courtDao.findOne(courtId);
+        JSONArray jsonArray = new JSONArray();
+        for (Department department : court.getDepartmentList()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", department.getId());
+            jsonObject.put("name", department.getName());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
     }
 
 }

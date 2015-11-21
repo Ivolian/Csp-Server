@@ -76,9 +76,9 @@ public class CourtSumService extends BaseService {
         cUserCount = row.createCell(1);
         cUserCount.setCellValue("人数");
         cUserCount_20 = row.createCell(2);
-        cUserCount_20.setCellValue("大于20次");
+        cUserCount_20.setCellValue("大于等于20次");
         cUserCount_0_20 = row.createCell(3);
-        cUserCount_0_20.setCellValue("0-20次");
+        cUserCount_0_20.setCellValue("1-19次");
         cUserCount_0 = row.createCell(4);
         cUserCount_0.setCellValue("0次");
         cUserCount_l = row.createCell(5);
@@ -276,14 +276,14 @@ public class CourtSumService extends BaseService {
                 "      a.court_id,\n" +
                 "      SUM(\n" +
                 "        CASE\n" +
-                "          WHEN times = '>20' \n" +
+                "          WHEN times = '>=20' \n" +
                 "          THEN a.count \n" +
                 "          ELSE 0 \n" +
                 "        END\n" +
                 "      ) AS 'login_count_20',\n" +
                 "      SUM(\n" +
                 "        CASE\n" +
-                "          WHEN times = '0~20' \n" +
+                "          WHEN times = '0~19' \n" +
                 "          THEN a.count \n" +
                 "          ELSE 0 \n" +
                 "        END\n" +
@@ -301,9 +301,9 @@ public class CourtSumService extends BaseService {
                 "        CASE\n" +
                 "          WHEN a.loginTimes = 0 \n" +
                 "          THEN '0' \n" +
-                "          WHEN a.loginTimes > 20 \n" +
-                "          THEN '>20' \n" +
-                "          ELSE '0~20' \n" +
+                "          WHEN a.loginTimes >= 20 \n" +
+                "          THEN '>=20' \n" +
+                "          ELSE '0~19' \n" +
                 "        END times,\n" +
                 "        COUNT(1) COUNT\n" +
                 "      FROM\n" +
@@ -324,12 +324,13 @@ public class CourtSumService extends BaseService {
                 "            ON a.id = b.user_id \n" +
                 "          LEFT JOIN csp_court f \n" +
                 "            ON a.court_id = f.id \n" +
+                " where a.delete_flag=0"+
                 "        ORDER BY loginTimes) a \n" +
                 "      GROUP BY a.court_id,\n" +
                 "        CASE\n" +
                 "          WHEN a.loginTimes = 0 \n" +
                 "          THEN 1 \n" +
-                "          WHEN a.loginTimes > 20 \n" +
+                "          WHEN a.loginTimes >= 20 \n" +
                 "          THEN 2 \n" +
                 "          ELSE 3 \n" +
                 "        END) a \n" +

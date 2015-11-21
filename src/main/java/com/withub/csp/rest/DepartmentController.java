@@ -88,4 +88,10 @@ public class DepartmentController extends BaseController {
         return groups;
     }
 
+    @RequestMapping(value = "/listByCourtId", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public JSONArray group(String courtId) {
+
+        return departmentService.getDepartmentListByCourtId(courtId);
+    }
+
 }

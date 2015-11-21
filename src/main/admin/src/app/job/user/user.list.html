@@ -41,6 +41,7 @@
                     <th>部门</th>
                     <th>职位</th>
                     <th>手机号</th>
+                    <!--<th>状态</th>-->
                     <th>客户端版本号</th>
                     <th>推送标识</th>
                     <th style="width: 200px;">操作</th>
@@ -55,13 +56,16 @@
                     <td>{{x.department.name}}</td>
                     <td>{{x.position}}</td>
                     <td>{{x.telephone}}</td>
+                    <!--<td>{{x.enable === 1?"启用":"停用"}}</td>-->
                     <td>{{x.currentVersionName}}</td>
                     <td>{{x.pushTag}}</td>
                     <td>
+                        <!--<button class="btn btn-xs btn-default" ng-click="enableOrDisable(x)">{{x.enable === 0?"启用":"停用"}}</button>-->
                         <button class="btn btn-xs btn-warning" ng-click="pushUpdate(x)">推送更新</button>
                         <button class="btn btn-xs btn-success" ng-click="resetPassword(x)">重置密码</button>
                         <button class="btn btn-xs btn-primary" ng-click="updateUser(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removeUser(x)">删除</button>
+
                     </td>
                 </tr>
                 </tbody>

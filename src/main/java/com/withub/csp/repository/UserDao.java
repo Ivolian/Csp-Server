@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserDao extends PagingAndSortingRepository<User, String>, JpaSpecificationExecutor<User> {
 
+    public User findByUsername(String username);
+
     public User findOneByIdAndDeleteFlag(String id, Integer deleteFlag);
 
     public User findOneByUsernameAndDeleteFlag(String username, Integer deleteFlag);

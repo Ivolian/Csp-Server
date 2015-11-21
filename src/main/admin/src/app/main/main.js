@@ -40,6 +40,10 @@ angular.module('app')
         ;
     })
     .value('SummernoteConfig', {
+
+        toolbar : [
+            ['group', [ 'video','codeview' ]]
+        ],
         height: 300,
         fontNames: [
             '微软雅黑', '黑体', '宋体', '楷体',
@@ -76,11 +80,6 @@ angular.module('app')
                 iconCls: 'fa fa-users',
                 children: [
                     {
-                        title: '用户管理',
-                        state: 'job.user'
-                    },
-
-                    {
                         title: '菜单管理',
                         state: 'job.region'
                     },
@@ -91,6 +90,10 @@ angular.module('app')
                     {
                         title: '部门管理',
                         state: 'job.department'
+                    },
+                    {
+                        title: '用户管理',
+                        state: 'job.user'
                     },
                     {
                         title: 'APK管理',
@@ -137,6 +140,8 @@ angular.module('app')
 
         $rootScope.PageContext = PageContext;
         $rootScope.DateFormat = DateFormat;
+
+//        todo
 
         var findState = function (menuList, stateName, tab) {
             tab = tab || undefined;

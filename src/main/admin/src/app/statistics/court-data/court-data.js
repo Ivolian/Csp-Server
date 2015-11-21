@@ -10,6 +10,7 @@ angular.module('app')
             templateUrl: 'app/statistics/court-data/court-data-list.html',
             controller: 'CourtDataCtrl'
         });
+
     })
 
     .factory('courtData', function (Restangular) {
@@ -36,14 +37,17 @@ angular.module('app')
 
     .controller('CourtDataExportCtrl', function ($scope, $modalInstance, $http) {
 
+        $scope.departmentList = [];
+
+
         $scope.arr = [
             {
-                id:"1",
-                name:"13"
-        },
+                id: "1",
+                name: "13"
+            },
             {
-                id:"2",
-                name:"14"
+                id: "2",
+                name: "14"
             }
         ];
 
@@ -51,6 +55,27 @@ angular.module('app')
             court: {id: ""},
             department: {id: ""}
         };
+
+
+        $scope.$watch('courtDataExport.court', function (court) {
+
+            var courtId = court.id;
+            if (!courtId || courtId === ""){
+                return;
+            }
+
+            $http({
+                url: PageContext.path + "/api/v1/department/listByCourtId",
+                method: 'GET',
+                params: {
+                    courtId: court.id
+                }
+            }).success(function (departmentList) {
+                $scope.departmentList = departmentList;
+            });
+
+
+        });
 
         $scope.title = '导出法院实时数据';
 

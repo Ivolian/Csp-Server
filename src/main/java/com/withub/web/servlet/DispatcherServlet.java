@@ -14,8 +14,5 @@ public class DispatcherServlet extends HttpServlet {
         if (value.startsWith("/admin")) {
             req.getRequestDispatcher("/admin.html").forward(req, resp);
         }
-        if (value.startsWith("/index")) {
-            req.getRequestDispatcher("/index.html").forward(req, resp);
-        }
     }
 }
