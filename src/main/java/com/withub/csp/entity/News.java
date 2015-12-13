@@ -23,6 +23,9 @@ public class News extends MenuEntity {
     private List<Comment> commentList;
     private List<Thumb> thumbList;
     private Department department;
+    private Integer hasVideo;
+    private Integer videoType;
+    private String videoUrl;
 
     // ======================= Setter & Getter =======================
 
@@ -108,4 +111,27 @@ public class News extends MenuEntity {
         this.department = department;
     }
 
+    public Integer getHasVideo() {
+        return hasVideo;
+    }
+
+    public void setHasVideo(Integer hasVideo) {
+        this.hasVideo = hasVideo;
+    }
+
+    public Integer getVideoType() {
+        return videoType;
+    }
+
+    public void setVideoType(Integer videoType) {
+        this.videoType = videoType;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
 }

@@ -103,14 +103,14 @@ public class UserController extends BaseController {
     }
 
 
-//    // 启用或停用
-//    @RequestMapping(value = "/enableOrDisable", method = RequestMethod.GET)
-//    public void enableOrDisable(
-//            @RequestParam(value = "userId", defaultValue = "") String userId
-//    ) {
-//
-//        userService.enableOrDisable(userId);
-//    }
+    // 启用或停用
+    @RequestMapping(value = "/enableOrDisable", method = RequestMethod.GET)
+    public void enableOrDisable(
+            @RequestParam(value = "userId", defaultValue = "") String userId
+    ) {
+
+        userService.enableOrDisable(userId);
+    }
 
 
     // 基本无视的方法

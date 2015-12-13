@@ -179,7 +179,7 @@ public class CourtDataService extends BaseService {
 
         }
         sql += "AND a.delete_flag = 0\n";
-//        sql += "AND a.enable = 1\n";
+        sql += "AND a.enable = 1\n";
         sql += "ORDER BY b.loginTimes DESC";
 
         return sql;

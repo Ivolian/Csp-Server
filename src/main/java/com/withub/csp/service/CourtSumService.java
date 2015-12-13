@@ -269,6 +269,7 @@ public class CourtSumService extends BaseService {
                 "      LEFT JOIN csp_court f \n" +
                 "        ON a.court_id = f.id \n" +
                 " WHERE a.delete_flag = 0\n"+
+                " AND a.enable = 1\n"+
                 "    GROUP BY f.id) b \n" +
                 "    ON a.id = b.court_id \n" +
                 "  LEFT JOIN \n" +
@@ -325,6 +326,7 @@ public class CourtSumService extends BaseService {
                 "          LEFT JOIN csp_court f \n" +
                 "            ON a.court_id = f.id \n" +
                 " where a.delete_flag=0"+
+                " AND a.enable = 1\n"+
                 "        ORDER BY loginTimes) a \n" +
                 "      GROUP BY a.court_id,\n" +
                 "        CASE\n" +

@@ -144,13 +144,13 @@ public class UserService extends BaseService {
         userDao.save(user);
     }
 
-//    public void enableOrDisable(String userId) {
-//
-//        User user = getUser(userId);
-//        Integer oldEnable = user.getEnable();
-//        user.setEnable(oldEnable == 1 ? 0 : 1);
-//        userDao.save(user);
-//    }
+    public void enableOrDisable(String userId) {
+
+        User user = getUser(userId);
+        Integer oldEnable = user.getEnable();
+        user.setEnable(oldEnable == 1 ? 0 : 1);
+        userDao.save(user);
+    }
 
 
     // 修改密码

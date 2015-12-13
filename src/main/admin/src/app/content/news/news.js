@@ -59,7 +59,11 @@ angular.module('app')
     .controller('NewsCreateCtrl', function ($scope, $modalInstance, SummernoteConfig, FileUploader, News) {
 
         $scope.news = {
-            newsData: {data: ''}
+            newsData: {
+                data: ''
+            },
+            hasVideo: 0,
+            videoType: 0
         };
 
         $scope.title = '新增新闻';
@@ -71,6 +75,7 @@ angular.module('app')
         };
 
         $scope.submit = function () {
+
             $scope.promise = News.post($scope.news).then(function () {
                 Toaster.success("保存成功！");
                 $modalInstance.close();

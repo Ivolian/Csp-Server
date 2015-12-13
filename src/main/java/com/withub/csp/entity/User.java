@@ -21,7 +21,7 @@ public class User extends BaseEntity {
     private String currentVersionName;
     private String pushTag;
     private Department department;
-//    private Integer enable;
+    private Integer enable;
 
     // ======================= Setter & Getter =======================
 
@@ -118,11 +118,12 @@ public class User extends BaseEntity {
         this.department = department;
     }
 
-//    public Integer getEnable() {
-//        return enable;
-//    }
-//
-//    public void setEnable(Integer enable) {
-//        this.enable = enable;
-//    }
+    public Integer getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Integer enable) {
+        this.enable = enable;
+    }
+
 }

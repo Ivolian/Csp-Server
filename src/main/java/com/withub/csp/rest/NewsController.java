@@ -95,6 +95,10 @@ public class NewsController extends BaseController {
             jsonObject.put("postTime", news.getPostTime());
             jsonObject.put("commentCount", news.getCommentList().size());
             jsonObject.put("thumbCount", news.getThumbList().size());
+            jsonObject.put("hasVideo", news.getHasVideo());
+            jsonObject.put("videoType", news.getVideoType());
+            jsonObject.put("videoUrl", news.getVideoUrl());
+
             jsonArray.add(jsonObject);
         }
 
