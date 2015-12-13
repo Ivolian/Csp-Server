@@ -1,11 +1,12 @@
 package com.withub.csp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.withub.common.FileUploadInfo;
 import com.withub.csp.entity.base.MenuEntity;
+import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -24,6 +25,9 @@ public class Book extends MenuEntity {
 
     // 排序号，因为手机端这边需要个唯一的整型来标识一本书
     private Integer orderNo;
+
+    private List<BookComment> bookCommentList;
+
 
     // ======================= Setter & Getter =======================
 
@@ -109,4 +113,16 @@ public class Book extends MenuEntity {
         this.orderNo = orderNo;
     }
 
+    //
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @Where(clause = "delete_flag=0")
+    public List<BookComment> getBookCommentList() {
+        return bookCommentList;
+    }
+
+    public void setBookCommentList(List<BookComment> bookCommentList) {
+        this.bookCommentList = bookCommentList;
+    }
 }
