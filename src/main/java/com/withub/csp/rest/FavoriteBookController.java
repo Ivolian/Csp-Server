@@ -69,6 +69,7 @@ public class FavoriteBookController {
             jsonObject.put("summary", book.getSummary());
             jsonObject.put("eventTime", book.getEventTime());
             jsonObject.put("commentCount", book.getBookCommentList().size());
+            jsonObject.put("thumbCount", book.getBookThumbList().size());
             jsonArray.add(jsonObject);
         }
 

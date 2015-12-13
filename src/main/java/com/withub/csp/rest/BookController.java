@@ -85,6 +85,7 @@ public class BookController extends BaseController {
             jsonObject.put("eventTime", book.getEventTime());
             jsonObject.put("orderNo", book.getOrderNo());
             jsonObject.put("commentCount", book.getBookCommentList().size());
+            jsonObject.put("thumbCount", book.getBookThumbList().size());
             jsonArray.add(jsonObject);
         }
 

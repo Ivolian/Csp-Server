@@ -27,6 +27,7 @@ public class Book extends MenuEntity {
     private Integer orderNo;
 
     private List<BookComment> bookCommentList;
+    private List<BookThumb> bookThumbList;
 
 
     // ======================= Setter & Getter =======================
@@ -125,4 +126,16 @@ public class Book extends MenuEntity {
     public void setBookCommentList(List<BookComment> bookCommentList) {
         this.bookCommentList = bookCommentList;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @Where(clause = "delete_flag=0")
+    public List<BookThumb> getBookThumbList() {
+        return bookThumbList;
+    }
+
+    public void setBookThumbList(List<BookThumb> bookThumbList) {
+        this.bookThumbList = bookThumbList;
+    }
+
 }
