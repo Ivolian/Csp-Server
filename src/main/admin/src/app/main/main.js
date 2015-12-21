@@ -41,9 +41,9 @@ angular.module('app')
     })
     .value('SummernoteConfig', {
 
-        toolbar : [
-            ['group', [ 'video','codeview' ]]
-        ],
+//        toolbar : [
+//            ['group', [ 'video','codeview' ]]
+//        ],
         height: 300,
         fontNames: [
             '微软雅黑', '黑体', '宋体', '楷体',

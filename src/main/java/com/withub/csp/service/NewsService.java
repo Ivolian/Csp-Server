@@ -1,5 +1,7 @@
 package com.withub.csp.service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.withub.common.DynamicSpecifications;
 import com.withub.common.SearchFilter;
 import com.withub.csp.entity.News;
@@ -28,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -117,6 +120,35 @@ public class NewsService extends BaseService {
         newsReadDao.save(newsRead);
     }
 
+    public void topOrUnTop(String newsId) {
+
+        News news = getNews(newsId);
+        Integer oldTop = news.getTop();
+        news.setTop(oldTop == 1 ? 0 : 1);
+        newsDao.save(news);
+    }
+
+    public JSONArray findTopNewsList() {
+        List<News> newsList = newsDao.findByTopAndDeleteFlag(1, 0);
+
+        // 拼jsonArray对象
+        JSONArray jsonArray = new JSONArray();
+        for (News news : newsList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", news.getId());
+            jsonObject.put("title", news.getTitle());
+            jsonObject.put("picture", news.getPicture());
+            jsonObject.put("postTime", news.getPostTime());
+            jsonObject.put("commentCount", news.getCommentList().size());
+            jsonObject.put("thumbCount", news.getThumbList().size());
+            jsonObject.put("hasVideo", news.getHasVideo());
+            jsonObject.put("videoType", news.getVideoType());
+            jsonObject.put("videoUrl", news.getVideoUrl());
+
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
 
     // 基本无视的方法
 

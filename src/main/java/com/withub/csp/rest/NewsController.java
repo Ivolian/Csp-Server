@@ -109,6 +109,17 @@ public class NewsController extends BaseController {
         return response;
     }
 
+    // 启用或停用
+    @RequestMapping(value = "/topOrUnTop", method = RequestMethod.GET)
+    public void enableOrDisable(@RequestParam(value = "newsId", defaultValue = "") String newsId) {
+        newsService.topOrUnTop(newsId);
+    }
+
+
+    @RequestMapping(value = "/topList", method = RequestMethod.GET)
+    public JSONArray topList() {
+        return newsService.findTopNewsList();
+    }
 
     // 获取新闻内容
     @RequestMapping(value = "/newsData", method = RequestMethod.GET)

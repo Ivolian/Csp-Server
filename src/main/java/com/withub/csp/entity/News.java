@@ -26,6 +26,7 @@ public class News extends MenuEntity {
     private Integer hasVideo;
     private Integer videoType;
     private String videoUrl;
+    private Integer top;
 
     // ======================= Setter & Getter =======================
 
@@ -134,4 +135,13 @@ public class News extends MenuEntity {
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
     }
+
+    public Integer getTop() {
+        return top;
+    }
+
+    public void setTop(Integer top) {
+        this.top = top;
+    }
+
 }

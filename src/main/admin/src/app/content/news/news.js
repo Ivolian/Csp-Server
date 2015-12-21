@@ -15,9 +15,23 @@ angular.module('app')
         return Restangular.service('news');
     })
 
-    .controller('NewsCtrl', function ($scope, $state, $modal, SimpleTable, News) {
+    .controller('NewsCtrl', function ($scope, $state, $modal, SimpleTable, News, $http) {
 
         $scope.grid = SimpleTable(News.getList);
+
+        $scope.topOrUnTop = function (news) {
+
+            $http({
+                url: PageContext.path + "/api/v1/news/topOrUnTop",
+                method: 'GET',
+                params: {
+                    newsId: news.id
+                }
+            }).success(function (repsonce) {
+                $scope.grid.refresh();
+            });
+        };
+
 
         $scope.createNews = function () {
             var modalInstance = $modal.open({

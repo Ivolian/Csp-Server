@@ -1,0 +1,49 @@
+SELECT  
+                a.username '用户名', 
+                a.cn_name '姓名', 
+                f.name '所属法院', 
+                IFNULL(b.loginTimes,0) '登录次数', 
+                IFNULL(c.readTimes,0) '阅读次数', 
+                IFNULL(d.commentCount,0) '评论次数', 
+                IFNULL(e.thumbCount,0) '点赞次数' 
+                FROM csp_user a 
+                 
+                LEFT JOIN  
+                ( 
+                SELECT user_id,COUNT(*) loginTimes FROM csp_user_login 
+                WHERE event_time>'2015-01-01'  
+                AND event_time<'2015-10-01' 
+                GROUP BY user_id 
+                )b ON a.id = b.user_id 
+                 
+                LEFT JOIN  
+                ( 
+                SELECT user_id,COUNT(*) readTimes FROM csp_news_read 
+                WHERE event_time>'2015-01-01'  
+                AND event_time<'2015-10-01' 
+                GROUP BY user_id 
+                )c ON a.id = c.user_id 
+                 
+                LEFT JOIN  
+                ( 
+                SELECT user_id,COUNT(*) commentCount FROM csp_comment 
+                WHERE event_time>'2015-01-01'  
+                AND event_time<'2015-10-01' 
+                GROUP BY user_id 
+                )d ON a.id = d.user_id 
+                 
+                LEFT JOIN  
+                ( 
+                SELECT user_id,COUNT(*) thumbCount FROM csp_thumb 
+                WHERE event_time>'2015-01-01'  
+                AND event_time<'2015-10-01' 
+                GROUP BY user_id 
+                )e ON a.id = e.user_id 
+                 
+                LEFT JOIN csp_court f ON a.court_id = f.id  
+
+                LEFT JOIN csp_department g ON a.department_id = g.id
+                 
+                WHERE a.court_id = :courtId
+                AND a.delete_flag = 0
+                ORDER BY b.loginTimes DESC

@@ -55,6 +55,7 @@
                     <th>{{x.department.name}}</th>
                     <td>{{x.postTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
+                        <button class="btn btn-xs btn-success" ng-click="topOrUnTop(x)">{{x.top === 0?"置顶新闻":"取消置顶"}}</button>
                         <button class="btn btn-xs btn-primary" ng-click="updateNews(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removeNews(x)">删除</button>
                     </td>
