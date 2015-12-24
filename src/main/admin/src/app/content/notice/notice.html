@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-xs-12 table-wrapper">
+        <div class="panel panel-table panel-primary">
+            <div class="panel-heading">
+                <button class="btn btn-primary" ng-click="createNotice()"><i class="fa fa-fw fa-plus"></i> 新增</button>
+            </div>
+            <table simple-table="grid" class="table table-hover  table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 60px;">#</th>
+                    <th>标题</th>
+                    <th>内容</th>
+                    <th style="width: 160px;">创建时间</th>
+                    <th style="width: 60px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="x in grid.items">
+                    <td record-no></td>
+                    <td>{{x.title}}</td>
+                    <td>{{x.content}}</td>
+                    <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>
+                        <button class="btn btn-xs btn-primary" ng-click="updateNotice(x)">编辑</button>
+                        <button class="btn btn-xs btn-danger" ng-click="removeNotice(x)">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div pagination ng-model="grid.currentPage" total-items="grid.total" items-per-page="grid.pageSize"></div>
+        </div>
+    </div>
+</div>

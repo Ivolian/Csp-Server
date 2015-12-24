@@ -71,6 +71,10 @@ angular.module('app')
                     {
                         title: '书籍管理',
                         state: 'content.book'
+                    },
+                    {
+                        title: '公告管理',
+                        state: 'content.notice'
                     }
                 ]
             },
