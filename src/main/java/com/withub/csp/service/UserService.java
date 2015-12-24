@@ -52,7 +52,7 @@ public class UserService extends BaseService {
             throw new RuntimeException("用户名已存在");
         }
         initEntity(user);
-//        user.setEnable(1);
+        user.setEnable(1);
         String telephone = user.getTelephone();
         String password = telephone.substring(5, 11);
         user.setPassword(password);
@@ -97,6 +97,12 @@ public class UserService extends BaseService {
         User user = userDao.findOneByUsernameAndDeleteFlag(username, 0);
         if (user == null) {
             result.put("errorMsg", "用户不存在");
+            result.put("result", false);
+            return result;
+        }
+
+        if (user.getEnable() == 0){
+            result.put("errorMsg", "该用户已停用");
             result.put("result", false);
             return result;
         }
