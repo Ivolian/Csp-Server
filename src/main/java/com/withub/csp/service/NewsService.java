@@ -62,7 +62,7 @@ public class NewsService extends BaseService {
 
     public Page<News> getNews(Map<String, Object> searchParams, int pageNo, int pageSize) {
 
-        Sort sort = new Sort(Direction.DESC, "postTime");
+        Sort sort = new Sort(Direction.DESC, "top", "postTime");
         PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<News> spec = buildSpecification(searchParams);
         return newsDao.findAll(spec, pageRequest);
