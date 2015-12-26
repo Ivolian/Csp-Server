@@ -16,6 +16,8 @@ import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -63,5 +65,14 @@ public class NoticeService {
         notice.setDeleteFlag(1);
         noticeDao.save(notice);
     }
+
+    //
+
+    public List<Notice> getTopNotices(){
+        Page<Notice> noticePage = getNotice(new HashMap<>(),1,5);
+        List<Notice> noticeTopList = noticePage.getContent();
+        return noticeTopList;
+    }
+
 
 }

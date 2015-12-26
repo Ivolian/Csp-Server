@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.Servlets;
 
 import javax.servlet.ServletRequest;
+import java.util.List;
 import java.util.Map;
 
 
@@ -18,6 +19,11 @@ public class NoticeController extends BaseController {
 
     @Autowired
     private NoticeService noticeService;
+
+    @RequestMapping(value = "/topList",method = RequestMethod.GET)
+    public List<Notice> getTopNotice() {
+        return noticeService.getTopNotices();
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<Notice> list(

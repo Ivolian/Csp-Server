@@ -74,6 +74,7 @@ public class NewsService extends BaseService {
             initEntity(news);
             NewsData newsData = news.getNewsData();
             newsData.setId(Identities.uuid());
+            news.setTop(1);
         }
 
         // save picture
