@@ -64,11 +64,15 @@ public class BookCommentController extends BaseController {
         Page<BookComment> bookCommentPage = bookCommentService.getBookComment(searchParams, pageNo, pageSize);
         List<BookComment> commentList = bookCommentPage.getContent();
         JSONArray jsonArray = new JSONArray();
-        for (BookComment comment : commentList) {
+        for (BookComment bookComment : commentList) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("displayName", getDisplayName(comment));
-            jsonObject.put("eventtime", comment.getEventTime());
-            jsonObject.put("content", comment.getContent());
+            jsonObject.put("displayName", getDisplayName(bookComment));
+            jsonObject.put("eventTime", bookComment.getEventTime());
+            jsonObject.put("content", bookComment.getContent());
+            if (bookComment.getUser()!=null) {
+                jsonObject.put("avatar", bookComment.getUser().getAvatar());
+                jsonObject.put("userId", bookComment.getUser().getId());
+            }
             jsonArray.add(jsonObject);
         }
 

@@ -22,6 +22,7 @@ public class User extends BaseEntity {
     private String pushTag;
     private Department department;
     private Integer enable;
+    private String avatar;
 
     // ======================= Setter & Getter =======================
 
@@ -126,4 +127,11 @@ public class User extends BaseEntity {
         this.enable = enable;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }

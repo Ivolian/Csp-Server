@@ -46,10 +46,14 @@ public class BookThumbController extends BaseController {
         Page<BookThumb> page = bookThumbService.getBookThumb(searchParams, pageNo, pageSize);
         List<BookThumb> thumbList = page.getContent();
         JSONArray jsonArray = new JSONArray();
-        for (BookThumb comment : thumbList) {
+        for (BookThumb bookThumb : thumbList) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("displayName", getDisplayName(comment));
-            jsonObject.put("eventtime", comment.getEventTime());
+            jsonObject.put("displayName", getDisplayName(bookThumb));
+            jsonObject.put("eventTime", bookThumb.getEventTime());
+            if (bookThumb.getUser()!=null) {
+                jsonObject.put("avatar", bookThumb.getUser().getAvatar());
+                jsonObject.put("userId", bookThumb.getUser().getId());
+            }
             jsonArray.add(jsonObject);
         }
 

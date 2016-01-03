@@ -12,6 +12,7 @@ import com.withub.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springside.modules.web.MediaTypes;
 
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class UserController extends BaseController {
 
         Map<String, Object> searchParams = new HashMap<>();
         JSONObject jsonObjectDepartment = JSONObject.parseObject(department);
-        if (jsonObjectDepartment!=null){
+        if (jsonObjectDepartment != null) {
             String departmentId = jsonObjectDepartment.getString("id");
             searchParams.put("EQ_department.id", departmentId);
         }
@@ -66,8 +67,13 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     public void resetPassword(String userId) throws Exception {
-
         userService.resetPassword(userId);
+    }
+
+    @RequestMapping(value = "/personalInfo", method = RequestMethod.GET)
+    public JSONObject getPersonalInfo(String userId) throws Exception {
+
+        return userService.getPersonalInfo(userId);
     }
 
 
@@ -144,6 +150,14 @@ public class UserController extends BaseController {
         } catch (Exception e) {
             //
         }
+    }
+
+    @RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
+    public void upload(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "avatar") CommonsMultipartFile avatar) throws Exception {
+
+        userService.setUserAvatar(userId,avatar);
     }
 
 }

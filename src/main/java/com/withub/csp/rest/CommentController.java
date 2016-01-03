@@ -68,8 +68,12 @@ public class CommentController extends BaseController {
         for (Comment comment : commentList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("displayName", getDisplayName(comment));
-            jsonObject.put("eventtime", comment.getEventTime());
+            jsonObject.put("eventTime", comment.getEventTime());
             jsonObject.put("content", comment.getContent());
+            if (comment.getUser()!=null) {
+                jsonObject.put("avatar", comment.getUser().getAvatar());
+                jsonObject.put("userId", comment.getUser().getId());
+            }
             jsonArray.add(jsonObject);
         }
 

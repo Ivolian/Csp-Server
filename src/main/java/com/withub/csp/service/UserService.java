@@ -6,12 +6,15 @@ import com.withub.csp.entity.User;
 import com.withub.csp.entity.UserLogin;
 import com.withub.csp.repository.UserDao;
 import com.withub.csp.repository.UserLoginDao;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
@@ -19,6 +22,7 @@ import org.springside.modules.utils.Identities;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.io.File;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +47,9 @@ public class UserService extends BaseService {
     private EntityManagerFactory entityManagerFactory;
 
 
+    @Value("${exploded.path}")
+    private String explodedPath;
+
     //
 
     public void saveUser(User user) {
@@ -57,6 +64,25 @@ public class UserService extends BaseService {
         String password = telephone.substring(5, 11);
         user.setPassword(password);
         encryptAndSave(user);
+    }
+
+    public JSONObject getPersonalInfo(String userId) {
+        JSONObject personalInfo = new JSONObject();
+        User user = getUser(userId);
+        personalInfo.put("cnName", user.getCnName());
+        personalInfo.put("username", user.getUsername());
+        if (user.getCourt() != null) {
+            personalInfo.put("courtName", user.getCourt().getName());
+        }
+        if (user.getDepartment() != null) {
+            personalInfo.put("departmentName", user.getDepartment().getName());
+        }
+        personalInfo.put("position", user.getPosition());
+        personalInfo.put("telephone", user.getTelephone());
+        personalInfo.put("qq", user.getQq());
+        personalInfo.put("email", user.getEmail());
+        personalInfo.put("avatar",user.getAvatar());
+        return personalInfo;
     }
 
     public void resetPassword(String userId) throws Exception {
@@ -101,7 +127,7 @@ public class UserService extends BaseService {
             return result;
         }
 
-        if (user.getEnable() == 0){
+        if (user.getEnable() == 0) {
             result.put("errorMsg", "该用户已停用");
             result.put("result", false);
             return result;
@@ -117,6 +143,7 @@ public class UserService extends BaseService {
         result.put("result", true);
         result.put("userId", user.getId());
         result.put("courtId", user.getCourt().getId());
+        result.put("avatar",user.getAvatar());
         result.put("rootMenuItem", menuService.getRootMenuItem());
 
         // 点赞，收藏，评论，阅读，登录次数
@@ -293,6 +320,25 @@ public class UserService extends BaseService {
                 "AND event_time < :endTime";
 
         return getCurrentMonthData(userId, sql);
+    }
+
+    public void setUserAvatar(String userId, CommonsMultipartFile avatar) {
+
+        User user = getUser(userId);
+        try {
+            String distPath = "/attachment/content/" + new SimpleDateFormat("yyyy/MM").format(new Date());
+            File distFile = new File(explodedPath + distPath);
+            if (!distFile.exists()) {
+                FileUtils.forceMkdir(distFile);
+            }
+            String jpgName = Identities.randomLong()+"";
+            String jpgPath = explodedPath + distPath + "/" + jpgName + ".jpg";
+            avatar.getFileItem().write(new File(jpgPath));
+            user.setAvatar(distPath + "/" + jpgName + ".jpg");
+            userDao.save(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
