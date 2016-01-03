@@ -100,6 +100,10 @@ angular.module('app')
                         state: 'job.user'
                     },
                     {
+                        title: '差分包管理',
+                        state: 'job.appDiff'
+                    },
+                    {
                         title: 'APK管理',
                         state: 'job.app'
                     }

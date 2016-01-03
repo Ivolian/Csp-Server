@@ -1,0 +1,51 @@
+<form class="form-horizontal new-form" role="form" name="appDiffForm">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">版本号</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="versionName" ng-model="appDiff.versionName" validator="required">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">客户端版本</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="clientVersionName" ng-model="appDiff.clientVersionName" validator="required">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">差分包</label>
+
+            <div class="col-sm-10">
+                <section class="uploader">
+                    <a ng-bind="appDiff.diffFilename" href="javascript:;"></a>
+                    <label for="upload-file" class="btn btn-default"><i class="fa fa-file-picture-o fa-fw"></i>上传差分包</label>
+                    <input type="file" nv-file-select uploader="uploader" id="upload-file"/>
+                </section>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">更新内容</label>
+
+            <div class="col-sm-10">
+                <textarea class="form-control" name="content" ng-model="appDiff.content" validator="required" rows="5" ng-trim="false">
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" validation-submit="appDiffForm" ng-click="submit()">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+    <div cg-busy="promise"></div>
+</form>
