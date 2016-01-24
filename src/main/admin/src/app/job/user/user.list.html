@@ -5,6 +5,9 @@
                 <button class="btn btn-primary" ng-click="createUser()"><i class="fa fa-fw fa-plus"></i> 新增</button>
                 <form class="form-inline pull-right" role="form">
 
+                    <label class="checkbox" >
+                        <input type="checkbox" ng-model="grid.queryInfo.justOnline"> 仅显示在线用户
+                    </label>
                     <input type="text" class="form-control" placeholder="请输入用户名"
                            ng-model="grid.queryInfo.username">
 
@@ -14,7 +17,7 @@
 
                     <div class="input-group">
 
-                        <input group-select="Department" ng-model="grid.queryInfo.department"  placeholder="请选择部门">
+                        <input group-select="Department" ng-model="grid.queryInfo.department" placeholder="请选择部门">
                     </div>
                     <div class="input-group">
 
@@ -59,7 +62,9 @@
                     <td>{{x.currentVersionName}}</td>
 
                     <td>
-                        <button class="btn btn-xs btn-default" ng-click="enableOrDisable(x)">{{x.enable === 0?"启用":"停用"}}</button>
+                        <button class="btn btn-xs btn-default" ng-click="enableOrDisable(x)">{{x.enable ===
+                            0?"启用":"停用"}}
+                        </button>
                         <!--<button class="btn btn-xs btn-warning" ng-click="pushUpdate(x)">推送更新</button>-->
                         <button class="btn btn-xs btn-success" ng-click="resetPassword(x)">重置密码</button>
                         <button class="btn btn-xs btn-primary" ng-click="updateUser(x)">编辑</button>

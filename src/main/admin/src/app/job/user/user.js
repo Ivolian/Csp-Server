@@ -58,6 +58,7 @@ angular.module('app')
 
 
         $scope.grid = SimpleTable(User.getList);
+        $scope.grid.queryInfo.justOnline = false;
 
         $scope.createUser = function () {
             var modalInstance = $modal.open({

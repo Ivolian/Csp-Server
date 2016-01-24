@@ -9,12 +9,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.User;
 import com.withub.csp.service.UserService;
 import com.withub.web.controller.BaseController;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springside.modules.web.MediaTypes;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +30,6 @@ public class UserController extends BaseController {
     private UserService userService;
 
 
-
     // 后台列表查询
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public Page list(
@@ -37,7 +38,10 @@ public class UserController extends BaseController {
             @RequestParam(value = "search_cnName", defaultValue = "") String cnName,
             @RequestParam(value = "search_username", defaultValue = "") String username,
             @RequestParam(value = "search_courtId", defaultValue = "") String courtId,
-            @RequestParam(value = "search_department", defaultValue = "") String department) {
+            @RequestParam(value = "search_department", defaultValue = "") String department,
+            @RequestParam(value = "search_justOnline") Boolean justOnline
+
+    ) {
 
         Map<String, Object> searchParams = new HashMap<>();
         JSONObject jsonObjectDepartment = JSONObject.parseObject(department);
@@ -48,8 +52,12 @@ public class UserController extends BaseController {
         searchParams.put("LIKE_cnName", cnName);
         searchParams.put("LIKE_username", username);
         searchParams.put("EQ_court.id", courtId);
-        Page<User> userPage = userService.getUser(searchParams, pageNo, pageSize);
 
+        if (justOnline) {
+            Date now = new Date();
+            searchParams.put("GTE_heartbeat", DateUtils.addSeconds(now, -10));
+        }
+        Page<User> userPage = userService.getUser(searchParams, pageNo, pageSize);
         return userPage;
     }
 

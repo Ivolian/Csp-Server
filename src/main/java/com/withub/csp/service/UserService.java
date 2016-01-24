@@ -1,7 +1,9 @@
 package com.withub.csp.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.withub.common.DynamicSpecifications;
 import com.withub.common.MD5Utils;
+import com.withub.common.SearchFilter;
 import com.withub.csp.entity.User;
 import com.withub.csp.entity.UserLogin;
 import com.withub.csp.repository.UserDao;
@@ -15,8 +17,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springside.modules.persistence.DynamicSpecifications;
-import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
 import javax.persistence.EntityManager;
