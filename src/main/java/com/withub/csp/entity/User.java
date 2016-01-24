@@ -3,6 +3,7 @@ package com.withub.csp.entity;
 import com.withub.csp.entity.base.BaseEntity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 // clear
@@ -23,6 +24,7 @@ public class User extends BaseEntity {
     private Department department;
     private Integer enable;
     private String avatar;
+    private Date heartbeat;
 
     // ======================= Setter & Getter =======================
 
@@ -134,4 +136,13 @@ public class User extends BaseEntity {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+    public Date getHeartbeat() {
+        return heartbeat;
+    }
+
+    public void setHeartbeat(Date heartbeat) {
+        this.heartbeat = heartbeat;
+    }
+
 }

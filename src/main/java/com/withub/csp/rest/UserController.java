@@ -28,11 +28,10 @@ public class UserController extends BaseController {
     private UserService userService;
 
 
-    //
 
     // 后台列表查询
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public Page<User> list(
+    public Page list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "search_cnName", defaultValue = "") String cnName,
@@ -49,8 +48,9 @@ public class UserController extends BaseController {
         searchParams.put("LIKE_cnName", cnName);
         searchParams.put("LIKE_username", username);
         searchParams.put("EQ_court.id", courtId);
+        Page<User> userPage = userService.getUser(searchParams, pageNo, pageSize);
 
-        return userService.getUser(searchParams, pageNo, pageSize);
+        return userPage;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -74,6 +74,11 @@ public class UserController extends BaseController {
     public JSONObject getPersonalInfo(String userId) throws Exception {
 
         return userService.getPersonalInfo(userId);
+    }
+
+    @RequestMapping(value = "/heartbeat", method = RequestMethod.GET)
+    public void heartbeat(@RequestParam(value = "userId") String userId) {
+        userService.updateHeartbeat(userId);
     }
 
 
@@ -157,7 +162,7 @@ public class UserController extends BaseController {
             @RequestParam(value = "userId") String userId,
             @RequestParam(value = "avatar") CommonsMultipartFile avatar) throws Exception {
 
-        userService.setUserAvatar(userId,avatar);
+        userService.setUserAvatar(userId, avatar);
     }
 
 }

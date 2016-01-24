@@ -81,7 +81,7 @@ public class UserService extends BaseService {
         personalInfo.put("telephone", user.getTelephone());
         personalInfo.put("qq", user.getQq());
         personalInfo.put("email", user.getEmail());
-        personalInfo.put("avatar",user.getAvatar());
+        personalInfo.put("avatar", user.getAvatar());
         return personalInfo;
     }
 
@@ -143,7 +143,7 @@ public class UserService extends BaseService {
         result.put("result", true);
         result.put("userId", user.getId());
         result.put("courtId", user.getCourt().getId());
-        result.put("avatar",user.getAvatar());
+        result.put("avatar", user.getAvatar());
         result.put("rootMenuItem", menuService.getRootMenuItem());
 
         // 点赞，收藏，评论，阅读，登录次数
@@ -331,13 +331,21 @@ public class UserService extends BaseService {
             if (!distFile.exists()) {
                 FileUtils.forceMkdir(distFile);
             }
-            String jpgName = Identities.randomLong()+"";
+            String jpgName = Identities.randomLong() + "";
             String jpgPath = explodedPath + distPath + "/" + jpgName + ".jpg";
             avatar.getFileItem().write(new File(jpgPath));
             user.setAvatar(distPath + "/" + jpgName + ".jpg");
             userDao.save(user);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void updateHeartbeat(String userId) {
+        User user = userDao.findOne(userId);
+        if (user != null) {
+            user.setHeartbeat(new Date());
+            userDao.save(user);
         }
     }
 
