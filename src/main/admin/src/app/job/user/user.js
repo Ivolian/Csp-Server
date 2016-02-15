@@ -12,18 +12,6 @@ angular.module('app')
 
     })
 
-    .filter('isOnline', function () {
-        return function (input) {
-            if (input === null) {
-                return ""
-            }
-            var now = moment();
-            var heartbeat = moment(input);
-            var diff = now.diff(heartbeat, 'second');
-            return diff < 5 ? "在线" : "离线";
-        };
-    })
-
     .factory('User', function (Restangular) {
         return Restangular.service('user');
     })

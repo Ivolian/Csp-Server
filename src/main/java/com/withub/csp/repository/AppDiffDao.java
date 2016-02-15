@@ -13,6 +13,6 @@ public interface AppDiffDao extends PagingAndSortingRepository<AppDiff, String>,
     @Query ("select o.versionName from AppDiff o order by o.versionName desc")
     public List<String> findVersionNameList();
 
-    public AppDiff findOneByClientVersionName(String clientVersionName);
+    public AppDiff findOneByVersionNameAndClientVersionNameAndDeleteFlag(String versionName,String clientVersionName,int deleteFlag);
 
 }

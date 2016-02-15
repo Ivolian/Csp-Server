@@ -5,6 +5,7 @@ import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.User;
 import com.withub.csp.service.UserService;
@@ -18,21 +19,21 @@ import org.springside.modules.web.MediaTypes;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @RestController
 @RequestMapping(value = "/api/v1/user")
 public class UserController extends BaseController {
 
-
     @Autowired
     private UserService userService;
 
-
     // 后台列表查询
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-    public Page list(
+    public JSONObject list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "search_cnName", defaultValue = "") String cnName,
@@ -43,7 +44,7 @@ public class UserController extends BaseController {
 
     ) {
 
-        Map<String, Object> searchParams = new HashMap<>();
+        Map<String, Object> searchParams = new HashMap<String, Object>();
         JSONObject jsonObjectDepartment = JSONObject.parseObject(department);
         if (jsonObjectDepartment != null) {
             String departmentId = jsonObjectDepartment.getString("id");
@@ -53,12 +54,41 @@ public class UserController extends BaseController {
         searchParams.put("LIKE_username", username);
         searchParams.put("EQ_court.id", courtId);
 
+        Date now = new Date();
+        int interval = 60;
+        Date time = DateUtils.addSeconds(now, -interval * 2);
         if (justOnline) {
-            Date now = new Date();
-            searchParams.put("GTE_heartbeat", DateUtils.addSeconds(now, -10));
+            searchParams.put("GT_heartbeat", time);
         }
+
+        JSONObject result = new JSONObject();
         Page<User> userPage = userService.getUser(searchParams, pageNo, pageSize);
-        return userPage;
+        List<User> userList = userPage.getContent();
+        JSONArray content = new JSONArray();
+        for (User user : userList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", user.getId());
+            jsonObject.put("username", user.getUsername());
+            jsonObject.put("cnName", user.getCnName());
+            if (user.getCourt() != null) {
+                jsonObject.put("courtName", user.getCourt().getName());
+            }
+            if (user.getDepartment() != null) {
+                jsonObject.put("departmentName", user.getDepartment().getName());
+            }
+            jsonObject.put("position", user.getPosition());
+            jsonObject.put("telephone", user.getTelephone());
+            jsonObject.put("enable", user.getEnable());
+            if (user.getHeartbeat() != null) {
+                jsonObject.put("online", user.getHeartbeat().after(time) ? "在线" : "离线");
+            }
+            jsonObject.put("currentVersionName", user.getCurrentVersionName());
+            content.add(jsonObject);
+        }
+        result.put("content", content);
+        result.put("totalElements", userPage.getTotalElements());
+        result.put("totalPages", userPage.getTotalPages());
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -84,9 +114,12 @@ public class UserController extends BaseController {
         return userService.getPersonalInfo(userId);
     }
 
+    public static ConcurrentHashMap<String, Date> heartbeatMap = new ConcurrentHashMap<>(9000, 0.75f);
+
     @RequestMapping(value = "/heartbeat", method = RequestMethod.GET)
     public void heartbeat(@RequestParam(value = "userId") String userId) {
-        userService.updateHeartbeat(userId);
+
+        heartbeatMap.put(userId, new Date());
     }
 
 

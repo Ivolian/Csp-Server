@@ -17,6 +17,7 @@
           <file>file://$MODULE_DIR$/src/main/resources/applicationContext-shiro.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/applicationContext.xml</file>
           <file>file://$MODULE_DIR$/src/main/server/WEB-INF/spring-mvc.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/applicationContext-task.xml</file>
         </fileset>
       </configuration>
     </facet>

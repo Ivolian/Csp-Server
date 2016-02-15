@@ -9,6 +9,7 @@ import com.withub.csp.entity.UserLogin;
 import com.withub.csp.repository.UserDao;
 import com.withub.csp.repository.UserLoginDao;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -118,6 +120,7 @@ public class UserService extends BaseService {
     // 登录
     public JSONObject loginCheck(String username, String password, String currentVersionName) {
 
+        Date now = new Date();
         JSONObject result = new JSONObject();
 
         User user = userDao.findOneByUsernameAndDeleteFlag(username, 0);
@@ -152,6 +155,7 @@ public class UserService extends BaseService {
         result.put("commentCount", getCurrentMonthCommentCount(user.getId()));
         result.put("readTimes", getCurrentMontyReadTimes(user.getId()));
         result.put("loginTimes", getCurrentMontyLoginTimes(user.getId()));
+        result.put("onlineNumber", getOnlineNumber(now));
 
 
 //        System.out.println(getUserCurrentMontyLoginTimes(user.getId()));
@@ -240,6 +244,15 @@ public class UserService extends BaseService {
         userDao.save(user);
     }
 
+    private int getOnlineNumber(Date now) {
+        Map<String, Object> searchParams = new HashMap<String, Object>();
+        int interval = 60;
+        Date time = DateUtils.addSeconds(now, -interval * 2);
+        searchParams.put("GT_heartbeat", time);
+        return getUser(searchParams, 1, 10000).getContent().size() + 1;
+    }
+
+
     private String getFirstDayOfMonth() {
 
         Calendar calendar = Calendar.getInstance();
@@ -249,7 +262,6 @@ public class UserService extends BaseService {
     }
 
     private String getNextDay() {
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -348,5 +360,11 @@ public class UserService extends BaseService {
             userDao.save(user);
         }
     }
+
+    public void startHeartbeatService() {
+
+
+    }
+
 
 }

@@ -5,9 +5,9 @@
                 <button class="btn btn-primary" ng-click="createUser()"><i class="fa fa-fw fa-plus"></i> 新增</button>
                 <form class="form-inline pull-right" role="form">
 
-                    <label class="checkbox" >
-                        <input type="checkbox" ng-model="grid.queryInfo.justOnline"> 仅显示在线用户
-                    </label>
+                    <input type="checkbox" ng-model="grid.queryInfo.justOnline">
+                    </span>仅显示在线用户</label>
+
                     <input type="text" class="form-control" placeholder="请输入用户名"
                            ng-model="grid.queryInfo.username">
 
@@ -54,13 +54,12 @@
                     <td record-no></td>
                     <td>{{x.username}}</td>
                     <td>{{x.cnName}}</td>
-                    <td>{{x.court.name}}</td>
-                    <td>{{x.department.name}}</td>
+                    <td>{{x.courtName}}</td>
+                    <td>{{x.departmentName}}</td>
                     <td>{{x.position}}</td>
                     <td>{{x.telephone}}</td>
-                    <td>{{x.heartbeat | isOnline}}</td>
+                    <td>{{x.online }}</td>
                     <td>{{x.currentVersionName}}</td>
-
                     <td>
                         <button class="btn btn-xs btn-default" ng-click="enableOrDisable(x)">{{x.enable ===
                             0?"启用":"停用"}}

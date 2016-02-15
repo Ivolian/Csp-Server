@@ -98,15 +98,19 @@ public class AppDiffService extends BaseService {
     }
 
     public JSONObject checkUpdate(String clientVersionName) {
+
+        // 服务器上 app 最新版本号
         String currentVersionName = getCurrentVersionName();
+
+        // 若客户端已经是最新版本，则不需要更新
         if (currentVersionName.equals(clientVersionName)) {
             JSONObject result = new JSONObject();
             result.put("needUpdate", false);
             return result;
         }
 
-        // 需要更新
-        AppDiff appDiff = appDiffDao.findOneByClientVersionName(clientVersionName);
+        // 获取对应的差分包地址
+        AppDiff appDiff = appDiffDao.findOneByVersionNameAndClientVersionNameAndDeleteFlag(currentVersionName,clientVersionName,0);
         JSONObject result = new JSONObject();
         result.put("needUpdate", true);
         result.put("diff", appDiff.getDiff());
