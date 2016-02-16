@@ -106,6 +106,10 @@ angular.module('app')
                     {
                         title: 'APK管理',
                         state: 'job.app'
+                    },
+                    {
+                        title: '角色管理',
+                        state: 'job.role'
                     }
                 ]
             }
