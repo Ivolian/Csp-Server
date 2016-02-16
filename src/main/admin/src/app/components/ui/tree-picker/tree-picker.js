@@ -34,6 +34,10 @@ angular.module('unicorn.ui')
                         var Court = $injector.get('Court');
                         scope.tree = SimpleTree(Court.loadTree, {defaultIcon: 'fa-sitemap'});
                     }
+                    if (config == 'SystemMenu') {
+                        var SystemMenu = $injector.get('SystemMenu');
+                        scope.tree = SimpleTree(SystemMenu.loadTree, {defaultIcon: 'fa-sitemap'});
+                    }
 
                     scope.$watch('selectedNode', function (selectedNode) {
                         if (selectedNode) {

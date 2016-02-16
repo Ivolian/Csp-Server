@@ -110,6 +110,10 @@ angular.module('app')
                     {
                         title: '角色管理',
                         state: 'job.role'
+                    },
+                    {
+                        title: '系统菜单管理',
+                        state: 'job.systemMenu'
                     }
                 ]
             }
