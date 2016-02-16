@@ -1,7 +1,10 @@
 package com.withub.csp.service;
 
 import com.withub.csp.entity.Role;
+import com.withub.csp.entity.RoleMenu;
+import com.withub.csp.entity.SystemMenu;
 import com.withub.csp.repository.RoleDao;
+import com.withub.csp.repository.RoleMenuDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,16 +16,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
+import org.springside.modules.utils.Identities;
 
+import java.util.List;
 import java.util.Map;
 
 
 @Component
 @Transactional
-public class RoleService extends BaseService{
+public class RoleService extends BaseService {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private RoleMenuDao roleMenuDao;
+
 
     //
 
@@ -49,7 +58,7 @@ public class RoleService extends BaseService{
 
     public void saveRole(Role entity) {
         if (StringUtils.isEmpty(entity.getId())) {
-           initEntity(entity);
+            initEntity(entity);
         }
         roleDao.save(entity);
     }
@@ -58,6 +67,30 @@ public class RoleService extends BaseService{
         Role role = getRole(id);
         role.setDeleteFlag(1);
         roleDao.save(role);
+    }
+
+    // role menu
+
+    public void saveRoleMenu(String roleId, String[] systemMenuIds) {
+
+        // 清除该角色已配菜单
+        roleMenuDao.deleteByRoleId(roleId);
+
+        // 保存新分配的菜单
+        Role role = getRole(roleId);
+        for (String systemMenuId : systemMenuIds) {
+            RoleMenu roleMenu = new RoleMenu();
+            roleMenu.setId(Identities.uuid());
+            roleMenu.setRole(role);
+            SystemMenu systemMenu = new SystemMenu();
+            systemMenu.setId(systemMenuId);
+            roleMenu.setSystemMenu(systemMenu);
+            roleMenuDao.save(roleMenu);
+        }
+    }
+
+    public List<RoleMenu> getRoleMenuList(String objectId) {
+        return roleMenuDao.findByRoleId(objectId);
     }
 
 }

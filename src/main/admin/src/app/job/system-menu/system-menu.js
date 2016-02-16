@@ -20,7 +20,7 @@ angular.module('app')
                     method: 'GET'
                 });
             }
-        }, Restangular.service('systemMenu'));
+        }, Restangular.all('systemMenu'));
     })
 
     .controller('SystemMenuCtrl', function ($scope, $timeout, $q, $state, $modal, SimpleTree, SystemMenu, focus) {

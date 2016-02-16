@@ -4,11 +4,14 @@ import com.withub.csp.entity.SystemMenu;
 import com.withub.csp.service.SystemMenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -50,6 +53,32 @@ public class SystemMenuController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id) {
         systemMenuService.deleteMenu(id);
+    }
+
+
+    // 分配菜单
+    @RequestMapping(value = "/tree", method = RequestMethod.GET)
+    public List loadMenuTree() {
+
+        SystemMenu menu = systemMenuService.getRootMenu();
+        return convertMenuData(menu);
+    }
+
+    private List convertMenuData(SystemMenu menu) {
+        List result = new ArrayList();
+        if (!CollectionUtils.isEmpty(menu.getChildList())) {
+            for (SystemMenu child : menu.getChildList()) {
+                Map data = new HashMap();
+                data.put("id", child.getId());
+                data.put("name", child.getName());
+                data.put("icon", child.getIcon());
+                data.put("url", child.getUrl());
+                data.put("orderNo", child.getOrderNo());
+                data.put("items", convertMenuData(child));
+                result.add(data);
+            }
+        }
+        return result;
     }
 
 

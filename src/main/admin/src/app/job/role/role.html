@@ -21,6 +21,7 @@
                     <td>{{x.tag}}</td>
                     <td>{{x.eventTime|date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
+                        <button class="btn btn-xs btn-primary" ng-click="assignRole(x)">分配菜单</button>
                         <button class="btn btn-xs btn-primary" ng-click="updateRole(x)">编辑</button>
                         <button class="btn btn-xs btn-danger" ng-click="removeRole(x)">删除</button>
                     </td>

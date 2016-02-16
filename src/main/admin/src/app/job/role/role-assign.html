@@ -1,0 +1,15 @@
+<form class="form-horizontal" role="form" name="roleForm">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body" ng-style="{'max-height': PageContext.contentHeight - 100}"
+         style="min-height: 320px; overflow-y: auto">
+        <div static-tree="treeConfig" ng-model="treeData"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" validation-submit="roleForm" ng-click="submit()">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+    <div cg-busy="promise"></div>
+</form>

@@ -51,7 +51,23 @@ angular.module('app')
                 });
             });
         };
-        
+
+        $scope.assignRole = function (role) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/job/role/role-assign.html',
+                controller: 'RoleAssignCtrl',
+                resolve: {
+                    role: function () {
+                        return role;
+                    }
+                }
+            });
+            modalInstance.result.then(function (result) {
+                $scope.grid.refresh();
+            });
+        };
+
+
     })
 
     .controller('RoleCreateCtrl', function ($scope, $modalInstance, SummernoteConfig, FileUploader, Role) {
@@ -93,5 +109,83 @@ angular.module('app')
         };
 
     })
+
+    .controller('RoleAssignCtrl', function ($scope, $modalInstance, $timeout, SystemMenu, Role, role) {
+
+        $scope.title = '分配权限';
+        $scope.treeConfig = {
+            selectable: false,
+            treeHandleTemplate: 'app/components/ui/template/checkbox-tree-handler.html',
+            checkedList: {},
+            change: function (item) {
+                toggleChange(item, true, true)
+            }
+        };
+
+        var toggleChange = function (item, cascadeParent, cascadeChild) {
+            var checked = $scope.treeConfig.checkedList[item.id];
+            // 处理parent
+            if (cascadeParent && item.parent) {
+                var toggleParent = true;
+                if (!checked) {
+                    _.forEach(item.parent.items, function (child) {
+                        if ($scope.treeConfig.checkedList[child.id]) {
+                            toggleParent = false;
+                            return false;
+                        }
+                    });
+                }
+                if (toggleParent) {
+                    $scope.treeConfig.checkedList[item.parent.id] = checked;
+                    toggleChange(item.parent, true, false);
+                }
+            }
+            // 处理child
+            if (cascadeChild && item.items && item.items.length > 0) {
+                _.forEach(item.items, function (child) {
+                    $scope.treeConfig.checkedList[child.id] = checked;
+                    toggleChange(child, false, true)
+                });
+            }
+        };
+
+        $scope.promise = role.doGET('menu');
+
+        $scope.promise.then(function (roleMenuList) {
+            _.forEach(roleMenuList, function (item) {
+                $scope.treeConfig.checkedList[item.menuId] = true;
+            });
+        });
+
+        SystemMenu.doGET('tree').then(function (treeData) {
+            var initMenuData = function (parent, data) {
+                _.forEach(data, function (item) {
+                    item.parent = parent;
+                    initMenuData(item, item.items);
+                });
+            };
+            initMenuData(undefined, treeData);
+            $scope.treeData = treeData;
+        });
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
+
+        $scope.submit = function () {
+            var menuIds = [];
+            _.forIn($scope.treeConfig.checkedList, function (value, key) {
+                if (value) {
+                    menuIds.push(key);
+                }
+            });
+
+            $scope.promise = role.post('menu', menuIds, {}).then(function () {
+                Toaster.success("保存成功！");
+                $modalInstance.close();
+            });
+        };
+    })
+
 
 ;

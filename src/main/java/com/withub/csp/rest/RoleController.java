@@ -10,6 +10,7 @@ import org.springside.modules.web.MediaTypes;
 import org.springside.modules.web.Servlets;
 
 import javax.servlet.ServletRequest;
+import java.util.List;
 import java.util.Map;
 
 
@@ -48,6 +49,19 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id) {
         roleService.deleteRole(id);
+    }
+
+
+    // ROLE MENU
+
+    @RequestMapping(value = "/{objectId}/menu", method = RequestMethod.GET)
+    public List getRoleMenu(@PathVariable("objectId") String objectId) {
+        return roleService.getRoleMenuList(objectId);
+    }
+
+    @RequestMapping(value = "/{objectId}/menu", method = RequestMethod.POST)
+    public void saveRoleMenu(@PathVariable("objectId") String roleId, @RequestBody String[] menuIds) {
+        roleService.saveRoleMenu(roleId, menuIds);
     }
 
 }
