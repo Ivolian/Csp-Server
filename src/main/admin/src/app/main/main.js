@@ -63,6 +63,7 @@ angular.module('app')
             url: PageContext.path + '/security/getApplicationInfo',
             method: 'GET'
         }).then(function (response) {
+
             $rootScope.currentUser = {
                 roleTag: response.data.roleTag,
                 username: response.data.username
@@ -70,10 +71,11 @@ angular.module('app')
 
 
             $scope.menuList = response.data.menuList;
-//            console.log($scope.menuList)
+            console.log($scope.currentUser)
 
 
             if ($scope.currentUser.roleTag === "Admin") {
+                console.log("admin")
                 $state.transitionTo('content');
 
             }
@@ -215,7 +217,6 @@ angular.module('app')
                 var menu = $scope.menuList[i];
                 getStateNameFromMenu(stateNames, menu);
             }
-
             var prevent = true;
             angular.forEach(stateNames, function (stateName) {
                 if (stateName === state.name) {
@@ -223,10 +224,10 @@ angular.module('app')
                 }
             });
 
-            console.log(state.name)
-            console.log(prevent)
-            if (prevent)
+            if (prevent) {
+                console.log("拦截: " + state.name)
                 event.preventDefault();
+            }
         });
 
         var getStateNameFromMenu = function (arr, menu) {

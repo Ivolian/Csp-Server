@@ -38,6 +38,9 @@ angular.module('unicorn.ui')
                     if (config == 'Role') {
                         url = PageContext.path + '/api/v1/role/all';
                     }
+                    if (config == 'District') {
+                        url = PageContext.path + '/api/v1/district/all';
+                    }
 
                     url = url || attrs.url;
 

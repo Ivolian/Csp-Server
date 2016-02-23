@@ -9,12 +9,12 @@
 
     <%--开发--%>
     <%
-//        out.print("window.location.href = '/admin.html';");
+        out.print("window.location.href = '/admin.html';");
     %>
 
     <%--发布--%>
     <%
-        out.print("window.location.href = 'admin';");
+//        out.print("window.location.href = 'admin';");
     %>
 
 </script>

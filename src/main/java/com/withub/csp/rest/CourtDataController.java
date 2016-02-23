@@ -57,6 +57,11 @@ public class CourtDataController extends BaseController {
             @RequestParam(value = "search_onlyNotLogin", defaultValue = "false") boolean onlyNotLogin
     ) throws Exception {
 
+
+
+
+
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date beginDate = simpleDateFormat.parse(beginDateString);
         Date endDate = simpleDateFormat.parse(endDateString);
