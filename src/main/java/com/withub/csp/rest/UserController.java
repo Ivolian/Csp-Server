@@ -77,6 +77,9 @@ public class UserController extends BaseController {
                 jsonObject.put("departmentName", user.getDepartment().getName());
             }
             jsonObject.put("position", user.getPosition());
+            if (user.getRole() != null) {
+                jsonObject.put("roleName", user.getRole().getName());
+            }
             jsonObject.put("telephone", user.getTelephone());
             jsonObject.put("enable", user.getEnable());
             if (user.getHeartbeat() != null) {

@@ -2,10 +2,7 @@ package com.withub.csp.entity;
 
 import com.withub.csp.entity.base.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 
@@ -28,6 +25,7 @@ public class User extends BaseEntity {
     private Integer enable;
     private String avatar;
     private Date heartbeat;
+    private Role role;
 
     // ======================= Setter & Getter =======================
 
@@ -146,6 +144,16 @@ public class User extends BaseEntity {
 
     public void setHeartbeat(Date heartbeat) {
         this.heartbeat = heartbeat;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

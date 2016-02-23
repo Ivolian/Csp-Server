@@ -105,6 +105,8 @@ angular.module('app')
 
         $scope.title = '新增用户';
 
+        $scope.user = {};
+
         $scope.cancel = function () {
             $modalInstance.dismiss();
         };

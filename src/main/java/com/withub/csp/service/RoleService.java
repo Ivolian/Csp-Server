@@ -18,6 +18,7 @@ import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Identities;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,14 @@ public class RoleService extends BaseService {
 
     public List<RoleMenu> getRoleMenuList(String objectId) {
         return roleMenuDao.findByRoleId(objectId);
+    }
+
+    //
+
+    public List<Role> getAllRole() {
+        Sort sort = new Sort(Direction.ASC, "eventTime");
+        Map<String, Object> searchParams = new HashMap<>();
+        return roleDao.findAll(buildSpecification(searchParams), sort);
     }
 
 }

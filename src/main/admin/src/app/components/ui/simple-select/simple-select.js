@@ -35,7 +35,9 @@ angular.module('unicorn.ui')
                     if (config == 'Menu') {
                         url = PageContext.path + '/api/v1/menu/all';
                     }
-
+                    if (config == 'Role') {
+                        url = PageContext.path + '/api/v1/role/all';
+                    }
 
                     url = url || attrs.url;
 
@@ -102,13 +104,11 @@ angular.module('unicorn.ui')
                     };
 
                     $timeout(function () {
-                        if (scope.options) {
-                            scope.items = angular.fromJson(scope.options);
-                            scope.checkSelect(scope.ngModel);
-                        }
-                        scope.$watch('options', function () {
-                            scope.items = angular.fromJson(scope.options);
-                            scope.checkSelect(scope.ngModel);
+                        scope.$watch('options', function (value) {
+                            if (value) {
+                                scope.items = angular.fromJson(scope.options);
+                                scope.checkSelect(scope.ngModel);
+                            }
                         });
                     });
 

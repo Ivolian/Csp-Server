@@ -64,4 +64,13 @@ public class RoleController extends BaseController {
         roleService.saveRoleMenu(roleId, menuIds);
     }
 
+    // simple select
+
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public List<Role> list() {
+        return roleService.getAllRole();
+    }
+
+
 }

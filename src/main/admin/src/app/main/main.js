@@ -56,108 +56,134 @@ angular.module('app')
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
     })
-    .controller('MainCtrl', function ($scope, $rootScope, $timeout, $window, PageContext, DateFormat) {
+    .controller('MainCtrl', function ($scope, $rootScope, $timeout, $window, PageContext, DateFormat, $http, $state) {
 
-        $scope.menuList = [
-            {
-                title: '内容管理',
-                state: 'content',
-                iconCls: 'fa fa-newspaper-o',
-                children: [
-                    {
-                        title: '新闻管理',
-                        state: 'content.news'
-                    },
-                    {
-                        title: '书籍管理',
-                        state: 'content.book'
-                    },
-                    {
-                        title: '公告管理',
-                        state: 'content.notice'
-                    }
-                ]
-            },
-            {
-                title: '数据管理',
-                state: 'job',
-                iconCls: 'fa fa-users',
-                children: [
-                    {
-                        title: '菜单管理',
-                        state: 'job.region'
-                    },
-                    {
-                        title: '法院管理',
-                        state: 'job.court'
-                    },
-                    {
-                        title: '部门管理',
-                        state: 'job.department'
-                    },
-                    {
-                        title: '用户管理',
-                        state: 'job.user'
-                    },
-                    {
-                        title: '差分包管理',
-                        state: 'job.appDiff'
-                    },
-                    {
-                        title: 'APK管理',
-                        state: 'job.app'
-                    },
-                    {
-                        title: '角色管理',
-                        state: 'job.role'
-                    },
-                    {
-                        title: '系统菜单管理',
-                        state: 'job.systemMenu'
-                    }
-                ]
+        // 加载登录用户信息
+        $http({
+            url: PageContext.path + '/security/getApplicationInfo',
+            method: 'GET'
+        }).then(function (response) {
+            $rootScope.currentUser = {
+                roleTag: response.data.roleTag,
+                username: response.data.username
+            };
+
+
+            $scope.menuList = response.data.menuList;
+//            console.log($scope.menuList)
+
+
+            if ($scope.currentUser.roleTag === "Admin") {
+                $state.transitionTo('content');
+
             }
-            ,
-            {
-                title: '问答管理',
-                state: 'qa',
-                iconCls: 'fa fa-comments',
-                children: [
-                    {
-                        title: '提问管理',
-                        state: 'qa.question'
-                    },
-                    {
-                        title: '回答管理',
-                        state: 'qa.answer'
-                    },
-                    {
-                        title: '评论管理',
-                        state: 'qa.comment'
-                    }
-                ]
-            },
-            {
-                title: '统计管理',
-                state: 'statistics',
-                iconCls: 'fa fa-users',
-                children: [
-                    {
-                        title: '法院实时数据',
-                        state: 'statistics.courtData'
-                    },
-                    {
-                        title: '法院总汇数据',
-                        state: 'statistics.courtSum'
-                    }
-                ]
+            else {
+                $state.transitionTo('statistics');
+
             }
-        ];
+
+        });
+
+        $scope.menuList = [];
+//        $scope.menuList = [
+//            {
+//                title: '内容管理',
+//                state: 'content',
+//                iconCls: 'fa fa-newspaper-o',
+//                children: [
+//                    {
+//                        title: '新闻管理',
+//                        state: 'content.news'
+//                    },
+//                    {
+//                        title: '书籍管理',
+//                        state: 'content.book'
+//                    },
+//                    {
+//                        title: '公告管理',
+//                        state: 'content.notice'
+//                    }
+//                ]
+//            },
+//            {
+//                title: '数据管理',
+//                state: 'job',
+//                iconCls: 'fa fa-users',
+//                children: [
+//                    {
+//                        title: '菜单管理',
+//                        state: 'job.region'
+//                    },
+//                    {
+//                        title: '法院管理',
+//                        state: 'job.court'
+//                    },
+//                    {
+//                        title: '部门管理',
+//                        state: 'job.department'
+//                    },
+//                    {
+//                        title: '用户管理',
+//                        state: 'job.user'
+//                    },
+//                    {
+//                        title: '差分包管理',
+//                        state: 'job.appDiff'
+//                    },
+//                    {
+//                        title: 'APK管理',
+//                        state: 'job.app'
+//                    },
+//                    {
+//                        title: '角色管理',
+//                        state: 'job.role'
+//                    },
+//                    {
+//                        title: '系统菜单管理',
+//                        state: 'job.systemMenu'
+//                    }
+//                ]
+//            }
+//            ,
+//            {
+//                title: '问答管理',
+//                state: 'qa',
+//                iconCls: 'fa fa-comments',
+//                children: [
+//                    {
+//                        title: '提问管理',
+//                        state: 'qa.question'
+//                    },
+//                    {
+//                        title: '回答管理',
+//                        state: 'qa.answer'
+//                    },
+//                    {
+//                        title: '评论管理',
+//                        state: 'qa.comment'
+//                    }
+//                ]
+//            },
+//            {
+//                title: '统计管理',
+//                state: 'statistics',
+//                iconCls: 'fa fa-users',
+//                children: [
+//                    {
+//                        title: '法院实时数据',
+//                        state: 'statistics.courtData'
+//                    },
+//                    {
+//                        title: '法院总汇数据',
+//                        state: 'statistics.courtSum'
+//                    }
+//                ]
+//            }
+//        ];
 
         $rootScope.PageContext = PageContext;
         $rootScope.DateFormat = DateFormat;
 
-//        todo
 
         var findState = function (menuList, stateName, tab) {
             tab = tab || undefined;
@@ -182,6 +208,36 @@ angular.module('app')
             }
         };
         $rootScope.$on('$stateChangeSuccess', refreshContentTabs);
+
+        $rootScope.$on('$stateChangeStart', function (event, state) {
+            var stateNames = [];
+            for (var i = 0; i != $scope.menuList.length; i++) {
+                var menu = $scope.menuList[i];
+                getStateNameFromMenu(stateNames, menu);
+            }
+
+            var prevent = true;
+            angular.forEach(stateNames, function (stateName) {
+                if (stateName === state.name) {
+                    prevent = false;
+                }
+            });
+
+            console.log(state.name)
+            console.log(prevent)
+            if (prevent)
+                event.preventDefault();
+        });
+
+        var getStateNameFromMenu = function (arr, menu) {
+            arr.push(menu.state);
+            if (menu.children) {
+                angular.forEach(menu.children, function (child) {
+                    getStateNameFromMenu(arr, child);
+                });
+            }
+        };
+
 
         // 自适应窗口大小
         $rootScope.updateWindowSize = function (ignoreScroll) {
@@ -230,9 +286,11 @@ angular.module('app')
         });
 
         refreshContentTabs();
-    })
+    }
+)
 
-    .controller('SideController', function ($scope, $modal) {
+    .
+    controller('SideController', function ($scope, $modal) {
         $scope.modifyPassword = function () {
             var modalInstance = $modal.open({
                 templateUrl: 'app/include/modify-password-form.html',
@@ -261,10 +319,14 @@ angular.module('app')
             });
         };
         $scope.exitSystem = function () {
+            console.log(PageContext.path)
+
             Dialog.confirm("确认退出系统？")
                 .then(function () {
                     window.location.href = PageContext.path + '/logout';
                 })
         };
     })
+
+
 ;

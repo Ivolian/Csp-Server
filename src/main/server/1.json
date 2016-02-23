@@ -1,0 +1,67 @@
+
+{"requestTime": "2016-02-17T05:27:37.394Z", "processingMode": {
+    "objectId": "9f9995e3-b536-4de5-adf4-90ff3c5ee1ed"
+}, "processingTimeLimit": {
+    "objectId": "b68d039f-8ff7-4683-b544-12fae193ec69"
+}, "emergencyDegree": {
+    "objectId": "251d61ef-e754-4c35-b711-652839d5baf3"
+}, "type": {
+    "objectId": "97c6be7f-449a-4371-b310-1e40b42e544f",
+    "name": "临床报修 / 综维"
+}, "requestDepartment": {
+    "objectId": "a2712262-3124-4f94-9ace-c3bab39f5279",
+    "name": "收费处"
+}, "requestUserNo": "123", "requestUser": "123", "callNumber": "123", "building": {
+    "objectId": "883740b1-5051-4c0c-941d-f44dfd37a661",
+    "name": "1F"
+}, "equipment": {
+    "objectId": "c107cdd1-fc99-4234-9a96-7581b3a716bc",
+    "name": "电梯厅管灯"
+}, "faultType": {
+    "objectId": "c349e311-51a2-493f-809d-3213da6d7992",
+    "deleteFlag": 0,
+    "createTime": 1452063904616,
+    "lastUpdateTime": 1452063904616,
+    "name": "不亮",
+    "workType": {
+        "objectId": "97c6be7f-449a-4371-b310-1e40b42e544f",
+        "deleteFlag": 0,
+        "createTime": 1447048897862,
+        "lastUpdateTime": 1447587698124,
+        "name": "综维",
+        "tag": "zw",
+        "description": null,
+        "orderNo": 1,
+        "parent": {
+            "objectId": "9c0fcc06-1f43-4b44-96a6-463080043d07",
+            "deleteFlag": 0,
+            "createTime": 1447048854105,
+            "lastUpdateTime": 1453885473554,
+            "name": "临床报修",
+            "tag": "WorkOrderType.lcbx",
+            "description": null,
+            "orderNo": 1,
+            "parent": {
+                "objectId": "9193088f-940b-4305-8e7c-41cf3854c962",
+                "deleteFlag": 0,
+                "createTime": 1447048808481,
+                "lastUpdateTime": 1447146707028,
+                "name": "工单类型",
+                "tag": "WorkOrderType",
+                "description": "",
+                "orderNo": 1,
+                "parent": {
+                    "objectId": "1",
+                    "deleteFlag": 0,
+                    "createTime": 1447048563002,
+                    "lastUpdateTime": null,
+                    "name": "字典",
+                    "tag": null,
+                    "description": null,
+                    "orderNo": 1,
+                    "parent": null
+                }
+            }
+        }
+    }
+}, "address": "13", "description": "123"}
