@@ -1,6 +1,5 @@
 package com.withub.csp.rest;
 
-import com.withub.csp.entity.Role;
 import com.withub.csp.entity.RoleMenu;
 import com.withub.csp.entity.SystemMenu;
 import com.withub.csp.entity.User;
@@ -25,7 +24,6 @@ import java.util.Map;
 public class SecurityController {
 
 
-
     @Autowired
     private RoleService roleService;
 
@@ -39,26 +37,21 @@ public class SecurityController {
     @RequestMapping(value = "/getApplicationInfo", method = RequestMethod.GET)
     public Map getApplicationInfo() {
 
+        Map<String, Object> result = new HashMap<String, Object>();
         ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        Map result = new HashMap();
-        result.put("userId", shiroUser != null ? shiroUser.id : "not login");
-        result.put("username", shiroUser != null ? shiroUser.loginName : "not login");
-        result.put("roleTag", userService.getUser(shiroUser.id).getRole().getTag());
-
         if (shiroUser != null) {
-            SystemMenu root = systemMenuService.getRootMenu();
+            result.put("username", shiroUser.loginName);
+            result.put("roleTag", userService.getUser(shiroUser.id).getRole().getTag());
 
+            SystemMenu root = systemMenuService.getRootMenu();
             User user = userService.getUser(shiroUser.id);
-            Role role = user.getRole();
-            List<RoleMenu> roleMenuList = roleService.getRoleMenuList(role.getId());
+            List<RoleMenu> roleMenuList = roleService.getRoleMenuList(user.getRole().getId());
             List<String> menuIdList = new ArrayList<>();
             for (RoleMenu roleMenu : roleMenuList) {
                 menuIdList.add(roleMenu.getMenuId());
             }
-
-            result.put("menuList",convertMenuData(root,menuIdList));
+            result.put("menuList", convertMenuData(root, menuIdList));
         }
-
 
         return result;
     }

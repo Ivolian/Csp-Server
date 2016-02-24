@@ -13,6 +13,25 @@
                     <input type="text" class="form-control" placeholder="请输入姓名"
                            ng-model="grid.queryInfo.cnName">
 
+
+
+                    <div class="input-group">
+
+                        <input tree-picker="Court" placeholder="请选择法院"
+                               ng-model="grid.queryInfo.court">
+
+
+                    </div>
+                    <div class="input-group">
+
+                        {{department}}
+                        <input simple-select options="{{departmentList}}"
+                               show-clear="false"
+                               ng-model="grid.queryInfo.department"
+                               placeholder="请选择部门">
+                    </div>
+
+
                     <div class="input-group" >
 
                         <input date-picker
@@ -27,18 +46,15 @@
                                format="YYYY-MM-DD HH:mm"
                                ng-model="grid.queryInfo.endDate"
                                placeholder="请输入结束日期">
-                    </div>
 
-                    <div class="input-group">
-
-                        <input tree-picker="Court" show-clear="false" placeholder="请选择法院"
-                               ng-model="grid.queryInfo.courtId">
-
-                          <span class="input-group-btn">
+                           <span class="input-group-btn">
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
                             </button>
                           </span>
                     </div>
+
+
+
 
                 </form>
             </div>
@@ -50,6 +66,7 @@
                     <th>用户名</th>
                     <th>姓名</th>
                     <th>所属法院</th>
+                    <th>所属部门</th>
                     <th>评论次数</th>
                     <th>点赞次数</th>
                     <th>登录次数</th>
@@ -62,6 +79,7 @@
                     <td>{{x.username}}</td>
                     <td>{{x.cnName}}</td>
                     <td>{{x.courtName}}</td>
+                    <td>{{x.departmentName}}</td>
                     <td>{{x.commentCount}}</td>
                     <td>{{x.thumbCount}}</td>
                     <td>{{x.loginTimes}}</td>

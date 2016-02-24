@@ -22,9 +22,9 @@ angular.module('app')
         $scope.grid = SimpleTable(courtData.getList);
 
         $scope.grid.pageSize = 20;
-        $scope.grid.queryInfo.beginDate = new Date();
+        $scope.grid.queryInfo.beginDate = moment().add(-1, 'days');
         $scope.grid.queryInfo.endDate = new Date();
-        $scope.grid.queryInfo.onlyNotLogin = false;
+//        $scope.grid.queryInfo.onlyNotLogin = false;
 
         $scope.exportExcel = function () {
             $modal.open({
@@ -32,6 +32,23 @@ angular.module('app')
                 controller: 'CourtDataExportCtrl'
             });
         };
+
+
+        $scope.$watch('grid.queryInfo.court', function (court) {
+            if (court && court.id) {
+                $http({
+                    url: PageContext.path + "/api/v1/department/listByCourtId",
+                    method: 'GET',
+                    params: {
+                        courtId: court.id
+                    }
+                }).success(function (departmentList) {
+                    $scope.departmentList = departmentList;
+                });
+                $scope.grid.queryInfo.department = {};
+            }
+        });
+
 
     })
 
@@ -60,7 +77,7 @@ angular.module('app')
         $scope.$watch('courtDataExport.court', function (court) {
 
             var courtId = court.id;
-            if (!courtId || courtId === ""){
+            if (!courtId || courtId === "") {
                 return;
             }
 

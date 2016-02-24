@@ -1,5 +1,6 @@
 package com.withub.csp.rest;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.User;
@@ -9,7 +10,9 @@ import com.withub.csp.repository.ThumbDao;
 import com.withub.csp.repository.UserLoginDao;
 import com.withub.csp.service.CourtDataService;
 import com.withub.csp.service.UserService;
+import com.withub.service.account.ShiroDbRealm;
 import com.withub.web.controller.BaseController;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +53,9 @@ public class CourtDataController extends BaseController {
     public JSONObject list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-            @RequestParam(value = "search_courtId", defaultValue = "") String courtId,
+            @RequestParam(value = "search_court", defaultValue = "1") String courtId,
+            @RequestParam(value = "search_department", defaultValue = "") String departmentJsonString,
+
             @RequestParam(value = "search_cnName", defaultValue = "") String cnName,
             @RequestParam(value = "search_beginDate", defaultValue = "") String beginDateString,
             @RequestParam(value = "search_endDate", defaultValue = "") String endDateString,
@@ -58,16 +63,30 @@ public class CourtDataController extends BaseController {
     ) throws Exception {
 
 
+        // 权限判断
+        ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        String userId = shiroUser.id;
+        boolean permission = userService.checkQueryPermission(userId, courtId);
+        if (!permission) {
+            throw new Exception("没有足够的权限");
+        }
 
 
-
+        // 查询
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date beginDate = simpleDateFormat.parse(beginDateString);
         Date endDate = simpleDateFormat.parse(endDateString);
 
+
         Map<String, Object> searchParams = new HashMap<String, Object>();
         searchParams.put("EQ_court.id", courtId);
+
+        JSONObject departmentJSONObject = JSON.parseObject(departmentJsonString);
+        if (departmentJSONObject != null) {
+            String departmentId = departmentJSONObject.getString("id");
+            searchParams.put("EQ_department.id", departmentId);
+        }
         searchParams.put("LIKE_cnName", cnName);
         Page<User> page = userService.getUser(searchParams, pageNo, pageSize);
         List<User> userList = page.getContent();
@@ -79,6 +98,9 @@ public class CourtDataController extends BaseController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("username", user.getUsername());
             jsonObject.put("cnName", user.getCnName());
+            if (user.getDepartment()!=null){
+                jsonObject.put("departmentName", user.getDepartment().getName());
+            }
             jsonObject.put("courtName", user.getCourt().getName());
             jsonObject.put("commentCount", commentDao.getCommentCountByUserIdAndDateRange(user.getId(), beginDate, endDate));
             jsonObject.put("thumbCount", thumbDao.getThumbCountByUserIdAndDateRange(user.getId(), beginDate, endDate));
@@ -107,6 +129,7 @@ public class CourtDataController extends BaseController {
         return response;
     }
 
+
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     public JSONObject export(
             @RequestParam(value = "fileName") String fileName,
@@ -115,7 +138,7 @@ public class CourtDataController extends BaseController {
             @RequestParam(value = "beginTime") String beginTime,
             @RequestParam(value = "endTime") String endTime) throws Exception {
 
-        JSONObject response = courtDataService.exportExcel(fileName, courtId,departmentId, beginTime,endTime);
+        JSONObject response = courtDataService.exportExcel(fileName, courtId, departmentId, beginTime, endTime);
         return response;
     }
 

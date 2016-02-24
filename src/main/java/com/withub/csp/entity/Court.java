@@ -22,6 +22,7 @@ public class Court extends BaseEntity {
 
     private District district;
 
+    private List<Court> children;
 
     //
 
@@ -72,4 +73,17 @@ public class Court extends BaseEntity {
     public void setDistrict(District district) {
         this.district = district;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @OrderBy(value = "eventTime asc")
+    @Where(clause = "delete_flag=0")
+    public List<Court> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Court> children) {
+        this.children = children;
+    }
+
 }

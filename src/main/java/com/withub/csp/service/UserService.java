@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.withub.common.DynamicSpecifications;
 import com.withub.common.MD5Utils;
 import com.withub.common.SearchFilter;
+import com.withub.csp.entity.Court;
 import com.withub.csp.entity.User;
 import com.withub.csp.entity.UserLogin;
+import com.withub.csp.repository.CourtDao;
 import com.withub.csp.repository.UserDao;
 import com.withub.csp.repository.UserLoginDao;
 import org.apache.commons.io.FileUtils;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,10 +29,7 @@ import javax.persistence.Query;
 import java.io.File;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Component
@@ -38,6 +38,9 @@ public class UserService extends BaseService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private CourtDao courtDao;
 
     @Autowired
     private UserLoginDao userLoginDao;
@@ -110,8 +113,8 @@ public class UserService extends BaseService {
     }
 
     public Page<User> getUser(Map<String, Object> searchParams, int pageNo, int pageSize) {
-
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
+        Sort sort = new Sort(Sort.Direction.ASC, "courtId", "departmentId", "cnName");
+        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, sort);
         Specification<User> spec = buildSpecification(searchParams);
         return userDao.findAll(spec, pageRequest);
     }
@@ -366,5 +369,19 @@ public class UserService extends BaseService {
 
     }
 
+
+    public boolean checkQueryPermission(String userId, String courtId) {
+        List<String> courtIdList = new ArrayList<>();
+        getCourtIdList(courtIdList, courtDao.findOne(courtId));
+        String userCourtId = getUser(userId).getCourt().getId();
+        return courtIdList.contains(userCourtId);
+    }
+
+    private void getCourtIdList(List<String> courtIdList, Court court) {
+        courtIdList.add(court.getId());
+        if (court.getParent() != null) {
+            getCourtIdList(courtIdList, court.getParent());
+        }
+    }
 
 }

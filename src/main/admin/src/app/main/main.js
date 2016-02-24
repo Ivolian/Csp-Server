@@ -63,125 +63,15 @@ angular.module('app')
             url: PageContext.path + '/security/getApplicationInfo',
             method: 'GET'
         }).then(function (response) {
-
             $rootScope.currentUser = {
                 roleTag: response.data.roleTag,
                 username: response.data.username
             };
-
-
             $scope.menuList = response.data.menuList;
-            console.log($scope.currentUser)
-
-
-            if ($scope.currentUser.roleTag === "Admin") {
-                console.log("admin")
-                $state.transitionTo('content');
-
-            }
-            else {
-                $state.transitionTo('statistics');
-
-            }
-
+            $state.transitionTo($scope.currentUser.roleTag === 'Admin' ? 'content' : 'statistics');
         });
 
         $scope.menuList = [];
-//        $scope.menuList = [
-//            {
-//                title: '内容管理',
-//                state: 'content',
-//                iconCls: 'fa fa-newspaper-o',
-//                children: [
-//                    {
-//                        title: '新闻管理',
-//                        state: 'content.news'
-//                    },
-//                    {
-//                        title: '书籍管理',
-//                        state: 'content.book'
-//                    },
-//                    {
-//                        title: '公告管理',
-//                        state: 'content.notice'
-//                    }
-//                ]
-//            },
-//            {
-//                title: '数据管理',
-//                state: 'job',
-//                iconCls: 'fa fa-users',
-//                children: [
-//                    {
-//                        title: '菜单管理',
-//                        state: 'job.region'
-//                    },
-//                    {
-//                        title: '法院管理',
-//                        state: 'job.court'
-//                    },
-//                    {
-//                        title: '部门管理',
-//                        state: 'job.department'
-//                    },
-//                    {
-//                        title: '用户管理',
-//                        state: 'job.user'
-//                    },
-//                    {
-//                        title: '差分包管理',
-//                        state: 'job.appDiff'
-//                    },
-//                    {
-//                        title: 'APK管理',
-//                        state: 'job.app'
-//                    },
-//                    {
-//                        title: '角色管理',
-//                        state: 'job.role'
-//                    },
-//                    {
-//                        title: '系统菜单管理',
-//                        state: 'job.systemMenu'
-//                    }
-//                ]
-//            }
-//            ,
-//            {
-//                title: '问答管理',
-//                state: 'qa',
-//                iconCls: 'fa fa-comments',
-//                children: [
-//                    {
-//                        title: '提问管理',
-//                        state: 'qa.question'
-//                    },
-//                    {
-//                        title: '回答管理',
-//                        state: 'qa.answer'
-//                    },
-//                    {
-//                        title: '评论管理',
-//                        state: 'qa.comment'
-//                    }
-//                ]
-//            },
-//            {
-//                title: '统计管理',
-//                state: 'statistics',
-//                iconCls: 'fa fa-users',
-//                children: [
-//                    {
-//                        title: '法院实时数据',
-//                        state: 'statistics.courtData'
-//                    },
-//                    {
-//                        title: '法院总汇数据',
-//                        state: 'statistics.courtSum'
-//                    }
-//                ]
-//            }
-//        ];
 
         $rootScope.PageContext = PageContext;
         $rootScope.DateFormat = DateFormat;
