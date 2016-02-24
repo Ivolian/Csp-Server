@@ -3,12 +3,14 @@ package com.withub.csp.rest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.withub.csp.entity.Court;
 import com.withub.csp.entity.User;
 import com.withub.csp.repository.CommentDao;
 import com.withub.csp.repository.NewsReadDao;
 import com.withub.csp.repository.ThumbDao;
 import com.withub.csp.repository.UserLoginDao;
 import com.withub.csp.service.CourtDataService;
+import com.withub.csp.service.CourtService;
 import com.withub.csp.service.UserService;
 import com.withub.service.account.ShiroDbRealm;
 import com.withub.web.controller.BaseController;
@@ -21,10 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/courtData")
@@ -32,6 +31,9 @@ public class CourtDataController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CourtService courtService;
 
     @Autowired
     private CommentDao commentDao;
@@ -98,7 +100,7 @@ public class CourtDataController extends BaseController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("username", user.getUsername());
             jsonObject.put("cnName", user.getCnName());
-            if (user.getDepartment()!=null){
+            if (user.getDepartment() != null) {
                 jsonObject.put("departmentName", user.getDepartment().getName());
             }
             jsonObject.put("courtName", user.getCourt().getName());
@@ -134,12 +136,41 @@ public class CourtDataController extends BaseController {
     public JSONObject export(
             @RequestParam(value = "fileName") String fileName,
             @RequestParam(value = "courtId") String courtId,
-            @RequestParam(value = "departmentId") String departmentId,
+            @RequestParam(value = "departmentId", defaultValue = "") String departmentId,
+            @RequestParam(value = "underling") Boolean underling,
             @RequestParam(value = "beginTime") String beginTime,
             @RequestParam(value = "endTime") String endTime) throws Exception {
 
-        JSONObject response = courtDataService.exportExcel(fileName, courtId, departmentId, beginTime, endTime);
+
+        // 权限判断
+        ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        String userId = shiroUser.id;
+        boolean permission = userService.checkQueryPermission(userId, courtId);
+        if (!permission) {
+            throw new Exception("没有足够的权限");
+        }
+
+
+        List<String> courtIdList = new ArrayList<>();
+        if (!departmentId.equals("")){
+            //
+        }else if (!underling){
+            courtIdList.add(courtId);
+        }else {
+            addCourtId(courtIdList,courtService.getCourt(courtId) );
+        }
+
+        JSONObject response = courtDataService.exportExcel(fileName, courtIdList, departmentId, underling,beginTime, endTime);
         return response;
+    }
+
+    private void addCourtId(List<String> courtIdList, Court court) {
+        courtIdList.add(court.getId());
+        if (court.getChildren() != null) {
+            for (Court child : court.getChildren()) {
+                addCourtId(courtIdList, child);
+            }
+        }
     }
 
 }

@@ -32,9 +32,9 @@ public class CourtDataService extends BaseService {
 
     //
 
-    public JSONObject exportExcel(String fileName, String courtId, String departmentId, String beginTime, String endTime) throws Exception {
+    public JSONObject exportExcel(String fileName, List<String> courtIdList, String departmentId, Boolean underling,String beginTime, String endTime) throws Exception {
 
-        List<Object[]> resultList = getResultList(courtId, departmentId, beginTime, endTime);
+        List<Object[]> resultList = getResultList(courtIdList, departmentId, beginTime, endTime);
         HSSFWorkbook hssfWorkbook = createExcel(resultList);
 
         String tempFileName = Identities.uuid();
@@ -105,12 +105,12 @@ public class CourtDataService extends BaseService {
         return hssfWorkbook;
     }
 
-    private List getResultList(String courtId, String departmentId, String beginTime, String endTime) {
+    private List getResultList(List<String> courtIdList, String departmentId, String beginTime, String endTime) {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query = entityManager.createNativeQuery(getNativeSql(courtId, departmentId));
+        Query query = entityManager.createNativeQuery(getNativeSql(departmentId));
         if (departmentId.equals("")) {
-            query.setParameter("courtId", courtId);
+            query.setParameter("courtIdList", courtIdList);
         } else {
             query.setParameter("departmentId", departmentId);
         }
@@ -121,7 +121,7 @@ public class CourtDataService extends BaseService {
         return resultList;
     }
 
-    private String getNativeSql(String courtId, String departmentId) {
+    private String getNativeSql(String departmentId) {
 
         String sql = "SELECT \n" +
                 "a.username '用户名',\n" +
@@ -172,7 +172,7 @@ public class CourtDataService extends BaseService {
                 "\n";
 
         if (departmentId.equals("")) {
-            sql += "WHERE a.court_id = :courtId\n";
+            sql += "WHERE a.court_id in :courtIdList\n";
 
         } else {
             sql += "WHERE a.department_id = :departmentId\n";
@@ -180,7 +180,7 @@ public class CourtDataService extends BaseService {
         }
         sql += "AND a.delete_flag = 0\n";
         sql += "AND a.enable = 1\n";
-        sql += "ORDER BY b.loginTimes DESC";
+        sql += "ORDER BY a.court_id, a.department_id, b.loginTimes DESC";
 
         return sql;
     }

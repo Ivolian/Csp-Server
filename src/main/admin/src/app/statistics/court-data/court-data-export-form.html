@@ -6,38 +6,50 @@
     <div class="modal-body">
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">文件名</label>
+            <label class="col-sm-3 control-label">文件名</label>
 
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="fileName" ng-model="courtDataExport.fileName" validator="required">
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="fileName" ng-model="courtDataExport.fileName"
+                       validator="required">
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">法院</label>
+            <label class="col-sm-3 control-label">法院</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <input tree-picker="Court" show-clear="false" placeholder="请选择法院"
                        ng-model="courtDataExport.court" ng-validator="required"
                         >
             </div>
         </div>
-
         <div class="form-group">
-            <label class="col-sm-2 control-label">部门</label>
+            <label class="col-sm-3 control-label">导出下属法院</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
+                <label class="checkbox-inline c-checkbox">
+                    <input type="checkbox" ng-model="courtDataExport.underling">
+                    <span class="fa fa-check"></span>
+                </label>
+            </div>
+
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">部门</label>
+
+            <div class="col-sm-9">
                 <input simple-select options="{{departmentList}}"
-
+                       show-clear="false"
                        ng-model="courtDataExport.department"
                        placeholder="请选择部门">
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">起始时间</label>
+            <label class="col-sm-3 control-label">起始时间</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <input date-picker format="YYYY-MM-DD HH:mm"
                        ng-model="courtDataExport.beginTime"
                        ng-validator="required">
@@ -45,9 +57,9 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">结束时间</label>
+            <label class="col-sm-3 control-label">结束时间</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <input date-picker format="YYYY-MM-DD HH:mm"
                        ng-model="courtDataExport.endTime"
                        ng-validator="required">
@@ -57,7 +69,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-primary" validation-submit="courtDataForm" ng-click="export()">确认</button>
+        <button class="btn btn-primary" validation-submit="courtDataForm" ng-click="exportExcel()">确认</button>
         <button class="btn btn-warning" ng-click="cancel()">取消</button>
     </div>
     <div cg-busy="promise"></div>
