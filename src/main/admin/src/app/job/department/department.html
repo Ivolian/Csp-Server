@@ -5,13 +5,15 @@
                 <button class="btn btn-primary" ng-click="createDepartment()"><i class="fa fa-fw fa-plus"></i> 新增</button>
                 <form class="form-inline pull-right" role="form">
 
-                    <input type="text" class="form-control" placeholder="请输入部门名称"
-                           ng-model="grid.queryInfo.name">
-
                     <div class="input-group">
 
-                        <input tree-picker="Court" show-clear="false" placeholder="请选择法院"
-                               ng-model="grid.queryInfo.courtId">
+                    <input tree-picker="Court" show-clear="false" placeholder="请选择法院"
+                           ng-model="grid.queryInfo.courtId"
+                            >
+</div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入部门名称"
+                               ng-model="grid.queryInfo.name">
 
                           <span class="input-group-btn">
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
@@ -27,7 +29,7 @@
                     <th style="width: 60px;">#</th>
                     <th>所属法院</th>
                     <th>部门名称</th>
-                    <th style="width: 60px;">操作</th>
+                    <th style="width: 120px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>

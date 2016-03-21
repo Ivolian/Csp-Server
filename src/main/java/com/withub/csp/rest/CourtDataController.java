@@ -12,9 +12,7 @@ import com.withub.csp.repository.UserLoginDao;
 import com.withub.csp.service.CourtDataService;
 import com.withub.csp.service.CourtService;
 import com.withub.csp.service.UserService;
-import com.withub.service.account.ShiroDbRealm;
 import com.withub.web.controller.BaseController;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,13 +64,7 @@ public class CourtDataController extends BaseController {
 
 
         // 权限判断
-        ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String userId = shiroUser.id;
-        boolean permission = userService.checkQueryPermission(userId, courtId);
-        if (!permission) {
-            throw new Exception("没有足够的权限");
-        }
-
+    userService.checkPermission(courtId);
 
         // 查询
 
@@ -135,20 +127,14 @@ public class CourtDataController extends BaseController {
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     public JSONObject export(
             @RequestParam(value = "fileName") String fileName,
-            @RequestParam(value = "courtId") String courtId,
+            @RequestParam(value = "courtId",defaultValue = "1") String courtId,
             @RequestParam(value = "departmentId", defaultValue = "") String departmentId,
             @RequestParam(value = "underling") Boolean underling,
             @RequestParam(value = "beginTime") String beginTime,
             @RequestParam(value = "endTime") String endTime) throws Exception {
 
 
-        // 权限判断
-        ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String userId = shiroUser.id;
-        boolean permission = userService.checkQueryPermission(userId, courtId);
-        if (!permission) {
-            throw new Exception("没有足够的权限");
-        }
+ userService.checkPermission(courtId);
 
 
         List<String> courtIdList = new ArrayList<>();

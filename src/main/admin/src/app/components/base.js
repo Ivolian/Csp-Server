@@ -33,7 +33,17 @@ angular.module('base', [
                 },
 
                 'responseError': function (rejection) {
-                    Toaster.error(rejection.data.error);
+                    var data = rejection.data;
+                    if (data.warning){
+                        if (data.warning === "登录超时"){
+                            window.location.href = PageContext.path + '/login';
+                        }
+                        Toaster.warning(data.warning);
+
+                    }
+                    if (data.error){
+                        Toaster.warning(data.error);
+                    }
                     return $q.reject(rejection);
                 }
             };

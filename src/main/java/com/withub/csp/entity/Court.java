@@ -20,8 +20,6 @@ public class Court extends BaseEntity {
 
     private List<Department> departmentList;
 
-    private District district;
-
     private List<Court> children;
 
     //
@@ -62,16 +60,6 @@ public class Court extends BaseEntity {
 
     public void setDepartmentList(List<Department> departmentList) {
         this.departmentList = departmentList;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "district_id")
-    public District getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(District district) {
-        this.district = district;
     }
 
     @JsonIgnore

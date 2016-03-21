@@ -6,23 +6,33 @@
                 <form class="form-inline pull-right" role="form">
 
                     <input type="checkbox" ng-model="grid.queryInfo.justOnline">
-                    </span>仅显示在线用户</label>
+                    </span>仅显示在线用户
 
-                    <input type="text" class="form-control" placeholder="请输入用户名"
-                           ng-model="grid.queryInfo.username">
+                    <div class="input-group" style="margin-left: 10px">
 
-                    <input type="text" class="form-control" placeholder="请输入姓名"
-                           ng-model="grid.queryInfo.cnName">
+                        <input tree-picker="Court" placeholder="请选择法院"
+                               ng-model="grid.queryInfo.court">
 
 
-                    <div class="input-group">
-
-                        <input group-select="Department" ng-model="grid.queryInfo.department" placeholder="请选择部门">
                     </div>
                     <div class="input-group">
 
-                        <input tree-picker="Court" show-clear="false" placeholder="请选择法院"
-                               ng-model="grid.queryInfo.courtId">
+                        {{department}}
+                        <input simple-select options="{{departmentList}}"
+                               show-clear="false"
+                               ng-model="grid.queryInfo.department"
+                               placeholder="请选择部门">
+                    </div>
+                    <div class="input-group">
+
+
+                        <input type="text" class="form-control" placeholder="请输入用户名"
+                               ng-model="grid.queryInfo.username">
+                    </div>
+                    <div class="input-group">
+
+                        <input type="text" class="form-control" placeholder="请输入姓名"
+                               ng-model="grid.queryInfo.cnName">
 
                           <span class="input-group-btn">
                             <button class="btn btn-primary" ng-click="grid.query()"><i class="fa fa-fw fa-search"></i>
@@ -40,14 +50,13 @@
                     <th style="width: 60px;">#</th>
                     <th>用户名</th>
                     <th>姓名</th>
-                    <th>角色</th>
                     <th>法院</th>
                     <th>部门</th>
                     <th>职位</th>
                     <th>手机号</th>
                     <th>是否在线</th>
-                    <th>客户端版本号</th>
-                    <th style="width: 200px;">操作</th>
+                    <th>客户端版本</th>
+                    <th style="width: 240px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,7 +64,6 @@
                     <td record-no></td>
                     <td>{{x.username}}</td>
                     <td>{{x.cnName}}</td>
-                    <td>{{x.roleName}}</td>
                     <td>{{x.courtName}}</td>
                     <td>{{x.departmentName}}</td>
                     <td>{{x.position}}</td>

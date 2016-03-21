@@ -10,6 +10,7 @@ import org.springside.modules.web.MediaTypes;
 import org.springside.modules.web.Servlets;
 
 import javax.servlet.ServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +70,14 @@ public class RoleController extends BaseController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Role> list() {
-        return roleService.getAllRole();
+
+        List<Role> roleList = new ArrayList<>();
+        for (Role role : roleService.getAllRole()) {
+            if (!role.getTag().equals("Admin")) {
+                roleList.add(role);
+            }
+        }
+        return roleList;
     }
 
 

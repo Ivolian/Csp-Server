@@ -63,12 +63,28 @@ angular.module('app')
             url: PageContext.path + '/security/getApplicationInfo',
             method: 'GET'
         }).then(function (response) {
+            console.log(response)
+
             $rootScope.currentUser = {
                 roleTag: response.data.roleTag,
                 username: response.data.username
             };
-            $scope.menuList = response.data.menuList;
-            $state.transitionTo($scope.currentUser.roleTag === 'Admin' ? 'content' : 'statistics');
+            if (response.data.menuList) {
+                $scope.menuList = response.data.menuList;
+            }
+            console.log($scope.menuList)
+            var roleTag = $scope.currentUser.roleTag;
+            if (roleTag === "Admin"){
+                $state.transitionTo('content');
+            }
+            if (roleTag === "CourtMaintainer"){
+                $state.transitionTo('job');
+            }
+            if (roleTag === "General"){
+                $state.transitionTo('job');
+            }
+
+//            $state.transitionTo($scope.currentUser.roleTag === 'Admin' ? 'content' : 'statistics');
         });
 
         $scope.menuList = [];
@@ -113,6 +129,7 @@ angular.module('app')
                     prevent = false;
                 }
             });
+
 
             if (prevent) {
                 console.log("拦截: " + state.name)

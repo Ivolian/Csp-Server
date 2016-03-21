@@ -6,6 +6,7 @@ import com.withub.csp.entity.Court;
 import com.withub.csp.entity.Department;
 import com.withub.csp.service.CourtService;
 import com.withub.csp.service.DepartmentService;
+import com.withub.csp.service.UserService;
 import com.withub.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,13 +28,17 @@ public class DepartmentController extends BaseController {
     @Autowired
     private CourtService courtService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public Page<Department> list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "search_name", defaultValue = "") String name,
-            @RequestParam(value = "search_courtId", defaultValue = "") String courtId
+            @RequestParam(value = "search_courtId", defaultValue = "1") String courtId
     ) {
+        userService.checkPermission(courtId);
 
         Map<String, Object> searchParams = new HashMap<>();
         searchParams.put("LIKE_name", name);
@@ -42,29 +47,28 @@ public class DepartmentController extends BaseController {
         return departmentService.getDepartment(searchParams, pageNo, pageSize);
     }
 
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public Department get(@PathVariable("id") String id) {
-
         return departmentService.getDepartment(id);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
     public void create(@RequestBody Department department) {
-
+        userService.checkPermission(department.getCourt().getId());
         departmentService.saveDepartment(department);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody Department department) {
-
+        userService.checkPermission(department.getCourt().getId());
         departmentService.saveDepartment(department);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
-
         departmentService.deleteDepartment(id);
     }
 

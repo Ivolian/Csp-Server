@@ -5,6 +5,7 @@
  *******************************************************************************/
 package com.withub.rest;
 
+import com.withub.csp.exception.PermissionException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,6 +55,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         Map errors = new HashMap();
         Map<String, String> message = BeanValidators.extractPropertyAndMessage(ex.getConstraintViolations());
         errors.put("error", message);
+        String body = jsonMapper.toJson(errors);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(MediaTypes.TEXT_PLAIN_UTF_8));
+        return handleExceptionInternal(ex, body, headers, HttpStatus.BAD_REQUEST, request);
+    }
+
+
+    @ExceptionHandler(value = {PermissionException.class})
+    protected ResponseEntity<Object> handlePermissionExceptionInternal(PermissionException ex, WebRequest request) {
+        ex.printStackTrace();
+        Map errors = new HashMap();
+        errors.put("warning", ex.getMessage());
         String body = jsonMapper.toJson(errors);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(MediaTypes.TEXT_PLAIN_UTF_8));

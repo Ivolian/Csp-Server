@@ -5,6 +5,7 @@ import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.User;
@@ -32,22 +33,26 @@ public class UserController extends BaseController {
     private UserService userService;
 
     // 后台列表查询
+    // 硬编码 定死默认查询 courtId = 1
     @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     public JSONObject list(
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
             @RequestParam(value = "search_cnName", defaultValue = "") String cnName,
             @RequestParam(value = "search_username", defaultValue = "") String username,
-            @RequestParam(value = "search_courtId", defaultValue = "") String courtId,
-            @RequestParam(value = "search_department", defaultValue = "") String department,
+            @RequestParam(value = "search_court", defaultValue = "1") String courtId,
+            @RequestParam(value = "search_department", defaultValue = "") String departmentJsonString,
             @RequestParam(value = "search_justOnline") Boolean justOnline
 
     ) {
 
+        userService.checkPermission(courtId);
+
         Map<String, Object> searchParams = new HashMap<String, Object>();
-        JSONObject jsonObjectDepartment = JSONObject.parseObject(department);
-        if (jsonObjectDepartment != null) {
-            String departmentId = jsonObjectDepartment.getString("id");
+
+        JSONObject departmentJSONObject = JSON.parseObject(departmentJsonString);
+        if (departmentJSONObject != null) {
+            String departmentId = departmentJSONObject.getString("id");
             searchParams.put("EQ_department.id", departmentId);
         }
         searchParams.put("LIKE_cnName", cnName);
@@ -97,11 +102,14 @@ public class UserController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestBody User user) throws Exception {
 
+        userService.checkPermission(user.getCourt().getId());
+
         userService.saveUser(user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@RequestBody User user) {
+        userService.checkPermission(user.getCourt().getId());
 
         userService.updateUser(user);
     }

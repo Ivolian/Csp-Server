@@ -48,6 +48,24 @@ angular.module('app')
         $scope.grid = SimpleTable(User.getList);
         $scope.grid.queryInfo.justOnline = false;
 
+        $scope.grid.queryInfo.department = {};
+
+
+        $scope.$watch('grid.queryInfo.court', function (court) {
+            if (court && court.id) {
+                $http({
+                    url: PageContext.path + "/api/v1/department/listByCourtId",
+                    method: 'GET',
+                    params: {
+                        courtId: court.id
+                    }
+                }).success(function (departmentList) {
+                    $scope.departmentList = departmentList;
+                });
+                $scope.grid.queryInfo.department = {};
+            }
+        });
+
         $scope.createUser = function () {
             var modalInstance = $modal.open({
                 templateUrl: 'app/job/user/user.form.html',

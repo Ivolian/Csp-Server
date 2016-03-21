@@ -25,15 +25,20 @@
 			<value>
                 /login = authc
                 /logout = logout
+                /scripts/** = anon
+                /images/** = anon
+                /css/** = anon
                 /static/** = anon
                 /register/** = anon
                 /api/** = anon
                 /withub/** = anon
                 /attachment/** = anon
+                /video/** = anon
+                /app.apk = anon
                 /admin = roles[admin]
                 /admin.html = roles[admin]
                 /admin/** = roles[admin]
-                /** = anon
+                /** = roles[admin]
 			</value>
 		</property>
 	</bean>

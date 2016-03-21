@@ -5,13 +5,17 @@ import com.withub.common.DynamicSpecifications;
 import com.withub.common.MD5Utils;
 import com.withub.common.SearchFilter;
 import com.withub.csp.entity.Court;
+import com.withub.csp.entity.Role;
 import com.withub.csp.entity.User;
 import com.withub.csp.entity.UserLogin;
+import com.withub.csp.exception.PermissionException;
 import com.withub.csp.repository.CourtDao;
 import com.withub.csp.repository.UserDao;
 import com.withub.csp.repository.UserLoginDao;
+import com.withub.service.account.ShiroDbRealm;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -134,7 +138,7 @@ public class UserService extends BaseService {
         }
 
         if (user.getEnable() == 0) {
-            result.put("errorMsg", "该用户已停用");
+            result.put("errorMsg", "用户已停用");
             result.put("result", false);
             return result;
         }
@@ -248,11 +252,22 @@ public class UserService extends BaseService {
     }
 
     private int getOnlineNumber(Date now) {
-        Map<String, Object> searchParams = new HashMap<String, Object>();
+        String sql = "SELECT COUNT(*) \n" +
+                "FROM csp_user \n" +
+                "WHERE delete_flag = 0\n" +
+                "AND `enable` = 1\n" +
+                "AND heartbeat >= :date";
+
         int interval = 60;
-        Date time = DateUtils.addSeconds(now, -interval * 2);
-        searchParams.put("GT_heartbeat", time);
-        return getUser(searchParams, 1, 10000).getContent().size() + 1;
+        Date date = DateUtils.addSeconds(now, -interval * 2);
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("date", date);
+        BigInteger result = (BigInteger) query.getSingleResult();
+        entityManager.close();
+
+        return result.intValue() + 1;
     }
 
 
@@ -369,13 +384,37 @@ public class UserService extends BaseService {
 
     }
 
+    //
 
-    public boolean checkQueryPermission(String userId, String courtId) {
-        List<String> courtIdList = new ArrayList<>();
-        getCourtIdList(courtIdList, courtDao.findOne(courtId));
-        String userCourtId = getUser(userId).getCourt().getId();
-        return courtIdList.contains(userCourtId);
+    public void checkPermission(String courtId) {
+
+        ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        if (shiroUser == null) {
+//            return;
+            throw new PermissionException("登录超时");
+        }
+        String userId = shiroUser.id;
+        User user = getUser(userId);
+        Role role = user.getRole();
+
+        // 1. 管理员
+        if (role.getTag().equals("Admin")){
+            return;
+        }
+
+        // 2. 法院维护人员
+        if (role.getTag().equals("CourtMaintainer")){
+            // 且是本法院或上级法院的人。
+            List<String> courtIdList = new ArrayList<>();
+            getCourtIdList(courtIdList, courtDao.findOne(courtId));
+            boolean result = courtIdList.contains(user.getCourt().getId());
+            if (result){
+                return;
+            }
+        }
+        throw new PermissionException("没有足够的权限");
     }
+
 
     private void getCourtIdList(List<String> courtIdList, Court court) {
         courtIdList.add(court.getId());
