@@ -71,7 +71,7 @@ public class News extends MenuEntity {
         this.postTime = postTime;
     }
 
-    @OneToOne(mappedBy = "news", fetch = FetchType.LAZY)
+    @Transient
     public NewsData getNewsData() {
         return newsData;
     }

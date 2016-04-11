@@ -3,10 +3,10 @@ package com.withub.csp.rest;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.News;
+import com.withub.csp.entity.NewsData;
+import com.withub.csp.repository.NewsDataDao;
 import com.withub.csp.service.NewsService;
-import com.withub.service.account.ShiroDbRealm;
 import com.withub.web.controller.BaseController;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +25,9 @@ public class NewsController extends BaseController {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private NewsDataDao newsDataDao;
 
 
     // 后台列表查询
@@ -130,7 +133,8 @@ public class NewsController extends BaseController {
             @RequestParam(value = "newsId") String newsId) {
 
         newsService.addNewsRead(userId, newsId);
-        return newsService.getNews(newsId).getNewsData().getData();
+        return newsDataDao.findOneByNewsId(newsId).getData();
+//        return newsService.getNews(newsId).getNewsData().getData();
     }
 
 
@@ -138,7 +142,10 @@ public class NewsController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public News get(@PathVariable("id") String id) {
 
-        return newsService.getNews(id);
+        News news = newsService.getNews(id);
+        NewsData newsData = newsDataDao.findOneByNewsId(news.getId());
+        news.setNewsData(newsData);
+        return news;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -72,8 +72,8 @@ public class NewsService extends BaseService {
 
         if (StringUtils.isEmpty(news.getId())) {
             initEntity(news);
-            NewsData newsData = news.getNewsData();
-            newsData.setId(Identities.uuid());
+//            NewsData newsData = news.getNewsData();
+//            newsData.setId(Identities.uuid());
             news.setTop(1);
         }
 
@@ -94,10 +94,15 @@ public class NewsService extends BaseService {
         }
 
         // save newsData
-        NewsData newsData = news.getNewsData();
-        newsData.setNews(news);
-        news.setNewsData(null);
         newsDao.save(news);
+
+        String data = news.getNewsData().getData();
+        NewsData newsData = newsDataDao.findOneByNewsId(news.getId());
+        if (newsData == null) {
+            newsData = new NewsData();
+        }
+        newsData.setNews(news);
+        newsData.setData(data);
         newsDataDao.save(newsData);
     }
 

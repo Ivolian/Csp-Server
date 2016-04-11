@@ -7,5 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface NewsDataDao extends CrudRepository<NewsData, String>, JpaSpecificationExecutor<NewsData> {
 
+    public NewsData findOneByNewsId(String newsId);
 
 }
