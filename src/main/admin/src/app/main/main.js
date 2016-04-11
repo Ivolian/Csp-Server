@@ -63,24 +63,25 @@ angular.module('app')
             url: PageContext.path + '/security/getApplicationInfo',
             method: 'GET'
         }).then(function (response) {
-            console.log(response)
 
             $rootScope.currentUser = {
+                id: response.data.id,
                 roleTag: response.data.roleTag,
                 username: response.data.username
             };
+
             if (response.data.menuList) {
                 $scope.menuList = response.data.menuList;
             }
             console.log($scope.menuList)
             var roleTag = $scope.currentUser.roleTag;
-            if (roleTag === "Admin"){
+            if (roleTag === "Admin") {
                 $state.transitionTo('content');
             }
-            if (roleTag === "CourtMaintainer"){
+            if (roleTag === "CourtMaintainer") {
                 $state.transitionTo('job');
             }
-            if (roleTag === "General"){
+            if (roleTag === "General") {
                 $state.transitionTo('job');
             }
 
@@ -198,7 +199,7 @@ angular.module('app')
 )
 
     .
-    controller('SideController', function ($scope, $modal) {
+    controller('SideController', function ($rootScope, $scope, $modal) {
         $scope.modifyPassword = function () {
             var modalInstance = $modal.open({
                 templateUrl: 'app/include/modify-password-form.html',
@@ -210,21 +211,23 @@ angular.module('app')
 
                     scope.submit = function () {
                         scope.promise = $http({
-                            url: PageContext.path + '/security/modifyPassword',
-                            method: 'POST',
-                            data: {
-                                oldPassword: scope.oldPassword,
-                                newPassword: scope.newPassword
-                            }
+                            url: PageContext.path + '/api/v1/user/changePassword?userId=' + $rootScope.currentUser.id + "&oldPassword=" + scope.oldPassword + "&newPassword=" + scope.newPassword,
+                            method: 'GET'
                         }).then(function (response) {
+                            console.log(response)
+                            if (response.data['result']) {
+                                Toaster.success("密码修改成功！");
+                            } else {
+                                Toaster.error(response.data['errorMsg']);
+                            }
                             $modalInstance.close();
                         })
                     };
                 }]
             });
-            modalInstance.result.then(function (result) {
-                Toaster.success("密码修改成功！");
-            });
+//            modalInstance.result.then(function (result) {
+//
+//            });
         };
         $scope.exitSystem = function () {
             console.log(PageContext.path)

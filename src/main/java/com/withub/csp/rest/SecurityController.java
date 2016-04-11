@@ -40,6 +40,7 @@ public class SecurityController {
         Map<String, Object> result = new HashMap<String, Object>();
         ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
         if (shiroUser != null) {
+            result.put("id", shiroUser.id);
             result.put("username", shiroUser.loginName);
             result.put("roleTag", userService.getUser(shiroUser.id).getRole().getTag());
 

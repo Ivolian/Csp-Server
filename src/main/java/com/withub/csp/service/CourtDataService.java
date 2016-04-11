@@ -32,7 +32,7 @@ public class CourtDataService extends BaseService {
 
     //
 
-    public JSONObject exportExcel(String fileName, List<String> courtIdList, String departmentId, Boolean underling,String beginTime, String endTime) throws Exception {
+    public JSONObject exportExcel(String fileName, List<String> courtIdList, String departmentId, Boolean underling, String beginTime, String endTime) throws Exception {
 
         List<Object[]> resultList = getResultList(courtIdList, departmentId, beginTime, endTime);
         HSSFWorkbook hssfWorkbook = createExcel(resultList);
@@ -178,9 +178,14 @@ public class CourtDataService extends BaseService {
             sql += "WHERE a.department_id = :departmentId\n";
 
         }
+        sql += " AND a.role_id IN\n" +
+                "          (SELECT id\n" +
+                "           FROM csp_role\n" +
+                "           WHERE tag = 'General')";
         sql += "AND a.delete_flag = 0\n";
         sql += "AND a.enable = 1\n";
         sql += "ORDER BY a.court_id, a.department_id, b.loginTimes DESC";
+
 
         return sql;
     }

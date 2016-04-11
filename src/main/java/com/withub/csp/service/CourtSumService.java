@@ -37,7 +37,7 @@ public class CourtSumService extends BaseService {
 
     public JSONObject exportExcel(String fileName, String beginTime, String endTime) throws Exception {
 
-        HSSFWorkbook hssfWorkbook = createExcel(beginTime,endTime);
+        HSSFWorkbook hssfWorkbook = createExcel(beginTime, endTime);
 
         String tempFileName = Identities.uuid();
         String tempFilePath = getTempPath() + "/" + tempFileName;
@@ -103,9 +103,9 @@ public class CourtSumService extends BaseService {
         cThumbScale.setCellValue("点赞比");
 
         int size = resultJSONArray.size();
-        for (int i=0;i!=size;i++) {
+        for (int i = 0; i != size; i++) {
             JSONObject jsonObject = resultJSONArray.getJSONObject(i);
-            row = hssfSheet.createRow(i+1);
+            row = hssfSheet.createRow(i + 1);
             cCourtName = row.createCell(0);
             cCourtName.setCellValue(jsonObject.get("courtName").toString());
             cUserCount = row.createCell(1);
@@ -268,8 +268,14 @@ public class CourtSumService extends BaseService {
                 "        ON a.id = e.user_id \n" +
                 "      LEFT JOIN csp_court f \n" +
                 "        ON a.court_id = f.id \n" +
-                " WHERE a.delete_flag = 0\n"+
-                " AND a.enable = 1\n"+
+                " WHERE a.delete_flag = 0\n" +
+
+                " AND a.role_id IN\n" +
+                "          (SELECT id\n" +
+                "           FROM csp_role\n" +
+                "           WHERE tag = 'General')" +
+
+                " AND a.enable = 1\n" +
                 "    GROUP BY f.id) b \n" +
                 "    ON a.id = b.court_id \n" +
                 "  LEFT JOIN \n" +
@@ -325,8 +331,14 @@ public class CourtSumService extends BaseService {
                 "            ON a.id = b.user_id \n" +
                 "          LEFT JOIN csp_court f \n" +
                 "            ON a.court_id = f.id \n" +
-                " where a.delete_flag=0"+
-                " AND a.enable = 1\n"+
+                " where a.delete_flag=0" +
+
+                " AND a.role_id IN\n" +
+                "          (SELECT id\n" +
+                "           FROM csp_role\n" +
+                "           WHERE tag = 'General')" +
+
+                " AND a.enable = 1\n" +
                 "        ORDER BY loginTimes) a \n" +
                 "      GROUP BY a.court_id,\n" +
                 "        CASE\n" +
