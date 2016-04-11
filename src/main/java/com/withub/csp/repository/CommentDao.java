@@ -14,4 +14,7 @@ public interface CommentDao extends PagingAndSortingRepository<Comment, String>,
     @Query("select count(o) from Comment o where o.deleteFlag=0 and o.user.id=:userId and o.eventTime between :beginDate and :endDate")
     public Integer getCommentCountByUserIdAndDateRange(@Param("userId") String userId, @Param("beginDate") Date beginDate, @Param("endDate") Date endDate);
 
+    @Query("select count(o) from Comment o where o.deleteFlag=0 and o.news.id=:newsId")
+    public Integer countByNewsId(@Param("newsId") String newsId);
+
 }

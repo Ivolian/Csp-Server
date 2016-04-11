@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.csp.entity.News;
 import com.withub.csp.entity.NewsData;
+import com.withub.csp.repository.CommentDao;
 import com.withub.csp.repository.NewsDataDao;
+import com.withub.csp.repository.ThumbDao;
 import com.withub.csp.service.NewsService;
 import com.withub.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,12 @@ public class NewsController extends BaseController {
 
     @Autowired
     private NewsDataDao newsDataDao;
+
+    @Autowired
+    private ThumbDao thumbDao;
+
+    @Autowired
+    private CommentDao commentDao;
 
 
     // 后台列表查询
@@ -98,8 +106,8 @@ public class NewsController extends BaseController {
             jsonObject.put("title", news.getTitle());
             jsonObject.put("picture", news.getPicture());
             jsonObject.put("postTime", news.getPostTime());
-            jsonObject.put("commentCount", news.getCommentList().size());
-            jsonObject.put("thumbCount", news.getThumbList().size());
+            jsonObject.put("commentCount", commentDao.countByNewsId(news.getId()));
+            jsonObject.put("thumbCount", thumbDao.countByNewsId(news.getId()));
             jsonObject.put("hasVideo", news.getHasVideo());
             jsonObject.put("videoType", news.getVideoType());
             jsonObject.put("videoUrl", news.getVideoUrl());

@@ -33,8 +33,11 @@
 		</property>
 	</bean>
 	
-	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-		<property name="databasePlatform">
+	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+            >
+        <!--<property name="showSql" value="true"/>-->
+
+        <property name="databasePlatform">
 			<bean factory-method="getDialect" class="org.springside.modules.persistence.Hibernates">
 				<constructor-arg ref="dataSource"/>
 			</bean>
