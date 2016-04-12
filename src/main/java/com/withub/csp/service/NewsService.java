@@ -100,6 +100,7 @@ public class NewsService extends BaseService {
         NewsData newsData = newsDataDao.findOneByNewsId(news.getId());
         if (newsData == null) {
             newsData = new NewsData();
+            newsData.setId(Identities.uuid());
         }
         newsData.setNews(news);
         newsData.setData(data);
