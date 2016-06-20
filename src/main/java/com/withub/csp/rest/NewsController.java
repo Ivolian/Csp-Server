@@ -2,6 +2,7 @@ package com.withub.csp.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.withub.csp.CacheUtils;
 import com.withub.csp.entity.News;
 import com.withub.csp.entity.NewsData;
 import com.withub.csp.repository.CommentDao;
@@ -9,6 +10,7 @@ import com.withub.csp.repository.NewsDataDao;
 import com.withub.csp.repository.ThumbDao;
 import com.withub.csp.service.NewsService;
 import com.withub.web.controller.BaseController;
+import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -93,6 +95,14 @@ public class NewsController extends BaseController {
             @RequestParam(value = "menuId") String menuId,
             @RequestParam(value = "keyword") String keyword) {
 
+        String key = "new-" + pageNo + "-" + pageSize + "-" + menuId + "-" + keyword;
+        Element element = CacheUtils.getElementByKey(key);
+        if (element != null) {
+            Object value = element.getObjectValue();
+            JSONObject response = (JSONObject) value;
+            return response;
+        }
+
         Map<String, Object> searchParams = new HashMap<String, Object>();
         searchParams.put("LIKE_title", keyword);
         searchParams.put("EQ_menu.id", menuId);
@@ -119,6 +129,8 @@ public class NewsController extends BaseController {
         response.put("content", jsonArray);
         response.put("lastPage", newsPage.isLastPage());
         response.put("totalPages", newsPage.getTotalPages());
+
+        CacheUtils.putElement(key,response);
         return response;
     }
 

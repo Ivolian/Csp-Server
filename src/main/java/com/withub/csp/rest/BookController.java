@@ -2,9 +2,11 @@ package com.withub.csp.rest;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.withub.csp.CacheUtils;
 import com.withub.csp.entity.Book;
 import com.withub.csp.service.BookService;
 import com.withub.web.controller.BaseController;
+import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -65,12 +67,17 @@ public class BookController extends BaseController {
             @RequestParam(value = "menuId", defaultValue = "") String menuId,
             @RequestParam(value = "keyword", defaultValue = "") String keyword) {
 
+        String key = "book-" + pageNo + "-" + pageSize + "-" + menuId + "-" + keyword;
+        Element element = CacheUtils.getElementByKey(key);
+        if (element != null) {
+            Object value = element.getObjectValue();
+            JSONObject response = (JSONObject) value;
+            return response;
+        }
 
         Map<String, Object> searchParams = new HashMap<>();
         searchParams.put("LIKE_name", keyword);
         searchParams.put("EQ_menu.id", menuId);
-
-
         Page<Book> bookPage = bookService.getBook(searchParams, pageNo, pageSize);
         List<Book> bookList = bookPage.getContent();
         JSONArray jsonArray = new JSONArray();
@@ -93,6 +100,7 @@ public class BookController extends BaseController {
         response.put("content", jsonArray);
         response.put("lastPage", bookPage.isLastPage());
         response.put("totalPages", bookPage.getTotalPages());
+        CacheUtils.putElement(key,response);
         return response;
     }
 

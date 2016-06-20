@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.withub.common.DynamicSpecifications;
 import com.withub.common.MD5Utils;
 import com.withub.common.SearchFilter;
+import com.withub.csp.CacheUtils;
 import com.withub.csp.entity.Court;
 import com.withub.csp.entity.Role;
 import com.withub.csp.entity.User;
@@ -13,6 +14,7 @@ import com.withub.csp.repository.CourtDao;
 import com.withub.csp.repository.UserDao;
 import com.withub.csp.repository.UserLoginDao;
 import com.withub.service.account.ShiroDbRealm;
+import net.sf.ehcache.Element;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shiro.SecurityUtils;
@@ -154,7 +156,17 @@ public class UserService extends BaseService {
         result.put("userId", user.getId());
         result.put("courtId", user.getCourt().getId());
         result.put("avatar", user.getAvatar());
-        result.put("rootMenuItem", menuService.getRootMenuItem());
+
+        // 使用缓存
+        String key = "rootMenuItem";
+        Element element = CacheUtils.getElementByKey(key);
+        if (element != null) {
+            result.put("rootMenuItem", element.getObjectValue());
+        } else {
+            JSONObject rootMenuItem = menuService.getRootMenuItem();
+            result.put("rootMenuItem", rootMenuItem);
+            CacheUtils.putElement(key, rootMenuItem);
+        }
 
         // 点赞，收藏，评论，阅读，登录次数
         result.put("thumbCount", getCurrentMonthThumbCount(user.getId()));
@@ -398,17 +410,17 @@ public class UserService extends BaseService {
         Role role = user.getRole();
 
         // 1. 管理员
-        if (role.getTag().equals("Admin")){
+        if (role.getTag().equals("Admin")) {
             return;
         }
 
         // 2. 法院维护人员
-        if (role.getTag().equals("CourtMaintainer")){
+        if (role.getTag().equals("CourtMaintainer")) {
             // 且是本法院或上级法院的人。
             List<String> courtIdList = new ArrayList<>();
             getCourtIdList(courtIdList, courtDao.findOne(courtId));
             boolean result = courtIdList.contains(user.getCourt().getId());
-            if (result){
+            if (result) {
                 return;
             }
         }

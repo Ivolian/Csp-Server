@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.withub.common.DynamicSpecifications;
 import com.withub.common.SearchFilter;
+import com.withub.csp.CacheUtils;
 import com.withub.csp.entity.News;
 import com.withub.csp.entity.NewsData;
 import com.withub.csp.entity.NewsRead;
@@ -12,6 +13,7 @@ import com.withub.csp.repository.NewsDao;
 import com.withub.csp.repository.NewsDataDao;
 import com.withub.csp.repository.NewsReadDao;
 import com.withub.csp.repository.UserDao;
+import net.sf.ehcache.Element;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -136,6 +138,13 @@ public class NewsService extends BaseService {
     }
 
     public JSONArray findTopNewsList() {
+        String key = "topNewsList";
+        Element element = CacheUtils.getElementByKey(key);
+        if (element != null) {
+            JSONArray response = (JSONArray) element.getObjectValue();
+            return response;
+        }
+
         List<News> newsList = newsDao.findByTopAndDeleteFlag(1, 0);
 
         // 拼jsonArray对象
@@ -146,14 +155,15 @@ public class NewsService extends BaseService {
             jsonObject.put("title", news.getTitle());
             jsonObject.put("picture", news.getPicture());
             jsonObject.put("postTime", news.getPostTime());
-            jsonObject.put("commentCount", news.getCommentList().size());
-            jsonObject.put("thumbCount", news.getThumbList().size());
+//            jsonObject.put("commentCount", news.getCommentList().size());
+//            jsonObject.put("thumbCount", news.getThumbList().size());
             jsonObject.put("hasVideo", news.getHasVideo());
             jsonObject.put("videoType", news.getVideoType());
             jsonObject.put("videoUrl", news.getVideoUrl());
 
             jsonArray.add(jsonObject);
         }
+        CacheUtils.putElement(key, jsonArray);
         return jsonArray;
     }
 
